@@ -11,7 +11,7 @@
 
 
 ## iOS 内存管理
-* 0.1 在OC中，NSNumber对象 是用什么方式来存储的 - [链接](https://github.com/qxuewei/iOS-InterviewQuestion-collection/blob/master/_XWCollection/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/0.1.md)
+* 0.1 在OC中，NSNumber对象 是用什么方式来存储的 - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/0.1.md)
 * 0.2 在OC中，NSNumber对象 是用什么方式来存储的 - 
 * 1.讲一下 `iOS` 内存管理的理解？(三种方案的结合) - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/内存管理/1.第一题.md)
 * 2.使用自动引用计（`ARC`）数应该遵循的原则? - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/内存管理/2.第二题.md)
@@ -102,7 +102,7 @@
 * 11.如何以通用的方法找到当前显示的`ViewController`? - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/UIKit/11.第十一题.md)
 
 ## Foundation
-* 0.1 怎样使用 `performSeletctor` 传入三个以上参数，其中一个为结构体? - [链接](https://github.com/qxuewei/iOS-InterviewQuestion-collection/blob/master/_XWCollection/Foundation/0.1.md)
+* 0.1 怎样使用 `performSeletctor` 传入三个以上参数，其中一个为结构体? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/Foundation/0.1.md)
 * 1.`nil`、`NIL`、`NSNULL` 有什么区别？- [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/Foundation/1.第一题.md)
 * 2.如何实现一个线程安全的 `NSMutableArray`? - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/Foundation/2.第二题.md)
 * 3.如何定义一台 `iOS` 设备的唯一性? - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/Foundation/3.第三题.md)
@@ -150,7 +150,7 @@
 * 27. 谈一谈网络中的 `session` 和 `cookie`? - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/网络/27.第二十七题.md)
 
 ## 多线程
-* 0.1.自旋锁和互斥锁的区别? - [链接](https://github.com/qxuewei/iOS-InterviewQuestion-collection/blob/master/_XWCollection/%E5%A4%9A%E7%BA%BF%E7%A8%8B/0.1.md)
+* 0.1.自旋锁和互斥锁的区别? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E5%A4%9A%E7%BA%BF%E7%A8%8B/0.1.md)
 * 1.`NSThread`相关知识？ - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/多线程/1.第一题.md)
 * 2.`GCD` 相关知识？ - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/多线程/2.第二题.md)
 * 3.`NSOperation` 和 `NSOperationQueue`相关知识？ - [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/5.多线程/3.第三题.md)
@@ -403,7 +403,7 @@
 * 10.在一个数组中找出前四个最大的数字。- [链接](https://github.com/liberalisman/iOS-InterviewQuestion-collection/blob/master/0.算法集合/10.第十题.md)
 * 11.假如有 10亿 条数据，每条数据的大小在 10k-100k 之间，我们有一台内存为 4G 的电脑，如何算出播放次数最多的一条微博？
 * 12.如何打印一个矩阵？
-* 13.如何验证一个 `IP` 地址的有效性？- [链接](https://github.com/qxuewei/iOS-InterviewQuestion-collection/blob/master/_XWCollection/%E7%AE%97%E6%B3%95%E9%9B%86%E5%90%88/13.md)
+* 13.如何验证一个 `IP` 地址的有效性？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E7%AE%97%E6%B3%95%E9%9B%86%E5%90%88/13.md)
 * 14.栈中储存着一组无序的数字，不用遍历的方式，如何找出最小值？
 * 15.二维数组查找一个值。
 
