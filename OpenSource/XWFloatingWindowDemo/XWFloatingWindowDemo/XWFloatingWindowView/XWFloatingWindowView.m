@@ -7,14 +7,23 @@
 //
 
 #import "XWFloatingWindowView.h"
-#import "SecondViewController.h"
 
+#pragma mark - Macros
+//全局浮窗
+static XWFloatingWindowView *xw_floatingWindowView;
 //浮窗宽度
 static const CGFloat cFloatingWindowWidth = 60.0;
 //默认缩放动画时间
 static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
+//浮窗两边最小间距
+static const CGFloat cFloatingWindowMargin = 20.0;
+//红色浮窗隐藏视图宽度
+static const CGFloat cFloatingWindowContentWidth = 160.0;
+//默认动画时间
+static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
 
-#pragma mark - **************************************** 转场视图 ******************************************************
+#pragma mark - **************************************** 转场动画视图 ******************************************************
+/// 转场扩散动画视图
 @interface XWFloatingAnimationView : UIView <CAAnimationDelegate>
 @property (nonatomic, strong) UIImage *screenImage;
 @end
@@ -25,6 +34,7 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
     UIView *p_theView;
 }
 #pragma mark - public
+/// 扩散动画
 - (void)startAnimatingWithView:(UIView *)view fromRect:(CGRect)fromRect toRect:(CGRect)toRect {
     p_theView = view;
     
@@ -40,23 +50,15 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
     anim.fillMode = kCAFillModeForwards;
     anim.removedOnCompletion = NO;
     
-    [p_shapeLayer addAnimation:anim forKey:@"revealAnimation"];
+    [p_shapeLayer addAnimation:anim forKey:@"XWFloatingAnimation"];
 }
-#pragma mark - CAAnimationDelegate
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-    p_theView.hidden = NO;
-    [self removeFromSuperview];
-}
+
 #pragma mark system
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setupUI];
     }
     return self;
-}
-
-- (void)dealloc {
-    NSLog(@"%s",__func__);
 }
 
 #pragma mark  private
@@ -67,6 +69,12 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
 }
 - (void)setScreenImage:(UIImage *)screenImage {
     p_imageView.image = screenImage;
+}
+
+#pragma mark - CAAnimationDelegate
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    p_theView.hidden = NO;
+    [self removeFromSuperview];
 }
 @end
 
@@ -85,101 +93,62 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
     if (_operation == UINavigationControllerOperationPush) {
         UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
         [containerView addSubview:toView];
-        
         XWFloatingAnimationView *animationV = [[XWFloatingAnimationView alloc] initWithFrame:toView.bounds];
-        
-        // toView 截屏
         UIGraphicsBeginImageContext(toView.bounds.size);
         [toView.layer renderInContext:UIGraphicsGetCurrentContext()];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         animationV.screenImage = image;
-        
         toView.hidden = YES;
         UIGraphicsEndImageContext();
-        
         [containerView addSubview:animationV];
-        
         [animationV startAnimatingWithView:toView fromRect:CGRectMake(_currentFloatingCenter.x, _currentFloatingCenter.y, cFloatingWindowWidth, cFloatingWindowWidth) toRect:toView.frame];
-        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(cFloatingWindowPathAnimtiontDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [transitionContext completeTransition:YES];
         });
         
     }else if (_operation == UINavigationControllerOperationPop) {
+        
         UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];
         [containerView addSubview:toView];
-        
         UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];
         [containerView bringSubviewToFront:fromView];
-        
-        UIView *floatingBtn = [UIApplication sharedApplication].keyWindow.subviews.lastObject;
-        
-        if (_isInteractive) {  /// 可交互式动画
-            
+        if (_isInteractive) {   /// 可交互式动画
             [UIView animateWithDuration:0.3f animations:^{
-                
                 fromView.frame = CGRectOffset(fromView.frame, [UIScreen mainScreen].bounds.size.width, 0.f);
-                
             } completion:^(BOOL finished) {
-                
                 [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-                
                 if (!transitionContext.transitionWasCancelled) {
-                    
-                    floatingBtn.alpha = 1.f;
-                    
+                    xw_floatingWindowView.alpha = 1.f;
                 }
-                
             }];
             
-        } else {    /// 非可交互式动画
-            
-            ///截屏
-            
+        } else {                 /// 非可交互式动画
             XWFloatingAnimationView *theView = [[XWFloatingAnimationView alloc] initWithFrame:fromView.bounds];
             UIGraphicsBeginImageContext(fromView.bounds.size);
             [fromView.layer renderInContext:UIGraphicsGetCurrentContext()];
             UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
             theView.screenImage = image;
             UIGraphicsEndImageContext();
-            
             CGRect fromRect = fromView.frame;
             fromView.frame = CGRectZero;
-            
             [containerView addSubview:theView];
-            
             [theView startAnimatingWithView:theView fromRect:fromRect toRect:CGRectMake(_currentFloatingCenter.x, _currentFloatingCenter.y, 60.f, 60.f)];
-            
             [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
-            floatingBtn.alpha = 1.f;
+            xw_floatingWindowView.alpha = 1.f;
         }
-
     }
-    
 }
-
 - (NSTimeInterval)transitionDuration:(nullable id<UIViewControllerContextTransitioning>)transitionContext {
     return 1.0;
-}
-
-#pragma mark - private
-/// view -> 截图
-- (UIImage *)screenImageWithView:(UIView *)view {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    UIGraphicsBeginImageContext(view.bounds.size);
-    [view.layer renderInContext:context];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    return image;
 }
 @end
 
 
-#pragma mark - ****************************************** 滑动返回 ****************************************************
+#pragma mark - ****************************************** 滑动pop适配器 ****************************************************
 @interface XWInteractiveTransition : UIPercentDrivenInteractiveTransition
 @property (nonatomic, assign) BOOL isInteractive;
 @property (nonatomic, assign) CGPoint curPoint;
 - (void)transitionToViewController:(UIViewController *)toViewController;
-
 @end
 
 @implementation XWInteractiveTransition {
@@ -189,51 +158,35 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
 }
 
 - (void)transitionToViewController:(UIViewController *)toViewController {
-    
     presentedViewController = toViewController;
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
     [toViewController.view addGestureRecognizer:panGesture];
-    
 }
 
-
 - (void)panAction:(UIPanGestureRecognizer *)gesture {
-    
-    UIView *floatingBtn = [UIApplication sharedApplication].keyWindow.subviews.lastObject;
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    
     switch (gesture.state) {
-            
         case UIGestureRecognizerStateBegan:
-            
             _isInteractive = YES;
-            
             [nav popViewControllerAnimated:YES];
-            
             break;
             
         case UIGestureRecognizerStateChanged: {
-            
             //监听当前滑动的距离
             CGPoint transitionPoint = [gesture translationInView:presentedViewController.view];
-            
             CGFloat ratio = transitionPoint.x/[UIScreen mainScreen].bounds.size.width;
-            
             transitionX = transitionPoint.x;
-            
             ///获得floatingBtn，改变它的alpha值
-            floatingBtn.alpha = ratio;
+            xw_floatingWindowView.alpha = ratio;
             if (ratio >= 0.5) {
                 shouldComplete = YES;
             } else {
                 shouldComplete = NO;
             }
-            
             [self updateInteractiveTransition:ratio];
-            
         }
-            
             break;
+            
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled: {
             
@@ -241,23 +194,21 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
                 /// 添加动画
                 ///截屏
                 UIView *fromView = presentedViewController.view;
-                
-                
                 XWFloatingAnimationView *theView = [[XWFloatingAnimationView alloc] initWithFrame:fromView.bounds];
                 UIGraphicsBeginImageContext(fromView.bounds.size);
                 [fromView.layer renderInContext:UIGraphicsGetCurrentContext()];
                 UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
                 theView.screenImage = image;
                 UIGraphicsEndImageContext();
-                
                 CGRect fromRect = fromView.frame;
                 fromView.frame = CGRectZero;
                 [fromView.superview addSubview:theView];
                 [theView startAnimatingWithView:theView fromRect:CGRectMake(transitionX, 0.f, fromRect.size.width, fromRect.size.height) toRect:CGRectMake(_curPoint.x, _curPoint.y, 60.f, 60.f)];
                 [self finishInteractiveTransition];
-                nav.delegate = nil;  //这个需要设置，而且只能在这里设置，不能在外面设置
+                //这个需要设置，而且只能在这里设置，不能在外面设置
+                nav.delegate = nil;
             } else {
-                floatingBtn.alpha = 0.f;
+                xw_floatingWindowView.alpha = 0.f;
                 [self cancelInteractiveTransition];
             }
             _isInteractive = NO;
@@ -270,13 +221,15 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
 @end
 
 #pragma mark - ****************************************** 浮窗右下红色容器视图 ****************************************************
+/// 视图右下红色隐藏视图,浮窗拖入消失
 @interface XWFloatingWindowContentView : UIView
-@property (nonatomic, strong) CAShapeLayer *shapeLayer;
-@property (nonatomic, strong) CALayer *imageLayer;
-@property (nonatomic, strong) CATextLayer *textLayer;
 @end
 
-@implementation XWFloatingWindowContentView
+@implementation XWFloatingWindowContentView {
+    CAShapeLayer *p_shapeLayer;
+    CALayer *p_imageLayer;
+    CATextLayer *p_textLayer;
+}
 
 #pragma mark - system
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -291,71 +244,64 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
     [self.layer addSublayer:self.shapeLayer];
     [self.layer addSublayer:self.imageLayer];
     [self.layer addSublayer:self.textLayer];
-    
     CGFloat imageW = 50.0;
-    _imageLayer.frame = CGRectMake(0.5 * (self.frame.size.width - imageW), 0.5 * (self.frame.size.height - imageW), imageW, imageW);
-    _textLayer.frame = CGRectMake(_imageLayer.frame.origin.x, CGRectGetMaxY(_imageLayer.frame), _imageLayer.frame.size.width, 20);
+    p_imageLayer.frame = CGRectMake(0.5 * (self.frame.size.width - imageW), 0.5 * (self.frame.size.height - imageW), imageW, imageW);
+    p_textLayer.frame = CGRectMake(p_imageLayer.frame.origin.x, CGRectGetMaxY(p_imageLayer.frame), p_imageLayer.frame.size.width, 20);
 }
 
 #pragma mark - getter
 - (CAShapeLayer *)shapeLayer {
-    if(!_shapeLayer){
-        _shapeLayer = [CAShapeLayer layer];
+    if(!p_shapeLayer){
+        p_shapeLayer = [CAShapeLayer layer];
         UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.frame.size.width, self.frame.size.height) radius:self.frame.size.width startAngle:-M_PI_2 endAngle:-M_PI clockwise:NO];
         [path addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
         [path closePath];
-        
-        _shapeLayer.path = path.CGPath;
-        _shapeLayer.fillColor = [UIColor colorWithRed:206/255.0 green:85/255.0 blue:85/255.0 alpha:1].CGColor;;
+        p_shapeLayer.path = path.CGPath;
+        p_shapeLayer.fillColor = [UIColor colorWithRed:206/255.0 green:85/255.0 blue:85/255.0 alpha:1].CGColor;;
     }
-    return _shapeLayer;
+    return p_shapeLayer;
 }
-
 - (CALayer *)imageLayer {
-    if(!_imageLayer){
-        _imageLayer = [[CALayer alloc] init];
-        _imageLayer.contents = (__bridge id)[UIImage imageNamed:@"CornerIcon"].CGImage;
+    if(!p_imageLayer){
+        p_imageLayer = [[CALayer alloc] init];
+        p_imageLayer.contents = (__bridge id)[UIImage imageNamed:@"WebView_Minimize_Corner_Icon_remove"].CGImage;
     }
-    return _imageLayer;
+    return p_imageLayer;
 }
-
 - (CATextLayer *)textLayer {
-    if(!_textLayer){
-        _textLayer = [[CATextLayer alloc] init];
-        _textLayer.string = @"取消浮窗";
-        _textLayer.fontSize = 12.0;
-        _textLayer.contentsScale = [UIScreen mainScreen].scale;
-        _textLayer.foregroundColor = [UIColor colorWithRed:234.f/255.0 green:160.f/255.0 blue:160.f/255.0 alpha:1].CGColor;
+    if(!p_textLayer){
+        p_textLayer = [[CATextLayer alloc] init];
+        p_textLayer.string = @"取消浮窗";
+        p_textLayer.fontSize = 12.0;
+        p_textLayer.contentsScale = [UIScreen mainScreen].scale;
+        p_textLayer.foregroundColor = [UIColor colorWithRed:234.f/255.0 green:160.f/255.0 blue:160.f/255.0 alpha:1].CGColor;
     }
-    return _textLayer;
+    return p_textLayer;
 }
 @end
 
-
 #pragma mark - ****************************************** 浮窗视图 ****************************************************
-@interface XWFloatingWindowView() <UINavigationControllerDelegate> {
+@interface XWFloatingWindowView() <UINavigationControllerDelegate>
+@end
+
+@implementation XWFloatingWindowView {
     CGSize screenSize;
     CGPoint lastPointInSuperView;
     CGPoint lastPointInSelf;
     XWInteractiveTransition *interactiveTransition;
+    XWFloatingAnimator *p_FloatingAnimator;
+    BOOL p_isShowing;
+    UIViewController *p_containerVC;
 }
-@end
-
-@implementation XWFloatingWindowView
-//全局浮窗
-static XWFloatingWindowView *xw_floatingWindowView;
 //全局隐藏浮窗视图
 static XWFloatingWindowContentView *xw_floatingWindowContentView;
-//两边间距
-static const CGFloat cFloatingWindowMargin = 20.0;
-//隐藏浮窗视图宽度
-static const CGFloat cFloatingWindowContentWidth = 160.0;
-//默认动画时间
-static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
-
 
 #pragma mark - publish
-+ (void)show {
++ (void)showWithViewController:(UIViewController *)viewController {
+    if (xw_floatingWindowView->p_isShowing) {
+        NSLog(@"正在展示一个浮窗 - 视图: %@",xw_floatingWindowView->p_containerVC);
+        return;
+    }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         xw_floatingWindowView = [[XWFloatingWindowView alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.bounds.size.width - cFloatingWindowWidth * 2 - cFloatingWindowMargin, 200.0, cFloatingWindowWidth, cFloatingWindowWidth)];
@@ -371,6 +317,16 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
         [keyWindow addSubview:xw_floatingWindowView];
         [keyWindow bringSubviewToFront:xw_floatingWindowView];
     }
+    
+    xw_floatingWindowView->p_containerVC = viewController;
+    xw_floatingWindowView->p_isShowing = YES;
+}
+
++ (BOOL)isShowing {
+    if (!xw_floatingWindowView) {
+        return NO;
+    }
+    return xw_floatingWindowView->p_isShowing;
 }
 
 #pragma mark - system
@@ -431,9 +387,8 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
             /// 浮窗在隐藏视图内部,移除浮窗
             CGFloat distance = sqrtf( (pow(self->screenSize.width - xw_floatingWindowView.center.x,2) + pow(self->screenSize.height - xw_floatingWindowView.center.y, 2)) );
             if (distance < (cFloatingWindowContentWidth - cFloatingWindowWidth * 0.5)) {
-                [self removeFromSuperview];
+                [self removeFloatingWindow];
             }
-            
             xw_floatingWindowContentView.frame = CGRectMake(self->screenSize.width, self->screenSize.height, cFloatingWindowContentWidth, cFloatingWindowContentWidth);
         }];
         
@@ -455,14 +410,12 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
 - (void)setupUI {
     screenSize = UIScreen.mainScreen.bounds.size;
     self.backgroundColor = [UIColor clearColor];
-    self.layer.contents = (__bridge id)[UIImage imageNamed:@"FloatBtn"].CGImage;
+    self.layer.contents = (__bridge id)[UIImage imageNamed:@"WebView_Minimize_Float_IconHL"].CGImage;
 }
 
 - (void)toWeb {
-    
     interactiveTransition = [XWInteractiveTransition new];
     interactiveTransition.curPoint = self.frame.origin;
-    
     UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
     if (![rootVC isKindOfClass:[UINavigationController class]]) {
         NSLog(@"跟控制器不是 UINavigationController");
@@ -470,11 +423,21 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
     }
     UINavigationController *navi = (UINavigationController *)rootVC;
     navi.delegate = self;
-    SecondViewController *web = [[SecondViewController alloc] init];
-    
-    [interactiveTransition transitionToViewController:web];
-    
-    [navi pushViewController:web animated:YES];
+    [interactiveTransition transitionToViewController:p_containerVC];
+    [navi pushViewController:p_containerVC animated:YES];
+}
+
+- (void)removeFloatingWindow {
+    [self removeFromSuperview];
+    p_isShowing = NO;
+}
+
+#pragma mark - getter
+- (XWFloatingAnimator *)p_FloatingAnimator {
+    if(!p_FloatingAnimator){
+        p_FloatingAnimator = [[XWFloatingAnimator alloc] init];
+    }
+    return p_FloatingAnimator;
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -486,11 +449,11 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
     if (operation == UINavigationControllerOperationPush) {
         self.alpha = 0.0;
     }
-    XWFloatingAnimator *animator = [[XWFloatingAnimator alloc] init];
-    animator.currentFloatingCenter = self.frame.origin;
-    animator.operation = operation;
-    animator.isInteractive = interactiveTransition.isInteractive;
-    return animator;
+
+    self.p_FloatingAnimator.currentFloatingCenter = self.frame.origin;
+    self.p_FloatingAnimator.operation = operation;
+    self.p_FloatingAnimator.isInteractive = interactiveTransition.isInteractive;
+    return self.p_FloatingAnimator;
 }
 
 - (nullable id <UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController

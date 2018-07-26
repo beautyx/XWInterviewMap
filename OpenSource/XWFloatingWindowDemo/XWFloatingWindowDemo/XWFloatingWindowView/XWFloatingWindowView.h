@@ -9,5 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface XWFloatingWindowView : UIView
-+ (void)show;
+
+/**
+ 展示浮窗
+ */
++ (void)showWithViewController:(UIViewController *)viewController;
+
+/**
+ 是否正在展示浮窗
+
+ @return 是/否 在展示浮窗
+ */
++ (BOOL)isShowing;
 @end
