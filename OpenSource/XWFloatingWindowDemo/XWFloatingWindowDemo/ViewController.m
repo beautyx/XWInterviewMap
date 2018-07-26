@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "WebViewController.h"
 #import "XWFloatingWindowView.h"
 
 @interface ViewController ()
@@ -26,18 +25,10 @@
     label.center = self.view.center;
     [self.view addSubview:label];
     
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toWeb)];
-//    label.userInteractionEnabled = YES;
-//    [label addGestureRecognizer:tap];
-    
     [XWFloatingWindowView show];
     
 }
 
-- (void)toWeb {
-    WebViewController *web = [[WebViewController alloc] init];
-    [self.navigationController pushViewController:web animated:YES];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

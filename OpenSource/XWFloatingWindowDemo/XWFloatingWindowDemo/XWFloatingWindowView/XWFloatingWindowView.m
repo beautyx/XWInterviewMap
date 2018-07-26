@@ -12,7 +12,7 @@
 //浮窗宽度
 static const CGFloat cFloatingWindowWidth = 60.0;
 //默认缩放动画时间
-static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 1.0;
+static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
 
 #pragma mark - **************************************** 转场视图 ******************************************************
 @interface XWFloatingAnimationView : UIView <CAAnimationDelegate>
@@ -61,7 +61,7 @@ static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 1.0;
 
 #pragma mark  private
 - (void)setupUI {
-    self.backgroundColor = [UIColor greenColor];
+    self.backgroundColor = [UIColor clearColor];
     p_imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self addSubview:p_imageView];
 }

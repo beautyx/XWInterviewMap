@@ -13,9 +13,8 @@
 		2E6A7DFF21042809002630B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6A7DFD21042809002630B0 /* LaunchScreen.storyboard */; };
 		2E6A7E0221042809002630B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7E0121042809002630B0 /* main.m */; };
 		2E6A7E0B21042847002630B0 /* XWFloatingWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E6A7E0A21042847002630B0 /* XWFloatingWindowView.m */; };
-		DEBA2E5B2107FF2100C75764 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEBA2E5A2107FF2100C75764 /* WebViewController.m */; };
+		DE3F605C2109A402008EEA39 /* girl_726.JPG in Resources */ = {isa = PBXBuildFile; fileRef = DE3F605B2109A402008EEA39 /* girl_726.JPG */; };
 		DEBA2E5E2108996000C75764 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEBA2E5D2108996000C75764 /* SecondViewController.m */; };
-		DEBA2E6221089BFF00C75764 /* girl.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DEBA2E6121089BFF00C75764 /* girl.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,11 +29,9 @@
 		2E6A7E0121042809002630B0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E6A7E0921042847002630B0 /* XWFloatingWindowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWFloatingWindowView.h; sourceTree = "<group>"; };
 		2E6A7E0A21042847002630B0 /* XWFloatingWindowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWFloatingWindowView.m; sourceTree = "<group>"; };
-		DEBA2E592107FF2100C75764 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		DEBA2E5A2107FF2100C75764 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		DE3F605B2109A402008EEA39 /* girl_726.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = girl_726.JPG; sourceTree = "<group>"; };
 		DEBA2E5C2108996000C75764 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		DEBA2E5D2108996000C75764 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
-		DEBA2E6121089BFF00C75764 /* girl.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = girl.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,10 +71,8 @@
 				2E6A7DF621042808002630B0 /* ViewController.m */,
 				DEBA2E5C2108996000C75764 /* SecondViewController.h */,
 				DEBA2E5D2108996000C75764 /* SecondViewController.m */,
-				DEBA2E592107FF2100C75764 /* WebViewController.h */,
-				DEBA2E5A2107FF2100C75764 /* WebViewController.m */,
-				DEBA2E6121089BFF00C75764 /* girl.jpg */,
 				2E6A7DFB21042809002630B0 /* Assets.xcassets */,
+				DE3F605B2109A402008EEA39 /* girl_726.JPG */,
 				2E6A7DFD21042809002630B0 /* LaunchScreen.storyboard */,
 				2E6A7E0021042809002630B0 /* Info.plist */,
 				2E6A7E0121042809002630B0 /* main.m */,
@@ -151,8 +146,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE3F605C2109A402008EEA39 /* girl_726.JPG in Resources */,
 				2E6A7DFF21042809002630B0 /* LaunchScreen.storyboard in Resources */,
-				DEBA2E6221089BFF00C75764 /* girl.jpg in Resources */,
 				2E6A7DFC21042809002630B0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,7 +159,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEBA2E5B2107FF2100C75764 /* WebViewController.m in Sources */,
 				2E6A7DF721042808002630B0 /* ViewController.m in Sources */,
 				DEBA2E5E2108996000C75764 /* SecondViewController.m in Sources */,
 				2E6A7E0221042809002630B0 /* main.m in Sources */,

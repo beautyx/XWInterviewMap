@@ -6,10 +6,12 @@
 # 👉 XWInterviewMap (每天更新...) 👈
 
 > 笔者一直觉得 **面试题** 和 **阅读技术书籍** 是完善个人技术栈最好的两种方式
-> 此库是笔者在日常学习生活中持续收集整理的面试题，会在每个问题后给出尽可能详尽的回答和参考资料，不在于应付面试，旨在通过解决每一个问题进而提高技术水平，同时查漏补缺！ 
-> 鉴于笔者才疏学浅，在梳理的过程中发现错误敬请斧正！
+> 此库是笔者在日常学习生活中持续收集整理的面试题，会结合网上大神们的分享和自己的理解，在每个问题后给出尽可能详尽的回答和参考资料，不在于应付面试，旨在通过解决每一个问题进而提高技术水平，同时查漏补缺！ 
+> 鉴于笔者才疏学浅，对梳理的过程中出现的错误敬请斧正！
 
+#### 笔者个人博客 [极客学伟的技术分享社区](https://blog.csdn.net/qxuewei) 将会出现部分问题的全面解析和学习记录。
 
+-------
 ## iOS 内存管理
 * 0.1 在OC中，NSNumber对象 是用什么方式来存储的 - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/0.1.md)
 * 0.2 在OC中，NSNumber对象 是用什么方式来存储的 - 
@@ -463,22 +465,39 @@ int b = 10;
 * 6.遇到疑难问题一般怎么解决？能不能说一个你印象颇深的技术难点，后来怎么解决的？
 
 ## 开源分享
-* 1.仿微信浮窗 
+分享笔者开发过程中封装的几个开源小工具：
 
+* 1. 仿微信浮窗 
+* 2. 一行代码集成社区类发布功能  [XWPublish](https://github.com/qxuewei/XWPublish)
+* 3. 国家代码/区号 选择器 [XWCountryCode](https://github.com/qxuewei/XWCountryCode)
+* 4. 点击查看大图最简单的实现 [XWSacnBigImage](https://github.com/qxuewei/XWSacnBigImage)
 
 ## 推荐书籍
 
-* 1.《Effective Objective-C 2.0》
-* 2.《Objective-C 高级编程》
-* 3.《程序员的自我修养》
-* 4.《图解HTTP》
-* 5.《高性能iOS应用开发》
-* 6.《算法图解》
-* 7.《剑指Offer》
+* 《Effective Objective-C 2.0 - 编写高质量iOS与OS+X代码的52个有效方法》
+* 《Objective-C高级编程+iOS与OSX多线程和内存管理》
+* 《高性能iOS应用开发》
+* 《禅与Objective-C编程艺术》
+* 《编写可读代码的艺术》
+* 《Objective-C 编程之道 IOS设计模式解析》
+* 《iOS 数据库应用高级编程》
+* 《iOS 网络高级编程》
+* 《iOS Auto Layout 开发秘籍》
+* 《剑指Offer》
+* 《程序员的自我修养》
+* 《程序员的职业素养》
+* 《习惯的力量》
+* 《图解HTTP》
+* 《算法图解》
+* 《算法 第四版》
+* 《软技能-代码之外的生存指南》
+* 《富爸爸穷爸爸》
 
 
 ## 面试题来源：
+
 * [iOS-InterviewQuestion-collection  -  liberalisman](https://github.com/liberalisman/iOS-InterviewQuestion-collection)
 * [iOS-Interview-Question-Answer  -  liberalisman](https://github.com/liberalisman/iOS-Interview-Question-Answer)
 * [出一套 iOS 高级面试题  -  J_Knight_](https://juejin.im/post/5b56155e6fb9a04f8b78619b)
+* [iOSDevNotesAndInterviews - 李夫龙](https://github.com/DevDragonLi/iOSDevNotesAndInterviews)
 
