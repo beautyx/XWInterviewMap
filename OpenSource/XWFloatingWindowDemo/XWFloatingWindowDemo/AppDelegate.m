@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "YYFPSLabel.h"
 
 #define ISIPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
 
@@ -25,12 +24,6 @@
     naviController.navigationBar.barStyle = UIBarStyleBlack;
     self.window.rootViewController = naviController;
     [self.window makeKeyAndVisible];
-
-    // 流畅度监测
-//    YYFPSLabel *_fpsLabel = [YYFPSLabel new];
-//    _fpsLabel.frame = CGRectMake((ISIPhoneX ? 30 : 80), 0, 50, 15);
-//    [_fpsLabel sizeToFit];
-//    [self.window addSubview:_fpsLabel];
     
     return YES;
 }

@@ -22,6 +22,57 @@ static const CGFloat cFloatingWindowContentWidth = 160.0;
 //默认动画时间
 static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
 
+#pragma mark - **************************************** 振动器 ******************************************************
+/// 转场扩散动画视图
+@interface XWFloatingShakeManager : NSObject
++ (instancetype)share;
+@end
+@implementation XWFloatingShakeManager {
+    API_AVAILABLE(ios(10.0))
+    UIImpactFeedbackGenerator *_generator;
+}
+/// 单例对象
+static XWFloatingShakeManager *p_floatingShakeManager;
+#pragma mark - public
+- (void)shake {
+    if (@available(iOS 10.0, *)) {
+        [_generator prepare];
+        [_generator impactOccurred];
+    }
+}
+#pragma mark - system
+- (instancetype)init {
+    if (self = [super init]) {
+        if (@available(iOS 10.0, *)) { /// ios10 以上才可震动
+            _generator = [[UIImpactFeedbackGenerator alloc] initWithStyle: UIImpactFeedbackStyleLight];
+        }
+    }
+    return self;
+}
+#pragma mark - 单例对象
++ (instancetype)share {
+    if (!p_floatingShakeManager) {
+        p_floatingShakeManager = [[self alloc] init];
+    }
+    return p_floatingShakeManager;
+}
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    if (!p_floatingShakeManager) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            p_floatingShakeManager = [super allocWithZone:zone];
+        });
+    }
+    return p_floatingShakeManager;
+}
+- (id)copyWithZone:(NSZone *)zone{
+    return p_floatingShakeManager;
+}
+- (id)mutableCopyWithZone:(NSZone *)zone{
+    return p_floatingShakeManager;
+}
+@end
+
 #pragma mark - **************************************** 转场动画视图 ******************************************************
 /// 转场扩散动画视图
 @interface XWFloatingAnimationView : UIView <CAAnimationDelegate>
@@ -191,8 +242,6 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
         case UIGestureRecognizerStateCancelled: {
             
             if (shouldComplete) {
-                /// 添加动画
-                ///截屏
                 UIView *fromView = presentedViewController.view;
                 XWFloatingAnimationView *theView = [[XWFloatingAnimationView alloc] initWithFrame:fromView.bounds];
                 UIGraphicsBeginImageContext(fromView.bounds.size);
@@ -223,12 +272,53 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
 #pragma mark - ****************************************** 浮窗右下红色容器视图 ****************************************************
 /// 视图右下红色隐藏视图,浮窗拖入消失
 @interface XWFloatingWindowContentView : UIView
+/**
+ 扩散效果
+ */
+- (void)spreadAnimation;
+/**
+ 取消扩散效果
+ */
+- (void)cancelSpreadAnimation;
 @end
 
 @implementation XWFloatingWindowContentView {
     CAShapeLayer *p_shapeLayer;
     CALayer *p_imageLayer;
     CATextLayer *p_textLayer;
+    
+    UIBezierPath *spreadPath;
+    UIBezierPath *originPath;
+    CABasicAnimation *imageLayerScaleAnim;
+}
+#pragma mark - public
+- (void)spreadAnimation {
+    if (!spreadPath) {
+        spreadPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.frame.size.width, self.frame.size.height) radius:self.frame.size.width + 10 startAngle:-M_PI_2 endAngle:-M_PI clockwise:NO];
+        [spreadPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+        [spreadPath closePath];
+    }
+    p_shapeLayer.path = spreadPath.CGPath;
+    
+    if (!imageLayerScaleAnim) {
+        imageLayerScaleAnim = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        imageLayerScaleAnim.toValue = [NSNumber numberWithFloat:1.2];
+        imageLayerScaleAnim.duration = 0.1;
+        imageLayerScaleAnim.repeatCount = 1.0;
+        imageLayerScaleAnim.removedOnCompletion = NO;
+        imageLayerScaleAnim.fillMode = kCAFillModeForwards;
+    }
+    [p_imageLayer addAnimation:imageLayerScaleAnim forKey:@"imageLayerScale"];
+}
+
+- (void)cancelSpreadAnimation {
+    if (!originPath) {
+        originPath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.frame.size.width, self.frame.size.height) radius:self.frame.size.width startAngle:-M_PI_2 endAngle:-M_PI clockwise:NO];
+        [originPath addLineToPoint:CGPointMake(self.frame.size.width, self.frame.size.height)];
+        [originPath closePath];
+    }
+    p_shapeLayer.path = originPath.CGPath;
+    [p_imageLayer removeAnimationForKey:@"imageLayerScale"];
 }
 
 #pragma mark - system
@@ -238,7 +328,6 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
     }
     return self;
 }
-
 #pragma mark - private
 - (void)setupUI {
     [self.layer addSublayer:self.shapeLayer];
@@ -246,7 +335,7 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
     [self.layer addSublayer:self.textLayer];
     CGFloat imageW = 50.0;
     p_imageLayer.frame = CGRectMake(0.5 * (self.frame.size.width - imageW), 0.5 * (self.frame.size.height - imageW), imageW, imageW);
-    p_textLayer.frame = CGRectMake(p_imageLayer.frame.origin.x, CGRectGetMaxY(p_imageLayer.frame), p_imageLayer.frame.size.width, 20);
+    p_textLayer.frame = CGRectMake(p_imageLayer.frame.origin.x, CGRectGetMaxY(p_imageLayer.frame) + 3.0, p_imageLayer.frame.size.width, 20);
 }
 
 #pragma mark - getter
@@ -292,7 +381,7 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
     XWFloatingAnimator *p_FloatingAnimator;
     BOOL p_isShowing;
     UIViewController *p_containerVC;
-    
+    BOOL isShake;
 }
 //全局隐藏浮窗视图
 static XWFloatingWindowContentView *xw_floatingWindowContentView;
@@ -330,14 +419,17 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     
     xw_floatingWindowView->p_containerVC = viewController;
     xw_floatingWindowView->p_isShowing = YES;
+    
+    nav.delegate = xw_floatingWindowView;
     [nav popViewControllerAnimated:YES];
 }
 
 + (void)remove {
+    UINavigationController *navi = xw_floatingWindowView->p_containerVC.navigationController;
+    navi.delegate = nil;
     xw_floatingWindowView->p_containerVC = nil;
     [xw_floatingWindowView removeFloatingWindow];
 }
-
 
 + (BOOL)isShowingWithViewController:(UIViewController *)viewController {
     if (!xw_floatingWindowView) {
@@ -389,6 +481,17 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     CGFloat x = MIN(screenSize.width - halfWidth, MAX(centerX, halfWidth));
     CGFloat y = MIN(screenSize.height - halfHeight, MAX(centerY, halfHeight));
     self.center = CGPointMake(x,y);
+    
+    /// 震动
+    CGFloat distance = sqrtf( (pow(self->screenSize.width - xw_floatingWindowView.center.x,2) + pow(self->screenSize.height - xw_floatingWindowView.center.y, 2)) );
+    if (!isShake && (distance < (cFloatingWindowContentWidth - cFloatingWindowWidth * 0.5) ) ) {
+        [[XWFloatingShakeManager share] shake];
+        isShake = YES;
+        [xw_floatingWindowContentView spreadAnimation];
+    }else if (distance > (cFloatingWindowContentWidth - cFloatingWindowWidth * 0.5)) {
+        isShake = NO;
+        [xw_floatingWindowContentView cancelSpreadAnimation];
+    }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -437,7 +540,7 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     interactiveTransition.curPoint = self.frame.origin;
     UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
     if (![rootVC isKindOfClass:[UINavigationController class]]) {
-        NSLog(@"跟控制器不是 UINavigationController");
+        NSLog(@"根控制器不是 UINavigationController");
         return;
     }
     UINavigationController *navi = (UINavigationController *)rootVC;

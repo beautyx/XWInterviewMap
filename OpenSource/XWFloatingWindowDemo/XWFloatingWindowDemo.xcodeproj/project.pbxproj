@@ -16,8 +16,6 @@
 		DE3F605C2109A402008EEA39 /* girl_726.JPG in Resources */ = {isa = PBXBuildFile; fileRef = DE3F605B2109A402008EEA39 /* girl_726.JPG */; };
 		DE3F60602109AD5D008EEA39 /* WebView_Minimize_Corner_Icon_remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE3F605E2109AD5D008EEA39 /* WebView_Minimize_Corner_Icon_remove@2x.png */; };
 		DE3F60612109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE3F605F2109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png */; };
-		DE3F60672109BD6D008EEA39 /* YYWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DE3F60632109BD6D008EEA39 /* YYWeakProxy.m */; };
-		DE3F60682109BD6D008EEA39 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DE3F60652109BD6D008EEA39 /* YYFPSLabel.m */; };
 		DEBA2E5E2108996000C75764 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEBA2E5D2108996000C75764 /* SecondViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -36,10 +34,6 @@
 		DE3F605B2109A402008EEA39 /* girl_726.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = girl_726.JPG; sourceTree = "<group>"; };
 		DE3F605E2109AD5D008EEA39 /* WebView_Minimize_Corner_Icon_remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WebView_Minimize_Corner_Icon_remove@2x.png"; sourceTree = "<group>"; };
 		DE3F605F2109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WebView_Minimize_Float_IconHL@2x.png"; sourceTree = "<group>"; };
-		DE3F60632109BD6D008EEA39 /* YYWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYWeakProxy.m; sourceTree = "<group>"; };
-		DE3F60642109BD6D008EEA39 /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFPSLabel.h; sourceTree = "<group>"; };
-		DE3F60652109BD6D008EEA39 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
-		DE3F60662109BD6D008EEA39 /* YYWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYWeakProxy.h; sourceTree = "<group>"; };
 		DEBA2E5C2108996000C75764 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		DEBA2E5D2108996000C75764 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,7 +75,6 @@
 				2E6A7DF621042808002630B0 /* ViewController.m */,
 				DEBA2E5C2108996000C75764 /* SecondViewController.h */,
 				DEBA2E5D2108996000C75764 /* SecondViewController.m */,
-				DE3F60622109BD6D008EEA39 /* YYFPSLabel */,
 				2E6A7DFB21042809002630B0 /* Assets.xcassets */,
 				DE3F605B2109A402008EEA39 /* girl_726.JPG */,
 				2E6A7DFD21042809002630B0 /* LaunchScreen.storyboard */,
@@ -108,17 +101,6 @@
 				DE3F605F2109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png */,
 			);
 			path = images;
-			sourceTree = "<group>";
-		};
-		DE3F60622109BD6D008EEA39 /* YYFPSLabel */ = {
-			isa = PBXGroup;
-			children = (
-				DE3F60642109BD6D008EEA39 /* YYFPSLabel.h */,
-				DE3F60652109BD6D008EEA39 /* YYFPSLabel.m */,
-				DE3F60662109BD6D008EEA39 /* YYWeakProxy.h */,
-				DE3F60632109BD6D008EEA39 /* YYWeakProxy.m */,
-			);
-			path = YYFPSLabel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,10 +175,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE3F60682109BD6D008EEA39 /* YYFPSLabel.m in Sources */,
 				2E6A7DF721042808002630B0 /* ViewController.m in Sources */,
 				DEBA2E5E2108996000C75764 /* SecondViewController.m in Sources */,
-				DE3F60672109BD6D008EEA39 /* YYWeakProxy.m in Sources */,
 				2E6A7E0221042809002630B0 /* main.m in Sources */,
 				2E6A7DF421042808002630B0 /* AppDelegate.m in Sources */,
 				2E6A7E0B21042847002630B0 /* XWFloatingWindowView.m in Sources */,
