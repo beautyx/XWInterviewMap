@@ -152,7 +152,7 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
 @end
 
 @implementation XWInteractiveTransition {
-    UIViewController *presentedViewController;
+    __weak UIViewController *presentedViewController;
     BOOL shouldComplete;
     CGFloat transitionX;
 }
@@ -292,15 +292,25 @@ static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
     XWFloatingAnimator *p_FloatingAnimator;
     BOOL p_isShowing;
     UIViewController *p_containerVC;
+    
 }
 //全局隐藏浮窗视图
 static XWFloatingWindowContentView *xw_floatingWindowContentView;
 
 #pragma mark - publish
 + (void)showWithViewController:(UIViewController *)viewController {
-    if (xw_floatingWindowView->p_isShowing) {
-        NSLog(@"正在展示一个浮窗 - 视图: %@",xw_floatingWindowView->p_containerVC);
+    UINavigationController *nav = viewController.navigationController;
+    if (!nav) {
+        NSLog(@"展示浮窗必须添加到 NavigationController 管理的视图上!");
         return;
+    }
+    if (xw_floatingWindowView && xw_floatingWindowView->p_isShowing) {
+        if (viewController == xw_floatingWindowView->p_containerVC) {
+            NSLog(@"当前控制器的浮窗已经添加了...");
+            return;
+        }
+        NSLog(@"正在展示一个浮窗 - 视图: %@",xw_floatingWindowView->p_containerVC);
+        xw_floatingWindowView->p_containerVC = nil;
     }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -320,10 +330,20 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     
     xw_floatingWindowView->p_containerVC = viewController;
     xw_floatingWindowView->p_isShowing = YES;
+    [nav popViewControllerAnimated:YES];
 }
 
-+ (BOOL)isShowing {
++ (void)remove {
+    xw_floatingWindowView->p_containerVC = nil;
+    [xw_floatingWindowView removeFloatingWindow];
+}
+
+
++ (BOOL)isShowingWithViewController:(UIViewController *)viewController {
     if (!xw_floatingWindowView) {
+        return NO;
+    }
+    if (xw_floatingWindowView->p_containerVC != viewController) {
         return NO;
     }
     return xw_floatingWindowView->p_isShowing;
@@ -378,8 +398,7 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     CGPoint currentPoint = [touch locationInView:self.superview];
     
     if (CGPointEqualToPoint(lastPointInSuperView, currentPoint)) {
-        NSLog(@"单击!");
-        [self toWeb];
+        [self toContainerVC];
     }else{
         
         /// 收缩 右下浮窗隐藏视图
@@ -387,7 +406,7 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
             /// 浮窗在隐藏视图内部,移除浮窗
             CGFloat distance = sqrtf( (pow(self->screenSize.width - xw_floatingWindowView.center.x,2) + pow(self->screenSize.height - xw_floatingWindowView.center.y, 2)) );
             if (distance < (cFloatingWindowContentWidth - cFloatingWindowWidth * 0.5)) {
-                [self removeFloatingWindow];
+                [XWFloatingWindowView remove];
             }
             xw_floatingWindowContentView.frame = CGRectMake(self->screenSize.width, self->screenSize.height, cFloatingWindowContentWidth, cFloatingWindowContentWidth);
         }];
@@ -413,7 +432,7 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     self.layer.contents = (__bridge id)[UIImage imageNamed:@"WebView_Minimize_Float_IconHL"].CGImage;
 }
 
-- (void)toWeb {
+- (void)toContainerVC {
     interactiveTransition = [XWInteractiveTransition new];
     interactiveTransition.curPoint = self.frame.origin;
     UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;

@@ -16,9 +16,12 @@
 + (void)showWithViewController:(UIViewController *)viewController;
 
 /**
- 是否正在展示浮窗
-
- @return 是/否 在展示浮窗
+ 移除浮窗
  */
-+ (BOOL)isShowing;
++ (void)remove;
+
+/**
+ 是否正在展示浮窗
+ */
++ (BOOL)isShowingWithViewController:(UIViewController *)viewController;
 @end

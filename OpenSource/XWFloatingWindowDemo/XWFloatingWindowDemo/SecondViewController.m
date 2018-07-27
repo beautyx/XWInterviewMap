@@ -43,14 +43,22 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     NSString *title;
-    if ([XWFloatingWindowView isShowing]) {
+    BOOL isShowing = [XWFloatingWindowView isShowingWithViewController:self];
+    if (isShowing) {
         title = @"取消浮窗";
     }else{
         title = @"浮窗";
-        [self addFloatingWindow];
     }
     [alert addAction:[UIAlertAction actionWithTitle:title style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"添加 / 移除 浮窗");
+        if (isShowing) {
+            NSLog(@"移除 浮窗");
+            // 移除
+            [XWFloatingWindowView remove];
+        }else{
+            NSLog(@"添加 浮窗");
+            // 添加
+            [XWFloatingWindowView showWithViewController:self];
+        }
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"关闭视图保留浮窗" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"关闭视图保留浮窗");
@@ -62,10 +70,6 @@
         NSLog(@"取消");
     }]];
     [self presentViewController:alert animated:YES completion:nil];
-}
-
-- (void)addFloatingWindow {
-    [XWFloatingWindowView showWithViewController:self];
 }
 
 @end
