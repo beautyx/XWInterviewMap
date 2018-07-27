@@ -8,6 +8,8 @@
 
 #import "XWFloatingWindowView.h"
 
+#define XW_ISIPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
 #pragma mark - Macros
 //全局浮窗
 static XWFloatingWindowView *xw_floatingWindowView;
@@ -15,12 +17,16 @@ static XWFloatingWindowView *xw_floatingWindowView;
 static const CGFloat cFloatingWindowWidth = 60.0;
 //默认缩放动画时间
 static const NSTimeInterval cFloatingWindowPathAnimtiontDuration = 0.3;
-//浮窗两边最小间距
+//浮窗左右两边最小间距
 static const CGFloat cFloatingWindowMargin = 20.0;
 //红色浮窗隐藏视图宽度
 static const CGFloat cFloatingWindowContentWidth = 160.0;
 //默认动画时间
 static const NSTimeInterval cFloatingWindowAnimtionDefaultDuration = 0.25;
+//浮窗上下两边最小间距 非 iPhoneX
+static const CGFloat cFloatingWindowTopBottomMargin = 64.0;
+//浮窗上下两边最小间距 iPhoneX
+static const CGFloat cFloatingWindowTopBottomMarginIphoneX = 86.0;
 
 #pragma mark - **************************************** 振动器 ******************************************************
 /// 转场扩散动画视图
@@ -403,8 +409,8 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        xw_floatingWindowView = [[XWFloatingWindowView alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.bounds.size.width - cFloatingWindowWidth * 2 - cFloatingWindowMargin, 200.0, cFloatingWindowWidth, cFloatingWindowWidth)];
-        
+        CGFloat minY =  XW_ISIPhoneX ? cFloatingWindowTopBottomMarginIphoneX : cFloatingWindowTopBottomMargin;
+        xw_floatingWindowView = [[XWFloatingWindowView alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.bounds.size.width - cFloatingWindowWidth - cFloatingWindowMargin, minY, cFloatingWindowWidth, cFloatingWindowWidth)];
         xw_floatingWindowContentView = [[XWFloatingWindowContentView alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height, cFloatingWindowContentWidth, cFloatingWindowContentWidth)];
     });
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
@@ -451,7 +457,6 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
-    
     UITouch *touch = [touches anyObject];
     lastPointInSuperView = [touch locationInView:self.superview];
     lastPointInSelf = [touch locationInView:self];
@@ -513,16 +518,22 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
             }
             xw_floatingWindowContentView.frame = CGRectMake(self->screenSize.width, self->screenSize.height, cFloatingWindowContentWidth, cFloatingWindowContentWidth);
         }];
-        
         CGFloat left = currentPoint.x;
         CGFloat right = screenSize.width - currentPoint.x;
+        
+        CGFloat y = self.center.y;
+        if (XW_ISIPhoneX) {
+            y = MIN(screenSize.height - cFloatingWindowTopBottomMarginIphoneX, MAX(y, cFloatingWindowTopBottomMarginIphoneX));
+        }else{
+            y = MIN(screenSize.height - cFloatingWindowTopBottomMargin, MAX(y, cFloatingWindowTopBottomMargin));
+        }
         if (left <= right) {
             [UIView animateWithDuration:cFloatingWindowAnimtionDefaultDuration animations:^{
-                self.center = CGPointMake(cFloatingWindowMargin + self.bounds.size.width * 0.5, self.center.y);
+                self.center = CGPointMake(cFloatingWindowMargin + self.bounds.size.width * 0.5, y);
             }];
         }else{
             [UIView animateWithDuration:cFloatingWindowAnimtionDefaultDuration animations:^{
-                self.center = CGPointMake(self->screenSize.width - cFloatingWindowMargin - self.bounds.size.width * 0.5, self.center.y);
+                self.center = CGPointMake(self->screenSize.width - cFloatingWindowMargin - self.bounds.size.width * 0.5, y);
             }];
         }
     }
@@ -571,13 +582,11 @@ static XWFloatingWindowContentView *xw_floatingWindowContentView;
     if (operation == UINavigationControllerOperationPush) {
         self.alpha = 0.0;
     }
-
     self.p_FloatingAnimator.currentFloatingCenter = self.frame.origin;
     self.p_FloatingAnimator.operation = operation;
     self.p_FloatingAnimator.isInteractive = interactiveTransition.isInteractive;
     return self.p_FloatingAnimator;
 }
-
 - (nullable id <UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController
                                    interactionControllerForAnimationController:(id <UIViewControllerAnimatedTransitioning>) animationController {
     return interactiveTransition.isInteractive?interactiveTransition:nil;

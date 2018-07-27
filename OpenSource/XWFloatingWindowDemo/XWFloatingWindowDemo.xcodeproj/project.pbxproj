@@ -16,6 +16,9 @@
 		DE3F605C2109A402008EEA39 /* girl_726.JPG in Resources */ = {isa = PBXBuildFile; fileRef = DE3F605B2109A402008EEA39 /* girl_726.JPG */; };
 		DE3F60602109AD5D008EEA39 /* WebView_Minimize_Corner_Icon_remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE3F605E2109AD5D008EEA39 /* WebView_Minimize_Corner_Icon_remove@2x.png */; };
 		DE3F60612109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DE3F605F2109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png */; };
+		DE4F99EB210B088B00DFBE8C /* IMG_1199.JPG in Resources */ = {isa = PBXBuildFile; fileRef = DE4F99EA210B088B00DFBE8C /* IMG_1199.JPG */; };
+		DE685F51210B08F900A2A4D6 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE685F50210B08F900A2A4D6 /* ThirdViewController.m */; };
+		DE685F56210B099F00A2A4D6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DE685F55210B099F00A2A4D6 /* Info.plist */; };
 		DEBA2E5E2108996000C75764 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DEBA2E5D2108996000C75764 /* SecondViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -27,13 +30,16 @@
 		2E6A7DF621042808002630B0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2E6A7DFB21042809002630B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E6A7DFE21042809002630B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		2E6A7E0021042809002630B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E6A7E0121042809002630B0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E6A7E0921042847002630B0 /* XWFloatingWindowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWFloatingWindowView.h; sourceTree = "<group>"; };
 		2E6A7E0A21042847002630B0 /* XWFloatingWindowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWFloatingWindowView.m; sourceTree = "<group>"; };
 		DE3F605B2109A402008EEA39 /* girl_726.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = girl_726.JPG; sourceTree = "<group>"; };
 		DE3F605E2109AD5D008EEA39 /* WebView_Minimize_Corner_Icon_remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WebView_Minimize_Corner_Icon_remove@2x.png"; sourceTree = "<group>"; };
 		DE3F605F2109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WebView_Minimize_Float_IconHL@2x.png"; sourceTree = "<group>"; };
+		DE4F99EA210B088B00DFBE8C /* IMG_1199.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_1199.JPG; sourceTree = "<group>"; };
+		DE685F4F210B08F900A2A4D6 /* ThirdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
+		DE685F50210B08F900A2A4D6 /* ThirdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
+		DE685F55210B099F00A2A4D6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEBA2E5C2108996000C75764 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		DEBA2E5D2108996000C75764 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,17 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				2E6A7E082104283A002630B0 /* XWFloatingWindowView */,
-				2E6A7DF221042808002630B0 /* AppDelegate.h */,
-				2E6A7DF321042808002630B0 /* AppDelegate.m */,
-				2E6A7DF521042808002630B0 /* ViewController.h */,
-				2E6A7DF621042808002630B0 /* ViewController.m */,
-				DEBA2E5C2108996000C75764 /* SecondViewController.h */,
-				DEBA2E5D2108996000C75764 /* SecondViewController.m */,
-				2E6A7DFB21042809002630B0 /* Assets.xcassets */,
-				DE3F605B2109A402008EEA39 /* girl_726.JPG */,
-				2E6A7DFD21042809002630B0 /* LaunchScreen.storyboard */,
-				2E6A7E0021042809002630B0 /* Info.plist */,
-				2E6A7E0121042809002630B0 /* main.m */,
+				DE685F52210B090B00A2A4D6 /* Other */,
+				DE685F55210B099F00A2A4D6 /* Info.plist */,
 			);
 			path = XWFloatingWindowDemo;
 			sourceTree = "<group>";
@@ -101,6 +98,26 @@
 				DE3F605F2109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		DE685F52210B090B00A2A4D6 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				2E6A7DF221042808002630B0 /* AppDelegate.h */,
+				2E6A7DF321042808002630B0 /* AppDelegate.m */,
+				2E6A7DF521042808002630B0 /* ViewController.h */,
+				2E6A7DF621042808002630B0 /* ViewController.m */,
+				DEBA2E5C2108996000C75764 /* SecondViewController.h */,
+				DEBA2E5D2108996000C75764 /* SecondViewController.m */,
+				DE685F4F210B08F900A2A4D6 /* ThirdViewController.h */,
+				DE685F50210B08F900A2A4D6 /* ThirdViewController.m */,
+				DE3F605B2109A402008EEA39 /* girl_726.JPG */,
+				DE4F99EA210B088B00DFBE8C /* IMG_1199.JPG */,
+				2E6A7DFD21042809002630B0 /* LaunchScreen.storyboard */,
+				2E6A7E0121042809002630B0 /* main.m */,
+				2E6A7DFB21042809002630B0 /* Assets.xcassets */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,8 +180,10 @@
 				DE3F605C2109A402008EEA39 /* girl_726.JPG in Resources */,
 				2E6A7DFF21042809002630B0 /* LaunchScreen.storyboard in Resources */,
 				DE3F60602109AD5D008EEA39 /* WebView_Minimize_Corner_Icon_remove@2x.png in Resources */,
+				DE4F99EB210B088B00DFBE8C /* IMG_1199.JPG in Resources */,
 				2E6A7DFC21042809002630B0 /* Assets.xcassets in Resources */,
 				DE3F60612109AD5D008EEA39 /* WebView_Minimize_Float_IconHL@2x.png in Resources */,
+				DE685F56210B099F00A2A4D6 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +196,7 @@
 			files = (
 				2E6A7DF721042808002630B0 /* ViewController.m in Sources */,
 				DEBA2E5E2108996000C75764 /* SecondViewController.m in Sources */,
+				DE685F51210B08F900A2A4D6 /* ThirdViewController.m in Sources */,
 				2E6A7E0221042809002630B0 /* main.m in Sources */,
 				2E6A7DF421042808002630B0 /* AppDelegate.m in Sources */,
 				2E6A7E0B21042847002630B0 /* XWFloatingWindowView.m in Sources */,
