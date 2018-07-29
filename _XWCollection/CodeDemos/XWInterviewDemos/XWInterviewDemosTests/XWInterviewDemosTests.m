@@ -24,6 +24,51 @@
     [super tearDown];
 }
 
+- (void)testStraight {
+    NSDictionary *info1 = [NSDictionary dictionaryWithObjectsAndKeys:@"极客学伟",@"name",[NSNumber numberWithInteger:18],@"age", nil];
+    NSString *name1 = [info1 objectForKey:@"name"];
+    NSDictionary *info2 = @{@"name":@"极客学伟",
+                            @"age":@18,};
+    NSString *name2 = info2[@"name"];
+
+    NSMutableArray *arrayM = @[@1,@"123",@"567"].mutableCopy;
+    NSMutableDictionary *dictM;
+//    [arrayM replaceObjectAtIndex:0 withObject:@"new Object"];
+    [dictM setObject:@19 forKey:@"age"];
+    
+//    arrayM[0] = @"new Object";
+    dictM[@"age"] = @19;
+}
+
+- (void)testObjectiveC {
+    NSString *theString = @"Hello World";
+    NSString *theString2 = @"Hello World";
+    NSLog(@"theString:%p --- theString:2%p",theString,theString2);
+    
+    theString2 = @"Hello World !!!!";
+    NSLog(@"theString:%p --- theString:2%p",theString,theString2);
+}
+
+
+
+- (void)testDeadlock {
+    NSLog(@"test begin ... %@",[NSThread currentThread]);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{    
+        [self deadlockDemo];
+    });
+    NSLog(@"test end ... %@",[NSThread currentThread]);
+}
+
+
+- (void)deadlockDemo {
+    NSLog(@"start   %@",[NSThread currentThread]);
+    
+    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@"哈哈哈... %@",[NSThread currentThread]);
+    });
+    NSLog(@"end     %@",[NSThread currentThread]);
+}
+
 - (void)testGCDApply {
     //passed (2.745 seconds).
 //    dispatch_queue_t queue = dispatch_queue_create("com.beijing", 0);

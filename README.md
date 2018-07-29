@@ -12,6 +12,12 @@
 #### 笔者个人博客 [极客学伟的技术分享社区](https://blog.csdn.net/qxuewei) 将会出现部分问题的全面解析和学习记录。
 
 -------
+## 读书笔记
+
+#####《Effective Objective-C 2.0 - 编写高质量iOS与OS+X代码的52个有效方法》
+
+
+
 ## iOS 内存管理
 * 0.1 在OC中，NSNumber对象 是用什么方式来存储的 - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/0.1.md)
 * 0.2 在OC中，NSNumber对象 是用什么方式来存储的 - 
