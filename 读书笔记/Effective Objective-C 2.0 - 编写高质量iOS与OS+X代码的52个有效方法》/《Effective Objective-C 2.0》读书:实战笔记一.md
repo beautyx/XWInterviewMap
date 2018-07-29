@@ -1,6 +1,6 @@
 ##《Effective Objective-C 2.0》读书/实战笔记一
 
-### 第一章：熟悉Objective-C
+### 第1章：熟悉Objective-C
 #### 🇨🇳 第1条：了解 Objective-C 语言的起源
 * Objective-C 为C语言添加了面向对象的特性，是其超级。Objective-C 说那个动态绑定的消息结构，也就是说，在运行时才检查对象类型。接收一条消息之后，究竟应执行何种代码，由运行期环境而非编译器来决定。
 * 理解C语言的核心概念有助于写好Objective-C程序。尤其要掌握内存模型和指针。
@@ -119,4 +119,58 @@ dictM[@"age"] = @19;
 ```objective-c
 NSMutableArray *arrayM = @[@1,@"123",@"567"].mutableCopy;
 ```
+#### 🏳️‍🌈 第4条：多用类型常量，少用 `#define` 预处理指令
+* 不要用预处理指令定义常量。这样定义的常量不含类型信息，编译器只是会在编译前据此执行查找与替换操作。即使有人重新定义了常量值，编译器也不会产生警告信息⚠️，这将导致应用程序中的常量值不一致。
+* 在实现文件中使用 `static const` 来定义“只在编译单元内可见的常量”。由于此类常量不在全局符号表中，所以无需为其名称加前缀。
+* 在头文件中使用 `extern` 来声明全局常量，并在相关实现文件中定义其值。这种常量要出现在全局符号表中，所以名称应该加以区隔，通常用与之相关的类名做前缀。
+
+预处理指令是代码拷贝，在编译时会将代码中所有预处理指令展开填充到代码中，减少预处理指令也会加快编译速度。
+
+##### 私有常量
+
+```objective-c
+.m
+static const NSTimeInterval kAnimationDuration = 0.3;
+```
+
+##### 全局常量
+
+```objective-c
+.h
+extern NSString * const XWTestViewNoticationName;
+
+.m
+NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
+```
+
+#### 🇩🇿 第5条：用枚举表示状态、选项、状态码
+* 应该用枚举来表示状态机的状态、传递给方法的选项以及状态码等值，给这些值起个易懂的名字。
+* 如果把传递给某个方法的选项表示为枚举类型，而多个选项又可以同时使用，那么就将各选项定义为2的幂，以便通过按位或操作将其组合起来。
+* 用 `NS_ENUUM` 与 `NS_OPTIONS` 宏来定义枚举类型，并指明其底层数据类型。这样做可以确保枚举是用开发者所选的底层数据类型实现出来的，而不会采用编译器所选类型。
+* 在处理枚举类型的`switch`语句中不要实现 `default `分支。这样的话，加入新枚举之后，编译器就会提示开发者：`switch` 语句并未处理所以枚举。
+
+
+```objective-c
+/// 位移枚举
+typedef NS_OPTIONS(NSUInteger, XWDirection) {
+    XWDirectionTop          = 0,
+    XWDirectionBottom       = 1 << 0,
+    XWDirectionLeft         = 1 << 1,
+    XWDirectionRight        = 1 << 2,
+};
+
+/// 常量枚举
+typedef NS_ENUM(NSUInteger, SexType) {
+    SexTypeMale,
+    SexTypeFemale,
+    SexTypeUnknow,
+};
+```
+
+### 第2章：对象、消息、运行时
+#### 🇦🇫 第6条：理解“属性”这一概念
+* 可以用 `@property` 语法来定义对象中所封装的数据。
+* 通过“特质”来指定存储数据所需的正确语义。
+* 在设置属性所对应的实例变量时，一定要遵从该属性所声明的语义。
+
 

@@ -8,11 +8,25 @@
 
 #import <XCTest/XCTest.h>
 
+typedef NS_OPTIONS(NSUInteger, XWDirection) {
+    XWDirectionTop          = 0,
+    XWDirectionBottom       = 1 << 0,
+    XWDirectionLeft         = 1 << 1,
+    XWDirectionRight        = 1 << 2,
+};
+
+typedef NS_ENUM(NSUInteger, SexType) {
+    SexTypeMale,
+    SexTypeFemale,
+    SexTypeUnknow,
+};
 @interface XWInterviewDemosTests : XCTestCase
 
 @end
 
 @implementation XWInterviewDemosTests
+static const NSTimeInterval kAnimationDuration = 0.3;
+NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
 
 - (void)setUp {
     [super setUp];
