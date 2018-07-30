@@ -24,7 +24,7 @@ typedef void(^XWVoidBlock)(void);
 typedef void(^XWBlock)(NSString *str);
 typedef void(^XWLogBlock)(NSArray *array);
 
-@interface ViewController ()
+@interface ViewController () <UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *toSecondBtn;
 @property (weak, nonatomic) IBOutlet UIView *redView;
 
@@ -68,6 +68,20 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo1];
 }
 
+- (void)testAlertAssociate {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"要培养哪种生活习惯?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"早起",@"早睡", nil];
+    [alertView show];
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSLog(@"你要早起");
+    }else if (buttonIndex == 2) {
+        NSLog(@"你要晚睡");
+    }else{
+        NSLog(@"取消");
+    }
+}
+
 - (void)testEqual {
     NSNumber *number1 = [NSNumber numberWithInt:1];
     NSNumber *number2 = @1;
@@ -95,7 +109,7 @@ typedef void(^XWLogBlock)(NSArray *array);
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    self.redView.bounds = CGRectMake(0, 0, 300, 300);
+    [self testAlertAssociate];
 }
 
 - (void)setupRunloopObserver

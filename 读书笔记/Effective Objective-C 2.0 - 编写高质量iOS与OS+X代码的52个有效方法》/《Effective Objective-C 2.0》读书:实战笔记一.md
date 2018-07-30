@@ -234,5 +234,110 @@ typedef NS_ENUM(NSUInteger, SexType) {
 ```
 
 #### 🇦🇼 第9条：以“类族模式”隐藏实现细节
+* 类族模式可以把实现细节隐藏在一套简单的公共接口后面
+* 系统框架中经常使用类族
+* 从类族的公共抽象基类中继承子类时要当心，若有开发文档，则应先阅读
+
+例如声明一本书作为基类，通过“类族模式“创建相关的类，对应类型的在子类中实现相关方法。如下：
+
+```objective-c
+.h
+typedef NS_ENUM(NSUInteger, BookType) {
+    BookTypeMath,
+    BookTypeChinese,
+    BookTypeEnglish,
+};
+@interface Book : NSObject
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *author;
++ (instancetype)bookWithType:(BookType)type;
+- (void)read;
+@end
+```
+
+```objective-c
+.m
+@interface BookMath : Book
+- (void)read;
+@end
+@implementation BookMath
+- (void)read {
+    NSLog(@"read The Math");
+}
+@end
+
+@interface BookChinese : Book
+- (void)read;
+@end
+@implementation BookChinese
+- (void)read {
+    NSLog(@"read The Chinese");
+}
+@end
+
+@interface BookEnglish : Book
+- (void)read;
+@end
+@implementation BookEnglish
+- (void)read {
+    NSLog(@"read The English");
+}
+@end
+
+@implementation Book
++ (instancetype)bookWithType:(BookType)type {
+    switch (type) {
+        case BookTypeMath:
+            return [BookMath new];
+            break;
+        case BookTypeChinese:
+            return [BookChinese new];
+            break;
+        case BookTypeEnglish:
+            return [BookEnglish new];
+            break;
+    }
+}
+@end
+```
+
+#### 🇴🇲 第10条：在既有类中使用关联对象存放自定义数据
+* 可以通过“关联对象”机制把两个对象连起来
+* 定义关联对象时可指定内存管理语义，用以模仿定义属性时所采用的“拥有关系” 与 “非拥有关系”
+* 只有在其他做法不可行时才应选用关联对象，因为这种做法通常会引入难于查找的 bug
+
+关联对象的语法：
+
+```objective-c
+#import <objc/runtime.h>
+
+// Setter 方法
+void objc_setAssociatedObject(id  _Nonnull object, const void * _Nonnull key, id  _Nullable value, objc_AssociationPolicy policy)
+    
+// Getter 方法
+id objc_getAssociatedObject(id  _Nonnull object, const void * _Nonnull key)
+    
+// 移除指定对象的所有关联对象值
+void objc_removeAssociatedObjects(id  _Nonnull object)
+```
+
+实例一：
+原写法
+```objective-c
+- (void)testAlertAssociate {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"要培养哪种生活习惯?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"早起",@"早睡", nil];
+    [alertView show];
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSLog(@"你要早起");
+    }else if (buttonIndex == 2) {
+        NSLog(@"你要晚睡");
+    }else{
+        NSLog(@"取消");
+    }
+}
+```
+使用 “关联对象改写” 变为：
 
 

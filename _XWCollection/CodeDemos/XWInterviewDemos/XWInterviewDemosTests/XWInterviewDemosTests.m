@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <objc/runtime.h>
 
 typedef NS_OPTIONS(NSUInteger, XWDirection) {
     XWDirectionTop          = 0,
@@ -20,7 +21,7 @@ typedef NS_ENUM(NSUInteger, SexType) {
     SexTypeFemale,
     SexTypeUnknow,
 };
-@interface XWInterviewDemosTests : XCTestCase
+@interface XWInterviewDemosTests : XCTestCase 
 
 @end
 
@@ -36,6 +37,20 @@ NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+
+
+
+- (void)testAssociate {
+    // Setter 方法
+//    objc_setAssociatedObject(id  _Nonnull object, const void * _Nonnull key, id  _Nullable value, objc_AssociationPolicy policy)
+//
+//    // Getter 方法
+//    objc_getAssociatedObject(id  _Nonnull object, const void * _Nonnull key)
+//
+//    // 移除指定对象的所有关联对象值
+//    objc_removeAssociatedObjects(id  _Nonnull object)
 }
 
 - (void)testStraight {
