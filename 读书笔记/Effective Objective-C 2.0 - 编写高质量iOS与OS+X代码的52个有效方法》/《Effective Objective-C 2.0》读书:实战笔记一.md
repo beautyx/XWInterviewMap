@@ -7,9 +7,9 @@
 
 
 ``` objective-c
-    NSString *theString = @"Hello World";
-    NSString *theString2 = @"Hello World";
-    NSLog(@"theString:%p --- theString:2%p",theString,theString2);
+NSString *theString = @"Hello World";
+NSString *theString2 = @"Hello World";
+NSLog(@"theString:%p --- theString:2%p",theString,theString2);
     
 ```
 打印结果：
@@ -20,8 +20,8 @@ theString:0x11bb0d158 --- theString:20x11bb0d158
 两个变量为指向同一块内存的相同指针。此时将 `theString2` 赋值为 “Hello World !!!!”
 
 ```objective-c
-    theString2 = @"Hello World !!!!";
-    NSLog(@"theString:%p --- theString:2%p",theString,theString2);
+theString2 = @"Hello World !!!!";
+NSLog(@"theString:%p --- theString:2%p",theString,theString2);
 ```
 打印结果：
 
@@ -172,5 +172,67 @@ typedef NS_ENUM(NSUInteger, SexType) {
 * 可以用 `@property` 语法来定义对象中所封装的数据。
 * 通过“特质”来指定存储数据所需的正确语义。
 * 在设置属性所对应的实例变量时，一定要遵从该属性所声明的语义。
+
+使用属性编译器会自动生成实例变量和改变量的get方法和set方法。
+同时可以使用 `@synthesize` 指定实例变量的名称，使用 `@dynamic` 使编译器不自动生成get方法和set方法。
+属性可分为四类，分别：
+
+##### 1.原子性
+* `atomic` 原子性，系统默认。并不是线程安全，`release` 方法不受原子性约束.
+* `nonatomic` 非原子性
+
+##### 2.读写权限
+* `readwrite` 可读可写，同时拥有get方法和set方法。
+* `readonly` 只读，仅有 get 方法。
+
+##### 3.内存管理语义
+* `assign` 简单赋值，用于基本成员类型
+* `strong` 表示“拥有关系”，设置新值时会保留新值，释放旧值，再把新值设置给当前属性。
+* `weak` 表示“非拥有关系”，设置新值时既不保留新值，也不释放旧值。同 `assign` 类似，所指对象销毁时会置nil
+* `unsafe_unretained` 表示一种非拥有关系，语义同 `assign`,仅适用于对象类型。当目标对象被销魂时不会自动清空。
+* `copy` 表达的关系和 `strong` 类似。区别在于设置新值时不会保留新值，而是将其 拷贝 后赋值给当前属性。
+
+##### 4.方法名
+* `getter=<name>` 指定获取方法（getter）的方法名， 
+如: `@property (nonatomic, getter=isOn) BOOL on;`
+* `setter=<name>` 指定设置方法（setter）的方法名。
+
+#### 🇦🇷 第7条：在对象内部尽量直接访问实例变量
+* 在对象内部读取数据时，应该直接通过实例变量来读，而写入数据时，则应通过属性来写。
+* 在初始化方法及 `dealloc`方法中，应该直接通过实例变量来读写数据。
+* 有时会使用懒加载配置某数据，这种情况需要通过属性来读取数据。
+
+在对象内部直接使用成员变量比使用点语法的优势在于，前者不需要经过 Objective-C 的方法派发过程，执行速度会更快，这时编译器会直接访问保存对象实例变量的那块内存。不过直接访问成员变量不会触发 `KVO`,所以使用点语法访问属性还是直接使用成员变量取决于具体行为。
+
+#### 🇦🇪 第8条：理解“对象等同性”这一概念
+* 若想监测对象的等同性，请提供 `isEqual:` 与 `hash` 方法。
+* 相同对象必须具有相同的哈希码，但是两个哈希码相同的对象未必相同。
+* 不要盲目地逐个监测每条属性，而是应该依照具体需求来制定检测方案。
+* 编写 `hash` 方法时，应该使用计算速度快而且哈希码碰撞几率低的算法。
+
+常规比较相等的方式 `==` 比较的是两个对象指针是否相同。
+在自定义对象重写 `isEqual` 方法可使用此方式：
+
+```objective-c
+- (BOOL)isEqualToBook:(Book *)object {
+    if (self == object) return YES;
+    if (![_name isEqualToString:object.name]) return NO;
+    if (![_author isEqualToString:object.author]) return NO;
+    return YES;
+}
+```
+在自定义对象重写 `hash` 方法可使用此方式：
+
+```objective-c
+@implementation Book
+- (NSUInteger)hash {
+    NSUInteger nameHash = [_name hash];
+    NSUInteger authorHash = [_author hash];
+    return nameHash ^ authorHash;
+}
+@end
+```
+
+#### 🇦🇼 第9条：以“类族模式”隐藏实现细节
 
 

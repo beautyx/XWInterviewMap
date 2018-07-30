@@ -9,5 +9,15 @@
 #import "Book.h"
 
 @implementation Book
-
+- (BOOL)isEqualToBook:(Book *)object {
+    if (self == object) return YES;
+    if (![_name isEqualToString:object.name]) return NO;
+    if (![_author isEqualToString:object.author]) return NO;
+    return YES;
+}
+- (NSUInteger)hash {
+    NSUInteger nameHash = [_name hash];
+    NSUInteger authorHash = [_author hash];
+    return nameHash ^ authorHash;
+}
 @end

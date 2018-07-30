@@ -43,6 +43,7 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self testEqual];
     
 //    [self testLoad2];
     
@@ -67,7 +68,13 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo1];
 }
 
-
+- (void)testEqual {
+    NSNumber *number1 = [NSNumber numberWithInt:1];
+    NSNumber *number2 = @1;
+    
+    NSLog(@"== : %d  equle: %d",number1 == number2,[number1 isEqual:number2]);
+    
+}
 
 
 - (void)viewDidAppear:(BOOL)animated {
