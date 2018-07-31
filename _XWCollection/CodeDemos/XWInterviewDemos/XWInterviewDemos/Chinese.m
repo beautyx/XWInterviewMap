@@ -9,5 +9,19 @@
 #import "Chinese.h"
 
 @implementation Chinese
++ (void)testClassMethod {
+    NSLog(@"Chinese 的 类方法 testClassMethod");
+}
 
+- (void)testInstanceMethod {
+    NSLog(@"Chinese 的 实例方法 testClassMethod");
+}
+
++ (void)testClassMethod:(NSString *)param {
+    NSLog(@"Chinese 的 类方法 testClassMethod: 参数: %@",param);
+}
+
+- (void)testInstanceMethod:(NSString *)param {
+    NSLog(@"Chinese 的 实例方法 testClassMethod: 参数: %@",param);
+}
 @end

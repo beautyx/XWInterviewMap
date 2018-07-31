@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface NSTimer (XW)
+@property (nonatomic, assign) NSUInteger tag;
 
 + (NSTimer *)xw_timerTimeInterval:(NSTimeInterval)timeInterval block:(void(^)(void))block repeats:(BOOL)repeats;
 

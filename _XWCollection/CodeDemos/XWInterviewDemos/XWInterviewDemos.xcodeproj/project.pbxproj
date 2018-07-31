@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B5E29B4CDC93033B98B425F /* libPods-XWInterviewDemosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE62C528DEE9BC1663E7B8E /* libPods-XWInterviewDemosTests.a */; };
+		2E2D17A321101DA900E17DA2 /* NSObject+XWTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D17A221101DA900E17DA2 /* NSObject+XWTool.m */; };
 		2E8C5CBF20FD48FC00C77A75 /* XWPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C5CBE20FD48FC00C77A75 /* XWPerson.m */; };
 		2E8C5CC220FD49DB00C77A75 /* XWStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C5CC120FD49DB00C77A75 /* XWStudent.m */; };
 		2ECC901E210DB7EE0086D08F /* Chinese.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ECC901D210DB7EE0086D08F /* Chinese.m */; };
@@ -50,6 +51,8 @@
 
 /* Begin PBXFileReference section */
 		10B5B9191ECBD5C2F7089BC2 /* Pods-XWInterviewDemos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XWInterviewDemos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XWInterviewDemos/Pods-XWInterviewDemos.debug.xcconfig"; sourceTree = "<group>"; };
+		2E2D17A121101DA900E17DA2 /* NSObject+XWTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+XWTool.h"; sourceTree = "<group>"; };
+		2E2D17A221101DA900E17DA2 /* NSObject+XWTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+XWTool.m"; sourceTree = "<group>"; };
 		2E8C5CBD20FD48FC00C77A75 /* XWPerson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWPerson.h; sourceTree = "<group>"; };
 		2E8C5CBE20FD48FC00C77A75 /* XWPerson.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWPerson.m; sourceTree = "<group>"; };
 		2E8C5CC020FD49DB00C77A75 /* XWStudent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWStudent.h; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 				DE70582520FD9A3100439245 /* SecondViewController.xib */,
 				DE70582820FDBF2500439245 /* NSTimer+XW.h */,
 				DE70582920FDBF2500439245 /* NSTimer+XW.m */,
+				2E2D17A121101DA900E17DA2 /* NSObject+XWTool.h */,
+				2E2D17A221101DA900E17DA2 /* NSObject+XWTool.m */,
 				DE70582B20FDC81200439245 /* XWWeakProxy.h */,
 				DE70582C20FDC81200439245 /* XWWeakProxy.m */,
 				2ECC901C210DB7EE0086D08F /* Chinese.h */,
@@ -426,6 +431,7 @@
 				DE70582A20FDBF2500439245 /* NSTimer+XW.m in Sources */,
 				DE1312CF20FDEE1F00E39ED9 /* SecondView.m in Sources */,
 				DE99F16120F7796B00135326 /* AppDelegate.m in Sources */,
+				2E2D17A321101DA900E17DA2 /* NSObject+XWTool.m in Sources */,
 				2E8C5CC220FD49DB00C77A75 /* XWStudent.m in Sources */,
 				2E8C5CBF20FD48FC00C77A75 /* XWPerson.m in Sources */,
 				2ECC9021210DB8040086D08F /* Student.m in Sources */,
@@ -599,6 +605,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EFBGB9EWP5;
 				INFOPLIST_FILE = XWInterviewDemos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -616,6 +623,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EFBGB9EWP5;
 				INFOPLIST_FILE = XWInterviewDemos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -14,6 +14,9 @@
 #import "SecondViewController.h"
 #import "XWPerson.h"
 #import "XWPerson+Study.h"
+#import "NSTimer+XW.h"
+#import "Student.h"
+#import "NSObject+XWTool.h"
 
 typedef struct XWSize {
     CGFloat width;
@@ -42,9 +45,13 @@ typedef void(^XWLogBlock)(NSArray *array);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self testAddMethod];
     
-    [self testEqual];
+//    [self testNStimerProperty];
     
+//    [self testEqual];
+
 //    [self testLoad2];
     
 //    [self setupRunloopObserver];
@@ -68,18 +75,54 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo1];
 }
 
+- (void)testAddMethod {
+    Student *stu = [Student new];
+//    [stu test];
+//    [stu testInstanceMethod];
+//    [Student testClassMethod];
+//    [stu testInstanceMethod:@"极客学伟 实例方法"];
+//    [Student testClassMethod:@"极客学伟 类方法"];
+    
+//    [stu testInstanceMethod:@"极客学伟" other:180.0];
+    
+    [Student testClassMethod:@"极客学伟" other:180.0];
+}
+
+- (void)testSendMsg {
+    id returnValue = [self doSomething:@"param"];
+}
+- (id)doSomething:(NSString *)param {
+    NSLog(@"doSomething");
+    return @123;
+}
+
+- (void)testNStimerProperty {
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        NSLog(@"我是定时器!!!");
+    }];
+    timer.tag = 101;
+    NSLog(@"Timer.tag = %lu",(unsigned long)timer.tag);
+}
+
+static void *kAlertViewKey = "kAlertViewKey";
 - (void)testAlertAssociate {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"要培养哪种生活习惯?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"早起",@"早睡", nil];
     [alertView show];
+    void(^AlertBlock)(NSUInteger) = ^(NSUInteger buttonIndex){
+        if (buttonIndex == 1) {
+            NSLog(@"你要早起");
+        }else if (buttonIndex == 2) {
+            NSLog(@"你要早睡");
+        }else{
+            NSLog(@"取消");
+        }
+    };
+    objc_setAssociatedObject(alertView, kAlertViewKey, AlertBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
+#pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        NSLog(@"你要早起");
-    }else if (buttonIndex == 2) {
-        NSLog(@"你要晚睡");
-    }else{
-        NSLog(@"取消");
-    }
+    void(^AlertBlock)(NSUInteger) = objc_getAssociatedObject(alertView, kAlertViewKey);
+    AlertBlock(buttonIndex);
 }
 
 - (void)testEqual {
@@ -94,7 +137,7 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    NSLog(@"person height : %f",[self.person getPersonHeight]);
+//    NSLog(@"person height : %f",[self.person getPersonHeight]);
     
 //    NSLog(@" xw_mutableCopyArray:%p",self.xw_mutableCopyArray);
     

@@ -321,13 +321,15 @@ id objc_getAssociatedObject(id  _Nonnull object, const void * _Nonnull key)
 void objc_removeAssociatedObjects(id  _Nonnull object)
 ```
 
-实例一：
+实例一：使用关联对象将声明和执行进行 聚合
 原写法
+
 ```objective-c
 - (void)testAlertAssociate {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"要培养哪种生活习惯?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"早起",@"早睡", nil];
     [alertView show];
 }
+#pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         NSLog(@"你要早起");
@@ -338,6 +340,247 @@ void objc_removeAssociatedObjects(id  _Nonnull object)
     }
 }
 ```
-使用 “关联对象改写” 变为：
+使用 “关联对象改写” 改写为：
 
+```objective-c
+static void *kAlertViewKey = "kAlertViewKey";
+- (void)testAlertAssociate {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"要培养哪种生活习惯?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"早起",@"早睡", nil];
+    [alertView show];
+    void(^AlertBlock)(NSUInteger) = ^(NSUInteger buttonIndex){
+        if (buttonIndex == 1) {
+            NSLog(@"你要早起");
+        }else if (buttonIndex == 2) {
+            NSLog(@"你要早睡");
+        }else{
+            NSLog(@"取消");
+        }
+    };
+    objc_setAssociatedObject(alertView, kAlertViewKey, AlertBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    void(^AlertBlock)(NSUInteger) = objc_getAssociatedObject(alertView, kAlertViewKey);
+    AlertBlock(buttonIndex);
+}
+```
+如此可将实现和声明在一起处理，在回调处取出所关联的代码块执行。可使得代码更易读。
+
+实例二：为分类添加属性
+众所周知，在 Objective-C 的分类中声明属性只能自动生成该属性的 getter 方法和 setter 方法 的声明，没有具体实现。所以真正给分类添加属性，使用关联对象是比较好的一种方式。
+
+
+```objective-c
+//NSTimer+XW.h
+@interface NSTimer (XW)
+@property (nonatomic, assign) NSUInteger tag;
+@end
+
+//NSTimer+XW.m
+#import "NSTimer+XW.h"
+#import <objc/runtime.h>
+@implementation NSTimer (XW)
+static void *kXW_NSTimerTagKey = "kXW_NSTimerTagKey";
+#pragma mark - tag / getter setter
+/// setter
+- (void)setTag:(NSUInteger)tag {
+    NSNumber *tagValue = [NSNumber numberWithUnsignedInteger:tag];
+    objc_setAssociatedObject(self, kXW_NSTimerTagKey, tagValue, OBJC_ASSOCIATION_ASSIGN);
+}
+/// getter
+- (NSUInteger)tag {
+    NSNumber *tagValue = objc_getAssociatedObject(self, kXW_NSTimerTagKey);
+    return tagValue.unsignedIntegerValue;
+}
+@end
+```
+
+#### 🇦🇿 第11条：理解 `objc_msgSend` 的作用
+* 消息由接受者、选择子及参数构成。给某对象“发送消息”也就是相当于在该对象上“调用方法”
+* 发给某对象的全部消息都要有“动态消息派发系统”来处理，该系统会查出对应的方法，并执行其代码。
+
+`objc_msgSend` 执行流程
+![Snip20180731_5](http://p95ytk0ix.bkt.clouddn.com/2018-07-31-Snip20180731_5.png)
+*注：上图出自 SEEMYGO MJ老师*
+
+众所周知, OC 中方法调用的本质是发送消息 `objc_msgSend` ，其原型为：
+
+```objective-c
+/// self:消息接受者，cmd:选择子即执行方法，...:其他参数
+void objc_msgSend(id self, SEL cmd, ...);
+```
+举个例子🌰：
+
+
+```objective-c
+// xx类
+id returnValue = [self doSomething:@"param"];
+
+实质为：
+id returnValue = objc_msgSend(xx类, @selector(doSomething:),@"param");
+```
+其中OC在实现此机制的同时设计了缓存机制，每次调用一个方法会将此方法进行缓存，再次执行相同方法会提高执行效率，使其和静态绑定调用方法的速度相差不会那么悬殊。
+
+#### 🇪🇬 第12条：理解消息转发机制
+* 若对象无法响应某个选择子（seletor），则进入消息转发流程
+* 通过运行期的动态方法解析功能，我们可以在需要用到某个方法时再将其加入类中
+* 对象可以把其无法解读的某些选择子转交给其他对象来处理
+* 经过上述两步之后，如果还是没办法处理选择子，那就启动完整的消息转发机制
+
+消息转发的全流程：
+![Snip20180731_4](http://p95ytk0ix.bkt.clouddn.com/2018-07-31-Snip20180731_4.png)
+
+倘若调用一个没有实现的方法，控制台会抛出如下经典错误信息：
+`unrecognized selector sent to instance 0xxx`
+
+在方法调用和抛出异常中间还经历了一段鲜为人知的历程，名曰：消息转发机制。上述错误提示便是调用没实现的方法之后底层转发给 `NSObject` 的 `doedNotRecognizeSelector:`方法所抛出的。
+消息转发的具体过程，首先：
+
+##### 动态方法解析
+
+```objective-c
+/// 调用了未实现的类方法
++ (BOOL)resolveClassMethod:(SEL)sel {
+    return [super resolveClassMethod:sel];
+}
+/// 调用了未实现的实例方法
++ (BOOL)resolveInstanceMethod:(SEL)sel {
+    return [super resolveInstanceMethod:sel];
+}
+```
+表示是否可以新增一个实例方法用以处理此方法，前提此类需要在程序中提前写好，可用Runtime 的 class_addMethod动态添加。
+
+
+```objective-c
+/// 调用了未实现的实例方法
++ (BOOL)resolveInstanceMethod:(SEL)sel {
+    if (sel == @selector(test)) {
+        /// 调用了未实现的 test 方法,动态添加一个 trendsMethod 方法,使其转发给新加的方法 trendsMethod
+        
+        // 参数1:添加到的类, 参数2:添加新方法在类中的名称, 参数3:新方法的具体实现 
+        // 参数4:新方法的参数返回值说明,如 v@: - 无参数无返回值  i@: - 无参数返回Int  i@:@ - 一个参数返回Int
+        class_addMethod(self, sel, (IMP)class_getMethodImplementation([self class], @selector(trendsMethod)), "v@:");
+       
+        return YES; //此处返回 YES or NO 都可以
+    }
+    return [super resolveInstanceMethod:sel];
+}
+- (void)trendsMethod {
+    NSLog(@"这是动态添加的方法");
+}
+```
+
+##### 备援接收者
+
+```objective-c
+/// 可将未实现的实例方法转发给其他类处理
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    if (aSelector == @selector(testInstanceMethod)) {
+        return [Chinese new]; // 消息转发给能够处理该实例方法的类的对象
+    }
+    return [super forwardingTargetForSelector:aSelector];
+}
+/// 可将未实现的类方法转发给其他类处理
++ (id)forwardingTargetForSelector:(SEL)aSelector {
+    if (aSelector == @selector(testClassMethod)) {
+        return [Chinese class]; // 消息转发给能够处理该类方法的类
+    }
+    return [super forwardingTargetForSelector:aSelector];
+}
+```
+
+##### 完整的消息转发
+若上述过程都没有处理，程序会有最后一次处理机会，便是：
+###### 动态转发 实例 方法
+
+```objective-c
+/// 方法签名,定义 返回值,参数
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    if (aSelector == @selector(testInstanceMethod:)) {
+        /// "v@:@"
+        return [NSMethodSignature signatureWithObjCTypes:"v@:@"];
+    }
+    return [super methodSignatureForSelector:aSelector];
+}
+/// NSInvocation 封装了一个函数调用
+//anInvocation.target  - 方法调用者
+//anInvocation.selector - 方法名
+//anInvocation getArgument:<#(nonnull void *)#> atIndex:<#(NSInteger)#>  - 获取第 index 个参数
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    if (anInvocation.selector == @selector(testInstanceMethod:)) {
+        return [anInvocation invokeWithTarget:[Chinese new]];//将实现转给另外一个实现了此方法的对象进行处理
+    }
+    return [super forwardInvocation:anInvocation];
+}
+```
+
+###### 动态转发 类 方法
+
+```objective-c
++ (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    if (aSelector == @selector(testClassMethod:)) {
+        /// "v@:@"
+        return [NSMethodSignature signatureWithObjCTypes:"v@:@"];
+    }
+    return [super methodSignatureForSelector:aSelector];
+}
++ (void)forwardInvocation:(NSInvocation *)anInvocation {
+    if (anInvocation.selector == @selector(testClassMethod:)) {
+        return [anInvocation invokeWithTarget:[Chinese class]];//将实现转给另外一个实现了此方法的对象进行处理
+    }
+    return [super forwardInvocation:anInvocation];
+}
+```
+如上方法其实在实现 `forwardingTargetForSelector` 方法进行转发就可以实现相同的功能，何必到最后这步处理呢。所以，他的功能不止于此。实际可以函数中直接对未处理方法进行实现，如下：
+
+```objective-c
+/// 方法签名,定义 返回值,参数
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    if (aSelector == @selector(testInstanceMethod:)) {
+        /// "v@:@"
+        return [NSMethodSignature signatureWithObjCTypes:"v@:@"];
+    }
+    return [super methodSignatureForSelector:aSelector];
+}
+// 转发方法最终实现
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    if (anInvocation.selector == @selector(testInstanceMethod:)) {
+        /// 可以在此处理, 未实现的方法
+        NSLog(@"这个方法 %s Student 没有实现!!!",sel_getName(anInvocation.selector));
+        id param;
+        [anInvocation getArgument:&param atIndex:2];
+        NSLog(@"传进来的参数为: %@  - 可以使其搞事情",param);
+        return;
+    }
+    return [super forwardInvocation:anInvocation];
+}
+```
+
+##### 消息转发的实际应用
+我们可以使用消息转发的机制，使程序永远不会出现 
+`unrecognized selector sent to instance 0xxx` 
+这种崩溃。并在控制台输出具体信息，我们可以实现一个 `NSObject`的分类 如下：
+
+```objective-c
+#import "NSObject+XWTool.h"
+@implementation NSObject (XWTool)
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    if ([self respondsToSelector:aSelector]) {/// 已实现不做处理
+        return [self methodSignatureForSelector:aSelector];
+    }
+    return [NSMethodSignature signatureWithObjCTypes:"v@:"];
+}
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    NSLog(@"在 %@ 类中, 调用了没有实现的实例方法: %@ ",NSStringFromClass([self class]),NSStringFromSelector(anInvocation.selector));
+}
++ (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    if ([self respondsToSelector:aSelector]) {/// 已实现不做处理
+        return [self methodSignatureForSelector:aSelector];
+    }
+    return [NSMethodSignature signatureWithObjCTypes:"v@:"];
+}
++ (void)forwardInvocation:(NSInvocation *)anInvocation {
+    NSLog(@"在 %@ 类中, 调用了没有实现的类方法: %@ ",NSStringFromClass([self class]),NSStringFromSelector(anInvocation.selector));
+}
+```
 
