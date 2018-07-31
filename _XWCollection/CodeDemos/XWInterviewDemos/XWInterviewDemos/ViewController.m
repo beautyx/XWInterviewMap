@@ -46,7 +46,9 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self testAddMethod];
+    [self testObjEqual1];
+    
+//    [self testAddMethod];
     
 //    [self testNStimerProperty];
     
@@ -73,6 +75,32 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testObjEqual1 {
+    NSMutableDictionary  *dict = [[NSMutableDictionary alloc] init];
+    BOOL example1 = [dict isMemberOfClass:[NSDictionary class]];            // NO
+    BOOL example2 = [dict isMemberOfClass:[NSMutableDictionary class]];     // NO
+    BOOL example3 = [dict isKindOfClass:[NSDictionary class]];              // YES
+    BOOL example4 = [dict isKindOfClass:[NSMutableDictionary class]];       // YES
+    BOOL example5 = [dict isKindOfClass:[NSArray class]];                   // NO
+//    BOOL example6 = [dict isKindOfClass:[__NSDictionaryM class]];           // YES
+    
+    NSLog(@"example1: %d,example2: %d,example3: %d,example4: %d,example5: %d",example1,example2,example3,example4,example5);
+    
+}
+
+- (void)testObjEqual2 {
+    NSMutableArray *array = [NSMutableArray new];
+    BOOL example1 = [array isMemberOfClass:[NSArray class]];            // NO
+    BOOL example2 = [array isMemberOfClass:[NSMutableArray class]];     // NO
+//    BOOL example3 = [array isMemberOfClass:[__NSArrayM class]];         // YES
+    BOOL example4 = [array isKindOfClass:[NSArray class]];              // YES
+    BOOL example5 = [array isKindOfClass:[NSMutableArray class]];       // YES
+    BOOL example6 = [array isKindOfClass:[NSDictionary class]];         // NO
+    
+//    NSLog(@"example1: %d,example2: %d,example3: %d,example4: %d,example5: %d,example6: %d",example1,example2,example3,example4,example5,example6);
+    
 }
 
 - (void)testAddMethod {

@@ -1,4 +1,9 @@
-##《Effective Objective-C 2.0》读书/实战笔记一
+<p align='center'>
+<img src='http://p95ytk0ix.bkt.clouddn.com/2018-07-31-8726ab1532ca52746711381b07cc9971.jpg'>
+</p>
+
+
+##《Effective Objective-C 2.0》读书/实战笔记 一
 
 ### 第1章：熟悉Objective-C
 #### 🇨🇳 第1条：了解 Objective-C 语言的起源
@@ -583,4 +588,106 @@ id returnValue = objc_msgSend(xx类, @selector(doSomething:),@"param");
     NSLog(@"在 %@ 类中, 调用了没有实现的类方法: %@ ",NSStringFromClass([self class]),NSStringFromSelector(anInvocation.selector));
 }
 ```
+
+#### 🇪🇹 第13条：用“方法调配技术“调试“黑盒方法“
+* 在运行期，可以向类中新增或替换选择子所对应的方法实现
+* 使用另一份实现来替换原有的方法实现，这道工序叫做“方法调配”，开发者常用此技术向原有类中增加新功能
+* 一般来说，只有调试程序的时候才需要在运行时修改方法实现，这种做法不宜滥用
+
+ 本质是使用 `runtime` 在运行时实现方法的替换:
+ 
+```objective-c
+/// 动态交换 m1 和 m2 两个方法的实现
+method_exchangeImplementations(Method  _Nonnull m1, Method  _Nonnull m2);
+```
+方法的实现可通过如下方法获取：
+
+```objective-c
+/// 获取方法的实现 cls: 方法所在的对象, name: 方法名
+Method class_getInstanceMethod(Class  _Nullable __unsafe_unretained cls, SEL  _Nonnull name)
+```
+
+##### 实际应用，在程序运行过程中控制台打印当前所展示的控制器信息，这在代码熟悉过程中十分有用：
+
+```objective-c
+//UIViewController+XWDebug.m
+#import "UIViewController+XWDebug.h"
+#import <objc/runtime.h>
+@implementation UIViewController (XWDebug)
+#ifdef DEBUG
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        /// 交换 class 的 viewDidLoad 方法
+        Method originViewDidLoad = class_getInstanceMethod(self, @selector(viewDidLoad));
+        Method xwViewDidLoad = class_getInstanceMethod(self, @selector(xw_viewDidLoad));
+        method_exchangeImplementations(originViewDidLoad, xwViewDidLoad);
+        
+        /// 交换 class 的 viewDidAppear方法
+        Method originViewDidAppear = class_getInstanceMethod(self, @selector(viewDidAppear:));
+        Method xwViewDidAppear = class_getInstanceMethod(self, @selector(xw_viewDidAppear:));
+        method_exchangeImplementations(originViewDidAppear, xwViewDidAppear);
+    });
+}
+- (void)xw_viewDidLoad {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"*********  %@  **** viewDidload ****",self);
+    });
+    [self xw_viewDidLoad];
+}
+- (void)xw_viewDidAppear:(BOOL)animated {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"*********  %@  **** viewDidAppear ****",self);
+    });
+    [self xw_viewDidAppear:animated];
+}
+#else
+#endif
+@end
+```
+
+#### 🇮🇪 第14条：理解“类对象”的用意
+* 每个实例都有一个指向Class对象的指针，用以表名其类型，而这些 Class 对象则构成类的继承体系
+* 如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法来探知
+* 尽量使用类型信息查询方式来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能
+
+判断对象是否为某个类实例：
+
+```objective-c
+- (BOOL)isMemberOfClass:(Class)aClass;
+```
+
+判断对象是否为某类或其派生类的实例：
+
+```objective-c
+- (BOOL)isKindOfClass:(Class)aClass;
+```
+
+例如判断 一个 `NSDictionary` 的实例：
+
+```objective-c
+NSMutableDictionary  *dict = @{@"key":@"value"}.mutableCopy;
+BOOL example1 = [dict isMemberOfClass:[NSDictionary class]];            // NO
+BOOL example2 = [dict isMemberOfClass:[NSMutableDictionary class]];     // NO
+BOOL example3 = [dict isKindOfClass:[NSDictionary class]];              // YES
+BOOL example4 = [dict isKindOfClass:[NSMutableDictionary class]];       // YES
+BOOL example5 = [dict isKindOfClass:[NSArray class]];                   // NO
+//    BOOL example6 = [dict isKindOfClass:[__NSDictionaryM class]];     // YES
+```
+注意，在 `[dict isMemberOfClass:[NSMutableDictionary class]]` 的判断中，实际上返回的 NO，虽然我们声明 `dict` 为 `NSMutableDictionary` 的实例，但实际上 `dict` 为 `__NSDictionaryM` 类的一个实例，在控制台可验证：
+
+```
+(lldb) po [dict isMemberOfClass:[__NSDictionaryM class]]
+YES
+```
+ 《Effective Objective-C 2.0》书中所写的实例是错误的！！
+ 
+![Snip20180731_7](http://p95ytk0ix.bkt.clouddn.com/2018-07-31-Snip20180731_7.png)
+
+故 尽信书不如无书，相信实际所验证的，这也启发读者在读书过程中需要尽量将实例验证一下，说不定作者在写书时也是想当然的落笔。
+
+前两章完结，后续几天会陆续发表其余篇章的读书/实战笔记，笔者期待和众大神一起学习，共同进步。
+
+*未完待续..*.
+
 

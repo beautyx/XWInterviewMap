@@ -53,6 +53,9 @@ NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
 //    objc_removeAssociatedObjects(id  _Nonnull object)
 }
 
+
+
+
 - (void)testStraight {
     NSDictionary *info1 = [NSDictionary dictionaryWithObjectsAndKeys:@"极客学伟",@"name",[NSNumber numberWithInteger:18],@"age", nil];
     NSString *name1 = [info1 objectForKey:@"name"];
@@ -67,6 +70,8 @@ NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
     
 //    arrayM[0] = @"new Object";
     dictM[@"age"] = @19;
+    
+    [info1 isMemberOfClass:[NSDictionary class]];
 }
 
 - (void)testObjectiveC {

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B5E29B4CDC93033B98B425F /* libPods-XWInterviewDemosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FE62C528DEE9BC1663E7B8E /* libPods-XWInterviewDemosTests.a */; };
 		2E2D17A321101DA900E17DA2 /* NSObject+XWTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D17A221101DA900E17DA2 /* NSObject+XWTool.m */; };
+		2E2D17A62110949800E17DA2 /* UIViewController+XWDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D17A52110949800E17DA2 /* UIViewController+XWDebug.m */; };
 		2E8C5CBF20FD48FC00C77A75 /* XWPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C5CBE20FD48FC00C77A75 /* XWPerson.m */; };
 		2E8C5CC220FD49DB00C77A75 /* XWStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C5CC120FD49DB00C77A75 /* XWStudent.m */; };
 		2ECC901E210DB7EE0086D08F /* Chinese.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ECC901D210DB7EE0086D08F /* Chinese.m */; };
@@ -53,6 +54,7 @@
 		10B5B9191ECBD5C2F7089BC2 /* Pods-XWInterviewDemos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XWInterviewDemos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XWInterviewDemos/Pods-XWInterviewDemos.debug.xcconfig"; sourceTree = "<group>"; };
 		2E2D17A121101DA900E17DA2 /* NSObject+XWTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+XWTool.h"; sourceTree = "<group>"; };
 		2E2D17A221101DA900E17DA2 /* NSObject+XWTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+XWTool.m"; sourceTree = "<group>"; };
+		2E2D17A52110949800E17DA2 /* UIViewController+XWDebug.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+XWDebug.m"; sourceTree = "<group>"; };
 		2E8C5CBD20FD48FC00C77A75 /* XWPerson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWPerson.h; sourceTree = "<group>"; };
 		2E8C5CBE20FD48FC00C77A75 /* XWPerson.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWPerson.m; sourceTree = "<group>"; };
 		2E8C5CC020FD49DB00C77A75 /* XWStudent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWStudent.h; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				2ECC9020210DB8040086D08F /* Student.m */,
 				2ECC9022210DB8120086D08F /* Book.h */,
 				2ECC9023210DB8120086D08F /* Book.m */,
+				2E2D17A52110949800E17DA2 /* UIViewController+XWDebug.m */,
 			);
 			path = XWInterviewDemos;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				2ECC901E210DB7EE0086D08F /* Chinese.m in Sources */,
 				DE70582A20FDBF2500439245 /* NSTimer+XW.m in Sources */,
 				DE1312CF20FDEE1F00E39ED9 /* SecondView.m in Sources */,
+				2E2D17A62110949800E17DA2 /* UIViewController+XWDebug.m in Sources */,
 				DE99F16120F7796B00135326 /* AppDelegate.m in Sources */,
 				2E2D17A321101DA900E17DA2 /* NSObject+XWTool.m in Sources */,
 				2E8C5CC220FD49DB00C77A75 /* XWStudent.m in Sources */,
