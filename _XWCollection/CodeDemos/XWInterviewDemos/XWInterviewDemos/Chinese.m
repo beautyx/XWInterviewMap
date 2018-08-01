@@ -13,6 +13,14 @@
 @property (nonatomic, assign) NSUInteger age;
 @end
 @implementation Chinese
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ : %p, %@>",[self class],self,
+            @{@"firstName":_firstName,
+              @"lastName" :_lastName,
+              @"age": @(_age)
+              }];
+}
+
 /// 全能初始化函数-只有全能初始化函数才能进行赋值操作
 - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age {
     if (self = [super init]) {

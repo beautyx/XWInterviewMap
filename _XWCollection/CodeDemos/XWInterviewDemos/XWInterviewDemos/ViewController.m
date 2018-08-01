@@ -81,12 +81,12 @@ typedef void(^XWLogBlock)(NSArray *array);
 }
 
 - (void)testStudent {
-    Student *stu = [[Student alloc] init];
-    Student *stu = [Student alloc] initWithFirstName:nil lastName:nil age:<#(NSUInteger)#>;
-    NSLog(@"stu %@",stu);
     
-
+    Chinese *c = [Chinese chineseWithFirstName:@"极客" lastName:@"学伟" age:18];
+    NSLog(@"%@",c);
     
+    Student *stu = [Student studentWithFirstName:@"小极客" lastName:@"学伟" age:6 homework:@[@"小提琴",@"篮球"]];
+    NSLog(@"%@",stu);
 }
 
 - (void)testObjEqual1 {

@@ -95,7 +95,7 @@ Student 类继承自 Chinese
 /// 指定初始化函数-需直接调用父类初始化函数
 - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age homework:(NSArray *)homework {
     if (self = [super initWithFirstName:firstName lastName:lastName age:age]) {
-        p_homework = homework.copy;
+        p_homework = homework.mutableCopy;
     }
     return self;
 }
@@ -115,4 +115,75 @@ Student 类继承自 Chinese
 ```
 
 #### 🇦🇴 第17条：实现 `description` 方法
+* 实现 `description` 方法返回一个有意义的字符串，用以描述该实例
+* 若想在调试时打印出更详尽的对象描述信息。则应实现 `debugDescription` 方法
+
+若直接打印自定义对象，控制台仅仅是显示该对象的地址，不会显示对象的具体细节，在程序开发中对象指针的地址或许有用，但大多数情况下，我们需要得知对象内部的具体细节，所以OC提供了 `description` 方法可以实现。
+
+```objective-c
+@interface Chinese()
+@property (nonatomic, copy) NSString *firstName;
+@property (nonatomic, copy) NSString *lastName;
+@property (nonatomic, assign) NSUInteger age;
+@end
+@implementation Chinese
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ : %p, %@>",[self class],self,
+            @{
+              @"firstName":_firstName,
+              @"lastName" :_lastName,
+              @"age": @(_age)
+              }];
+}
+@end
+```
+这种使用字典输出各属性或成员变量内存的方式比较好，若之后需要增删属性直接修改字典的键值对就可以了。
+另外 `debugDescription` 方法是在控制台使用 `po` 命令打印对象信息所调用的方式，若已经实现 `description` 方法, 可不覆写 `debugDescription` 方法,因为系统会默认调用 `description` 方法。
+
+#### 🇦🇮 第18条：尽量使用不可变对象
+* 尽量创建不可变对象
+* 若某属性尽可用于对象内部修改，则在 “class-continuation分类” 中将其由readonly属性扩展为readwrite属性
+* 不要把可变对象的collection作为属性公开，而应提供相关方法，以此修改对象中的可变 collection
+
+ 在开发自定义类时，在 .h 里声明的属性尽量设置为不可变，只读的属性，外界只能通过特定的方法更改其内容，这对于一个功能的封装性是至关重要的。例如我们之前所声明的 `Student` 类:
+ 
+```objective-c
+// .h
+@interface Student : Chinese
+@property (nonatomic, copy, readonly) NSString *school;
+@property (nonatomic, strong, readonly) NSArray *homework;
+
+- (void)addHomeworkMethod:(NSString *)homework;
+- (void)removeHomeworkMethod:(NSString *)homework;
+@end
+
+// .m
+@interface Student()
+@property (nonatomic, copy) NSString *school;
+@end
+@implementation Student {
+    NSMutableArray *p_homework;
+}
+- (void)addHomeworkMethod:(NSString *)homework {
+    [p_homework addObject:homework];
+}
+- (void)removeHomeworkMethod:(NSString *)homework {
+    [p_homework removeObject:homework];
+}
+- (instancetype)initWithSchool:(NSString *)school homework:(NSArray *)homework {
+    if (self = [self init]) {
+        self.school = school;
+        p_homework = homework.mutableCopy;
+    }
+    return self;
+}
+@end
+```
+如此定义外界只能通过固定的方法对对象内的属性进行更新，便于功能的封装，减少 bug 出现的概率。
+另外使用不可变对象也增强程序的执行效率。
+
+
+#### 🇦🇬 第19条：使用清晰而协调的命名方式
+
+
 

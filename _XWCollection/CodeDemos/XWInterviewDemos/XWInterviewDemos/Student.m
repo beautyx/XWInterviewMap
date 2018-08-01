@@ -11,9 +11,40 @@
 #import <objc/runtime.h>
 #import "Chinese.h"
 
+@interface Student()
+@property (nonatomic, copy) NSString *school;
+@end
 @implementation Student {
     NSMutableArray *p_homework;
 }
+- (void)addHomeworkMethod:(NSString *)homework {
+    [p_homework addObject:homework];
+}
+- (void)removeHomeworkMethod:(NSString *)homework {
+    [p_homework removeObject:homework];
+}
+- (instancetype)initWithSchool:(NSString *)school homework:(NSArray *)homework {
+    if (self = [self init]) {
+        self.school = school;
+        p_homework = homework.mutableCopy;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@ : %p, %@>",[self class],self,
+            @{
+              @"homework":p_homework
+              }];
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"<%@ : %p, %@>",[self class],self,
+            @{
+              @"homework":p_homework
+              }];
+}
+
 /// 子类重写父类全能初始化函数-更改默认值!
 - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age {
     return [self initWithFirstName:firstName lastName:lastName age:age homework:@[]];
@@ -21,7 +52,7 @@
 /// 指定初始化函数-需直接调用父类初始化函数
 - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age homework:(NSArray *)homework {
     if (self = [super initWithFirstName:firstName lastName:lastName age:age]) {
-        p_homework = homework.copy;
+        p_homework = homework.mutableCopy;
     }
     return self;
 }

@@ -8,10 +8,13 @@
 
 #import "Chinese.h"
 #import <UIKit/UIKit.h>
-
 @class Book;
 @interface Student : Chinese
+@property (nonatomic, copy, readonly) NSString *school;
 @property (nonatomic, strong, readonly) NSArray *homework;
+- (void)addHomeworkMethod:(NSString *)homework;
+- (void)removeHomeworkMethod:(NSString *)homework;
+
 /// 指定初始化函数-需直接调用父类初始化函数
 - (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age homework:(NSArray *)homework;
 /// 指定初始化类方法
