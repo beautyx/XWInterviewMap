@@ -16,6 +16,7 @@
 		2EBE5A8A211140650055BDE3 /* NSObject+ZXPUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE5A82211140650055BDE3 /* NSObject+ZXPUnicode.m */; };
 		2EBE5A8B211140650055BDE3 /* UIViewController+XWDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE5A86211140650055BDE3 /* UIViewController+XWDebug.m */; };
 		2EBE5A8C211140650055BDE3 /* NSArray+ ZXPUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE5A87211140650055BDE3 /* NSArray+ ZXPUnicode.m */; };
+		2EBE5A8F2111549C0055BDE3 /* XWError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE5A8E2111549C0055BDE3 /* XWError.m */; };
 		2ECC901E210DB7EE0086D08F /* Chinese.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ECC901D210DB7EE0086D08F /* Chinese.m */; };
 		2ECC9021210DB8040086D08F /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ECC9020210DB8040086D08F /* Student.m */; };
 		2ECC9024210DB8120086D08F /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ECC9023210DB8120086D08F /* Book.m */; };
@@ -70,6 +71,8 @@
 		2EBE5A85211140650055BDE3 /* NSObject+ZXPUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ZXPUnicode.h"; sourceTree = "<group>"; };
 		2EBE5A86211140650055BDE3 /* UIViewController+XWDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+XWDebug.m"; sourceTree = "<group>"; };
 		2EBE5A87211140650055BDE3 /* NSArray+ ZXPUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ ZXPUnicode.m"; sourceTree = "<group>"; };
+		2EBE5A8D2111549C0055BDE3 /* XWError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWError.h; sourceTree = "<group>"; };
+		2EBE5A8E2111549C0055BDE3 /* XWError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWError.m; sourceTree = "<group>"; };
 		2ECC901C210DB7EE0086D08F /* Chinese.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Chinese.h; sourceTree = "<group>"; };
 		2ECC901D210DB7EE0086D08F /* Chinese.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Chinese.m; sourceTree = "<group>"; };
 		2ECC901F210DB8040086D08F /* Student.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 				2ECC9022210DB8120086D08F /* Book.h */,
 				2ECC9023210DB8120086D08F /* Book.m */,
 				2E2D17A52110949800E17DA2 /* UIViewController+XWDebug.m */,
+				2EBE5A8D2111549C0055BDE3 /* XWError.h */,
+				2EBE5A8E2111549C0055BDE3 /* XWError.m */,
 			);
 			path = XWInterviewDemos;
 			sourceTree = "<group>";
@@ -451,6 +456,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2ECC9024210DB8120086D08F /* Book.m in Sources */,
+				2EBE5A8F2111549C0055BDE3 /* XWError.m in Sources */,
 				DE70582620FD9A3100439245 /* SecondViewController.m in Sources */,
 				DEB87A892100925000E4BD90 /* XWPerson+Study.m in Sources */,
 				DE70582D20FDC81200439245 /* XWWeakProxy.m in Sources */,

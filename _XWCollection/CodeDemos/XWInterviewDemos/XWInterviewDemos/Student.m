@@ -11,12 +11,30 @@
 #import <objc/runtime.h>
 #import "Chinese.h"
 
-@interface Student()
+@interface Student() <NSCopying, NSMutableCopying>
 @property (nonatomic, copy) NSString *school;
 @end
 @implementation Student {
     NSMutableArray *p_homework;
 }
+#pragma mark - NSCopying
+- (id)copyWithZone:(nullable NSZone *)zone {
+    Student *stuCopy = [[Student allocWithZone:zone] initWithFirstName:self.firstName lastName:self.lastName age:self.age homework:p_homework.copy];
+    return stuCopy;
+}
+
+#pragma mark - NSMutableCopying
+- (id)mutableCopyWithZone:(nullable NSZone *)zone {
+    Student *stuMtableCopy = [[Student allocWithZone:zone] initWithFirstName:self.firstName lastName:self.lastName.mutableCopy age:self.age homework:p_homework.copy];
+    return stuMtableCopy;
+}
+
+/// 私有方法
+- (id)p_playAirplaneMethod {
+    id xx = @"**";
+    return xx;
+}
+
 - (void)addHomeworkMethod:(NSString *)homework {
     [p_homework addObject:homework];
 }

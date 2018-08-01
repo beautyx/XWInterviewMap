@@ -17,6 +17,7 @@
 #import "NSTimer+XW.h"
 #import "Student.h"
 #import "NSObject+XWTool.h"
+#import "XWError.h"
 
 typedef struct XWSize {
     CGFloat width;
@@ -46,8 +47,11 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self testStudent];
+    [self testCopy];
     
+//    [self testError];
+    
+//    [self testStudent];
     
 //    [self testObjEqual1];
     
@@ -78,6 +82,49 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testCopy {
+    NSDictionary *dictionary = @{@"key":@"value"};
+    id dictionary1 = [dictionary copy];
+    NSLog(@"[dictionary copy]:%@",[dictionary1 class]);
+    id dictionary2 = [dictionary mutableCopy];
+    NSLog(@"[dictionary mutableCopy]:%@",[dictionary2 class]);
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    id dictionary3 = [mutableDictionary copy];
+    NSLog(@"[mutableDictionary copy]:%@",[dictionary3 class]);
+    id dictionary4 = [mutableDictionary mutableCopy];
+    NSLog(@"[mutableDictionary mutableCopy]:%@",[dictionary4 class]);
+    
+}
+
+- (void)testCopy1 {
+    NSArray *array = @[@1,@2];
+    id array1 = [array copy];
+    NSLog(@"[array copy]:%@",[array1 class]);
+    id array2 = [array mutableCopy];
+    NSLog(@"[array mutableCopy]:%@",[array2 class]);
+    NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:array];
+    id array3 = [mutableArray copy];
+    NSLog(@"[mutableArray copy]:%@",[array3 class]);
+    id array4 = [mutableArray mutableCopy];
+    NSLog(@"[mutableArray mutableCopy]:%@",[array4 class]);
+}
+
+- (void)testCopyObj {
+    Student *stu = [Student studentWithFirstName:@"小极客" lastName:@"学伟" age:6 homework:@[@"小提琴",@"篮球"]];
+    NSLog(@"%@",stu);
+    
+    Student *stu2 = [stu copy];
+    NSLog(@"%@",stu2);
+    
+}
+
+- (void)testError {
+    XWError *error = [XWError errorCode:XWErrorCodeUnknow userInfo:@{@"className":NSStringFromClass([self class])}];
+    
+    NSLog(@"%@",error);
+    
 }
 
 - (void)testStudent {
@@ -249,7 +296,7 @@ static void BBRunloopObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopAc
     NSLog(@"p1:%p  -  p2:%p  -  p3:%p  -  p4:%p",p1,p2,p3,p4);
 }
 
-- (void)testCopy1 {
+- (void)testCopy2 {
     NSMutableArray *array = [NSMutableArray arrayWithObject:@[@1,@2,@3]];
     self.xw_mutableCopyArray = array;
     NSLog(@"array:%p -------- xw_mutableCopyArray:%p",array,self.xw_mutableCopyArray);
