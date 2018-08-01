@@ -7,12 +7,36 @@
 //
 
 #import "Chinese.h"
-@interface Chinese()
+@interface Chinese() <NSCopying> {
+    struct {
+        unsigned int didReceiveData     : 1;    //是否实现 didReceiveData
+        unsigned int didReceiveError    : 1;    //是否实现 didReceiveError
+        unsigned int didRun             : 1;    //是否实现 run
+    }_chineseDelegateFlags;
+    
+    NSString *p_girlFriend;
+}
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
 @property (nonatomic, assign) NSUInteger age;
 @end
 @implementation Chinese
+- (void)setDelegate:(id<ChineseDelegate>)delegate {
+    _delegate = delegate;
+    _chineseDelegateFlags.didRun = [delegate respondsToSelector:@selector(chinese:run:)];
+    _chineseDelegateFlags.didReceiveData = [delegate respondsToSelector:@selector(chinese:didReceiveData:)];
+    _chineseDelegateFlags.didReceiveError = [delegate respondsToSelector:@selector(chinese:didReceiveError:)];
+}
+
+- (void)run {
+    double runDistance = 0.0;
+    if (_chineseDelegateFlags.didRun) {
+        [self.delegate chinese:self run:runDistance];
+    }
+    if (self.delegate && [self respondsToSelector:@selector(chinese:run:)]) {
+        [self.delegate chinese:self run:runDistance];
+    }
+}
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ : %p, %@>",[self class],self,
             @{@"firstName":_firstName,

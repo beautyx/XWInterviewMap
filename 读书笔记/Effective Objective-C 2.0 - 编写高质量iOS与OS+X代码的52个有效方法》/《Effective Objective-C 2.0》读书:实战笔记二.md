@@ -328,4 +328,126 @@ NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDict
 
 ### 第4章：协议与分类
 #### 🇦🇩 第23条：通过委托与数据源协议进行对象间通信
+* 委托模式为对象提供了一套接口，使其可由此将相关事件告知其他对象
+* 将委托对象应该支持的接口定义成协议，在协议中把可能需要处理的事件定义成方法
+* 当某对象需要从另一个对象获取数据时，可以使用委托模式。这种情景下，该模式亦称“数据源协议”
+* 若有必要，可实现有位移段的结构体，将委托对象是否能响应协议方法这一信息缓存至其中
+
+委托与数据源协议我们在使用 UITableView 时经常用到，我们在开发时可仿照其设计模式，将需要的数据通过数据源获取；将执行操作后的事件通过代理回调；并弱引用其代理对象。
+
+```objective-c
+@class Chinese;
+@protocol ChineseDelegate <NSObject>
+@optional
+- (void)chinese:(Chinese *)chinese run:(double)kilometre;
+- (void)chinese:(Chinese *)chinese didReceiveData:(NSData *)data;
+- (void)chinese:(Chinese *)chinese didReceiveError:(NSError *)error;
+@end
+
+@interface Chinese : NSObject
+// 委托对象-需弱引用
+@property (nonatomic, weak) id<ChineseDelegate> delegate;
+@end
+```
+
+在对象跑步时，通过代理方法回调给委托对象：
+
+```objective-c
+- (void)run {
+    double runDistance = 0.0;
+    if (self.delegate && [self respondsToSelector:@selector(chinese:run:)]) {
+        [self.delegate chinese:self run:runDistance];
+    }
+}
+```
+倘若此方法每分钟都会调用 成百上千次，每次都执行 `respondsToSelector` 方法难免会对性能有一定影响,因为除第一次有效外其余都是重复判断，所以我们可以将是否能够响应此方法进行缓存！如例所示：
+
+```objective-c
+#import "Chinese.h"
+@interface Chinese() {
+    /// 定义一个结构体拥有三个位段，分别存储是否实现了三个对应的代理方法
+    struct {
+        unsigned int didReceiveData     : 1;    //是否实现 didReceiveData
+        unsigned int didReceiveError    : 1;    //是否实现 didReceiveError
+        unsigned int didRun             : 1;    //是否实现 run
+    }_chineseDelegateFlags;
+}
+@end
+@implementation Chinese
+/// 重写 Delegate 方法，为 位段进行赋值
+- (void)setDelegate:(id<ChineseDelegate>)delegate {
+    _delegate = delegate;
+    _chineseDelegateFlags.didRun = [delegate respondsToSelector:@selector(chinese:run:)];
+    _chineseDelegateFlags.didReceiveData = [delegate respondsToSelector:@selector(chinese:didReceiveData:)];
+    _chineseDelegateFlags.didReceiveError = [delegate respondsToSelector:@selector(chinese:didReceiveError:)];
+}
+/// 在调用delegate 的相关协议方法不再进行方法查询，直接取结构体位段存储的内容进行调用
+- (void)run {
+    double runDistance = 0.0;
+    if (_chineseDelegateFlags.didRun) {
+        [self.delegate chinese:self run:runDistance];
+    }
+    ///if (self.delegate && [self respondsToSelector:@selector(chinese:run:)]) {
+    ///    [self.delegate chinese:self run:runDistance];
+    ///}
+}
+```
+若代理方法可能回调多次，那此项优化将大大提升程序运行效率！
+
+#### 🇦🇴 第24条：将类的实现代码分散到便于管理的数个分类之中
+* 使用分类机制把类的实现代码划分成易于管理的小块
+* 将应该视为“私有”的方法归入名叫 `Private` 的分类，可隐藏实现细节
+
+在开发一个类一般将所有的代码都放在一起，即便都是高聚合低耦合的代码，若程序越来越大，难免也会感觉不优雅，优雅的方式是按照功能将实现抽离到不同的分类中实现，在主类中引入其分类，直接调用分类中实现的方法。这样也便于管理。
+根据分类的名称，可快速定位代码所属功能区，便于扩展维护。另外可创建一个所开发类名对应的 Private 分类，存放一些私有方法。这些方法无需暴露给外界，开发者自己维护。
+
+#### 🇦🇮 第25条：总是为第三方类的分类名称加前缀
+* 向第三方类中添加分类时，总应给其名称加上你专用的前缀
+* 向第三方类中添加分类时，总应给其中的方法名加上你专用的前缀
+
+分类中所实现的方法最终会在编译时加载到本类的方法列表中，若存在相同名称的方法，后编译的分类会覆盖前编译的，所以为分类中的方法加前缀是很有必要的。
+
+#### 🇦🇬 第26条：勿在分类中声明属性
+* 把封装数据所用的全部属性都定义在主接口里
+* 在 “class-continuation 分类“ 中，可以定义存取方法，但尽量不要定义属性
+
+原本分类中声明属性仅仅是自动生成该属性 `getter` 方法和 `setter` 方法的声明，不会生成成员变量和对应属性的`getter` 方法和 `setter` 方法
+虽然 可以使用 `runtime` 的关联对象的方式为分类添加属性 `getter` 方法和 `setter` 方法的实现,使得分类能够定义属性。
+但是分类的本质在于扩展类的功能，而非封装数据。使用上述方式需要写大量相似的代码，并且在内存管理上容易出错，改动属性的类型需要改变关联对象的相关类型，不利于维护，代码不优雅！
+
+#### 🇦🇹 第27条：使用 “class-continuation 分类” 隐藏实现细节
+* 使用 “class-continuation 分类” 向类中新增实例变量
+* 如果某属性在主接口中声明为 “只读”，而类的内部又要用设置方法修改此属性，那么就在  “class-continuation 分类” 中将其扩展为 “可读写”
+* 把私有方法的原型声明在 “class-continuation 分类” 里面
+* 若想使类所遵循的协议不为人所知，则可于  “class-continuation 分类”  中声明
+
+例如：
+
+```objective-c
+// .h  对外声明为只读，防止外界随意修改
+@interface Chinese : NSObject
+@property (nonatomic, weak) id<ChineseDelegate> delegate;
+@property (nonatomic, copy, readonly) NSString *firstName;
+@property (nonatomic, copy, readonly) NSString *lastName;
+@end
+
+// .m 对内声明为可读写。使用扩展声明一些外界不得而知的私有成员变量
+@interface Chinese() <NSCopying> {
+    struct {
+        unsigned int didReceiveData     : 1;    //是否实现 didReceiveData
+        unsigned int didReceiveError    : 1;    //是否实现 didReceiveError
+        unsigned int didRun             : 1;    //是否实现 run
+    }_chineseDelegateFlags;
+    
+    NSString *p_girlFriend; 
+}
+@property (nonatomic, copy) NSString *firstName;
+@property (nonatomic, copy) NSString *lastName;
+@property (nonatomic, assign) NSUInteger age;
+@end
+```
+或者在 “class-continuation 分类” 里面声明 C++ 对象，这样 .m 编译为 .mm 文件，对外界暴露依然是纯正的 OC 接口，在 Foundation 框架中,经常使用此策略。
+
+#### 🇦🇽 第28条：通过协议提供匿名对象
+
 
