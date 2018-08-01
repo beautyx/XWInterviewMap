@@ -11,7 +11,33 @@
 #import <objc/runtime.h>
 #import "Chinese.h"
 
-@implementation Student
+@implementation Student {
+    NSMutableArray *p_homework;
+}
+/// 子类重写父类全能初始化函数-更改默认值!
+- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age {
+    return [self initWithFirstName:firstName lastName:lastName age:age homework:@[]];
+}
+/// 指定初始化函数-需直接调用父类初始化函数
+- (instancetype)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age homework:(NSArray *)homework {
+    if (self = [super initWithFirstName:firstName lastName:lastName age:age]) {
+        p_homework = homework.copy;
+    }
+    return self;
+}
+/// 指定初始化类方法
++ (instancetype)studentWithFirstName:(NSString *)firstName lastName:(NSString *)lastName age:(NSUInteger)age homework:(NSArray *)homework {
+    return [[self alloc] initWithFirstName:firstName lastName:lastName age:age homework:homework];
+}
+/// 重写系统初始化方法
+- (instancetype)init {
+    return [self initWithFirstName:@"祖国的" lastName:@"花朵" age:6 homework:@[]];
+}
+/// 其他初始化方法
++ (instancetype)studentWithHomework:(NSArray *)homework {
+    return [self studentWithHomework:homework];
+}
+
 - (void)readBook {
     NSLog(@"read the book name is %@",self.book);
 }

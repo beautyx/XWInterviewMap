@@ -46,7 +46,10 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self testObjEqual1];
+    [self testStudent];
+    
+    
+//    [self testObjEqual1];
     
 //    [self testAddMethod];
     
@@ -75,6 +78,15 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testStudent {
+    Student *stu = [[Student alloc] init];
+    Student *stu = [Student alloc] initWithFirstName:nil lastName:nil age:<#(NSUInteger)#>;
+    NSLog(@"stu %@",stu);
+    
+
+    
 }
 
 - (void)testObjEqual1 {
