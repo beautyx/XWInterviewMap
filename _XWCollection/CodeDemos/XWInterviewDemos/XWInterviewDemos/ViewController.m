@@ -28,7 +28,9 @@ typedef void(^XWVoidBlock)(void);
 typedef void(^XWBlock)(NSString *str);
 typedef void(^XWLogBlock)(NSArray *array);
 
-@interface ViewController () <UIAlertViewDelegate>
+@interface ViewController () <UIAlertViewDelegate> {
+    NSString *testStr;
+}
 @property (weak, nonatomic) IBOutlet UIButton *toSecondBtn;
 @property (weak, nonatomic) IBOutlet UIView *redView;
 
@@ -84,6 +86,10 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testRetainCount {
+    
 }
 
 - (void)testFor1 {
