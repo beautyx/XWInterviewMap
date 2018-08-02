@@ -502,5 +502,80 @@ ARC会以一种安全的方式设置：先保留新值，再释放旧值，最�
 另外 即便对象释放，在极个别情况下并不会调用 `dealloc` 方法，程序终止时一定会调用的是在 application delegate 的 `- (void)applicationWillTerminate:(UIApplication *)application ` 方法, 若一定要清理某些对象，可在此方法中处理。
 
 #### 🇧🇷 第32条：编写“异常安全代码”时留意内存管理问题
+* 捕获异常时，一定要注意将 try 块内所创立的对象清理干净
+* 在默认情况下，ARC不生成安全处理异常所需的清理代码，开启编译器标志后，可生产这种代码，不过会导致应用程序变大，而且会降低运行效率
+
+#### 🇧🇾 第33条：以弱引用避免保留环
+* 将某些引用设为 `weak`，可避免出现 “保留环”
+* `weak` 引用可以自动清空，也可以不自动清空。自动清空是随着ARC而引入的新特性，由运行期系统来实现。在具备自动清空功能的弱引用上，可以随意读取其数据，因为这种引用不会指向已经回收过的对象
+
+若两个对象互相引用，会形成保留环（循环引用），如图：
+![Snip20180802_9](http://p95ytk0ix.bkt.clouddn.com/2018-08-02-Snip20180802_9.png)
+
+保留环会引起内存泄露，对象间的互相持有导致保留环内的所有对象均无法正常释放。
+避免保留环最佳方式是弱引用，通过“非拥有关系”的声明将环打破。这种关系可用 `weak` 和 `unsafe_unretained` 实现。两者的区别是 `weak` 修饰的对象在释放之后本身会置 nil， 而 `unsafe_unretained` 不会，在对象释放之后会依然指向被释放的那块内存。如图：
+![Snip20180802_11](http://p95ytk0ix.bkt.clouddn.com/2018-08-02-Snip20180802_11.png)
+
+
+```objective-c
+@property (nonatomic, weak) id<ChineseDelegate> delegate;
+
+ __weak typeof(self) weakSelf = self;
+[NSTimer xw_timerTimeInterval:1.0 block:^{
+    [weakSelf timerMethod];
+} repeats:YES];
+```
+
+#### 🇧🇲 第34条：以“自动释放池块”降低内存峰值
+* 自动释放池排布在栈中，对象收到 `autorelease`消息后，系统将其放入最顶端的池里。
+* 合理利用自动池，可降低应用程序的内存峰值
+* `@autoreleasepool` 这种新式写法能创建出更为轻便的自动释放池
+
+主线程和GCD机制中的线程默认都会有自动释放池，无需程序员手动创建，并且系统会自动在 runloop 的执行下次时间循环时将池内对象清空。
+如果在一个大的循环体中需要创建n多个对象时，使用 “自动释放池块” 可降低内存峰值，如例所示：
+
+未做优化的方式：
+
+```objective-c
+- (void)testFor1 {
+    NSMutableArray *arrayM = [NSMutableArray array];
+    for (int i = 0; i < 100000; i++) {
+        NSString *str = [NSString stringWithFormat:@"%d",i];
+        [arrayM addObject:str];
+        NSLog(@"%@",str);
+    }
+}
+```
+此时内存使用情况：
+![Snip20180802_13](http://p95ytk0ix.bkt.clouddn.com/2018-08-02-Snip20180802_13.png)
+CPU使用情况：
+![Snip20180802_14](http://p95ytk0ix.bkt.clouddn.com/2018-08-02-Snip20180802_14.png)
+
+使用 “自动释放池块” 优化的方式：
+
+```objective-c
+- (void)testFor2 {
+    NSMutableArray *arrayM = [NSMutableArray array];
+    for (int i = 0; i < 100000; i++) {
+        @autoreleasepool {
+            NSString *str = [NSString stringWithFormat:@"%d",i];
+            [arrayM addObject:str];
+            NSLog(@"%@",str);
+        }
+    }
+}
+```
+优化后内存使用情况：
+![Snip20180802_15](http://p95ytk0ix.bkt.clouddn.com/2018-08-02-Snip20180802_15.png)
+
+优化后CPU使用情况：
+![Snip20180802_16](http://p95ytk0ix.bkt.clouddn.com/2018-08-02-Snip20180802_16.png)
+
+显而易见根据Xcode 显示**：并没有什么卵用**，此条原理上是可以降低内存占用峰值，但实际情况确实两者没有太大区别，能否起到优化的作用还需日后继续观察...
+
+#### 🇧🇬 第35条：用“僵尸对象”调试内存管理问题
+* 系统在回收对象时，可以不将其真的回收，而是把它转化为僵尸对象。通过环境变量 `NSZombieEnabled`可开启此功能
+* 系统会修改对象的 `isa` 指针，令其指向特殊的僵尸类，从而使该对象变为僵尸对象。僵尸类能够响应所有的选择子，响应方式为：打印一条包含消息内容及其接受者的消息，然后终止应用程序
+
 
 

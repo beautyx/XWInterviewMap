@@ -47,7 +47,9 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self testCopy];
+    [self testFor2];
+    
+//    [self testCopy];
     
 //    [self testError];
     
@@ -82,6 +84,26 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testFor1 {
+    NSMutableArray *arrayM = [NSMutableArray array];
+    for (int i = 0; i < 100000; i++) {
+        NSString *str = [NSString stringWithFormat:@"%d",i];
+        [arrayM addObject:str];
+        NSLog(@"%@",str);
+    }
+}
+
+- (void)testFor2 {
+    NSMutableArray *arrayM = [NSMutableArray array];
+    for (int i = 0; i < 100000; i++) {
+        @autoreleasepool {
+            NSString *str = [NSString stringWithFormat:@"%d",i];
+            [arrayM addObject:str];
+            NSLog(@"%@",str);
+        }
+    }
 }
 
 - (void)testCopy {
