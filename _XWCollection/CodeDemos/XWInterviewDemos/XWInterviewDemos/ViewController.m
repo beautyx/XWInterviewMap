@@ -49,7 +49,7 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self testFor2];
+//    [self testFor2];
     
 //    [self testCopy];
     
