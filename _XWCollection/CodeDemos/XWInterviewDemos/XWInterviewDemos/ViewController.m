@@ -48,6 +48,8 @@ typedef void(^XWLogBlock)(NSArray *array);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self testBlock1];
 
 //    [self testFor2];
     
@@ -86,6 +88,17 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+
+- (void)testBlock1 {
+    
+    int(^BlockIntType)(void) = ^ {
+        NSLog(@"返回 10010");
+        return 10010;
+    };
+    int a = 9 + BlockIntType();
+    NSLog(@"处理之后: %ld",(long)a);
 }
 
 - (void)testRetainCount {
