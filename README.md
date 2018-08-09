@@ -506,7 +506,7 @@ int b = 10;
 
 ## 面试题来源：
 
-* [iOS-InterviewQuestion-collection  -  liberalisman](https://github.com/qxuewei/XWInterviewMap) 目前该库基本框架由此库生成，感谢大神的的开源精神！
+* [iOS-InterviewQuestion-collection  -  liberalisman](https://github.com/liberalisman/iOS-InterviewQuestion-collection) 目前该库基本框架由此库生成，感谢大神的的开源精神！
 * [iOS-Interview-Question-Answer  -  liberalisman](https://github.com/liberalisman/iOS-Interview-Question-Answer)
 * [出一套 iOS 高级面试题  -  J_Knight_](https://juejin.im/post/5b56155e6fb9a04f8b78619b)
 * [iOSDevNotesAndInterviews - 李夫龙](https://github.com/DevDragonLi/iOSDevNotesAndInterviews)

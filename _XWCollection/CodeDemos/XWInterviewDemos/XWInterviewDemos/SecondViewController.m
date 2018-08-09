@@ -105,6 +105,11 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     NSLog(@"%s",__func__);
+    @synchronized (self) {
+        NSLog(@"极客学伟");
+    }
+    
+    
 }
 
 - (void)setupUI {

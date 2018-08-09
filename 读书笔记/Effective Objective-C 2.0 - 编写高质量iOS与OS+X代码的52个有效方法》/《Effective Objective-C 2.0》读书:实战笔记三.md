@@ -55,3 +55,100 @@ XWTestBlock2 block = ^(int first,int second) {
 };
 ```
 
+#### 🇵🇪 第39条：用 handler 块降低代码分散程度
+* 在创建对象时，可以使用内联的 handler 块将相关业务逻辑一并声明
+* 在有多个实例需要监控时，如果使用委托模式，那么经常需要根据传入的对象来切换，而若改用 handler 块，那么可以增加一个参数，使调用者可通过此参数决定应该把块安排在哪个队列上执行
+
+很多情况下，在一个功能类的回调使用 block 比使用 delegate 会让代码看起来更简洁，API更友好。如：
+
+```objective-c
+/**
+ Empties the cache.
+ This method returns immediately and invoke the passed block in background queue
+ when the operation finished.
+ 
+ @param block  A block which will be invoked in background queue when finished.
+ */
+- (void)removeAllObjectsWithBlock:(void(^)(void))block;
+
+/**
+ Empties the cache with block.
+ This method returns immediately and executes the clear operation with block in background.
+ 
+ @warning You should not send message to this instance in these blocks.
+ @param progress This block will be invoked during removing, pass nil to ignore.
+ @param end      This block will be invoked at the end, pass nil to ignore.
+ */
+- (void)removeAllObjectsWithProgressBlock:(nullable void(^)(int removedCount, int totalCount))progress
+                                 endBlock:(nullable void(^)(BOOL error))end
+```
+
+#### 🇮🇸 第40条：用块引用其所属对象时不要出现保留环
+* 如果块所捕获的对象直接或间接保留了块本身，那么就得当心保留环问题。
+* 一定要找个适当的时机解除保留环，而不能把责任推给API的调用者
+
+保留环即我们常说的循环引用，在Block内部若需要捕获自己的持有者，如果不对其弱引用将会造成循环引用，使对象无法释放。
+例如弱引用当前控制器的方式：
+
+`__weak __typeof(&*self) weakSelf = self;`
+
+推荐一个笔者常用的一个宏定义：
+
+```objective-c
+/// 弱引用当前控制器
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+```
+
+还有一种情况是在Block内部引用了当前持有者所强引用的对象也会造成循环引用，这时在使用完毕之后手动将其置 nil 。也可以避免循环引用。
+
+#### 🇵🇷 第41条：多用派发队列，少用同步锁
+* 派发队列可用来表述同步语义，这种做法要比使用 `@synchronized ()` 块或 `NSLock` 对象更简单
+* 将同步与异步派发结合起来，可以实现与普通加锁机制一样的同步行为，而这么做却不会阻塞执行异步派发的线程
+* 使用同步队列及栅栏块，可以令同步行为更加高效
+
+若两个线程同时执行同一份代码可能会出现问题，这时使用同步锁可以避免，如：
+
+```objective-c
+@synchronized (self) {
+    NSLog(@"极客学伟");
+}
+```
+
+再如：
+
+```objective-c
+NSLock *lock = [[NSLock alloc] init];
+[lock lock];
+NSLog(@"极客学伟");
+[lock unlock];
+```
+ 也可以使用栅栏函数，将属性的 `getter` 可同步获取，  对 `setter` 方法进行加锁操作，如：
+ 
+```objective-c
+NSUInteger _age;
+dispatch_queue_t _queue;
+
+- (void)setAge:(NSUInteger)age {
+    dispatch_barrier_async(_queue, ^{
+        self->_age = age;
+    });
+}
+
+- (NSUInteger)age {
+    __block NSUInteger outPutAge;
+    dispatch_sync(_queue, ^{
+        outPutAge = self->_age;
+    });
+    return outPutAge;
+}
+```
+此时程序的执行顺序是：
+![Snip20180810_1](http://p95ytk0ix.bkt.clouddn.com/2018-08-10-Snip20180810_1.png)
+
+使用何种方案也要取决于当前的业务场景
+
+#### 🇵🇱 第42条：多用 `GCD`，少用 `performSelector` 系列方法
+* `performSelector` 系列方法在内存管理方面容易有疏失。它无法确定将要执行的选择子具体是什么，因而 ARC 编译器也就无法插入适当的内存管理方法
+* `performSelector` 系列方法所能吃力的选择子太过局限，选择子的返回值类型及发送给方法的参数个数都受到限制。
+* 如果想把任务放在另一个线程上执行，那么最好不要用 `performSelector`  系列方法，而是应该把任务封装到块里，然后调用 `GCD` 派发机制的相关方法来实现
+

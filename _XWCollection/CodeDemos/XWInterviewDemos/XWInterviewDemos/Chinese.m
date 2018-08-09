@@ -15,13 +15,17 @@
     }_chineseDelegateFlags;
     
     NSString *p_girlFriend;
+    
+    NSUInteger _age;
+    dispatch_queue_t _queue;
 }
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
-@property (nonatomic, assign) NSUInteger age;
 @end
+
 @implementation Chinese
 - (void)setDelegate:(id<ChineseDelegate>)delegate {
+    
     _delegate = delegate;
     _chineseDelegateFlags.didRun = [delegate respondsToSelector:@selector(chinese:run:)];
     _chineseDelegateFlags.didReceiveData = [delegate respondsToSelector:@selector(chinese:didReceiveData:)];
@@ -37,6 +41,7 @@
         [self.delegate chinese:self run:runDistance];
     }
 }
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@ : %p, %@>",[self class],self,
             @{@"firstName":_firstName,
@@ -58,9 +63,9 @@
     Chinese *people = [[self alloc] initWithFirstName:firstName lastName:lastName age:age];
     return people;
 }
-- (instancetype)init {
-    return [self initWithFirstName:@"龙的" lastName:@"传人" age:1]; // 调用指定初始化函数赋予其默认值
-}
+//- (instancetype)init {
+//    return [self initWithFirstName:@"龙的" lastName:@"传人" age:1]; // 调用指定初始化函数赋予其默认值
+//}
 + (instancetype)chineseWithFirstName:(NSString *)firstName lastName:(NSString *)lastName {
     return [self chineseWithFirstName:firstName lastName:lastName age:1];
 }
@@ -81,5 +86,26 @@
 
 - (void)testInstanceMethod:(NSString *)param {
     NSLog(@"Chinese 的 实例方法 testClassMethod: 参数: %@",param);
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    }
+    return self;
+}
+
+- (void)setAge:(NSUInteger)age {
+    dispatch_barrier_async(_queue, ^{
+        self->_age = age;
+    });
+}
+
+- (NSUInteger)age {
+    __block NSUInteger outPutAge;
+    dispatch_sync(_queue, ^{
+        outPutAge = self->_age;
+    });
+    return outPutAge;
 }
 @end
