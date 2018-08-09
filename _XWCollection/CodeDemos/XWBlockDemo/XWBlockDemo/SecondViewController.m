@@ -8,6 +8,8 @@
 
 #import "SecondViewController.h"
 
+typedef int(^XWTestBlock2)(int,int);
+
 @interface SecondViewController ()
 @property (nonatomic, copy) NSString *str;
 @end
@@ -17,12 +19,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.str = @"123";
+//    self.str = @"123";
+//
+//    void (^XWBlock)(void) = ^ {
+//        NSLog(@"%@",self->_str);
+//    };
+//    XWBlock();
     
-    void (^XWBlock)(void) = ^ {
-        NSLog(@"%@",self->_str);
+    
+    int (^XWTestBlock)(int first,int second) = ^ (int first,int second) {
+        return first + second;
     };
-    XWBlock();
+    
+    XWTestBlock2 block = ^(int first,int second) {
+        return first + second;
+    };
+    
+    NSLog(@"%d",block(1,2));
 }
 
 - (void)dealloc {

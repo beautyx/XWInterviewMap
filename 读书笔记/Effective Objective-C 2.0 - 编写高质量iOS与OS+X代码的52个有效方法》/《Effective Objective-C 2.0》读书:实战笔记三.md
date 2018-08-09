@@ -41,3 +41,17 @@ Block 的分类：
 * 不妨为同一个块签名定义多个类型别名。如果要重构的代码使用了块类型的某个别名，那么只需修改相应typedef中的块签名即可，无须改动其他 typedef
 
 
+```objective-c
+int (^XWTestBlock)(int first,int second) = ^ (int first,int second) {
+    return first + second;
+};
+```
+使用 `typedef` 创建Block , 可将Block作为类型声明，使代码可读性更强，形如：
+
+```objective-c
+typedef int(^XWTestBlock2)(int,int);
+XWTestBlock2 block = ^(int first,int second) {
+    return first + second;
+};
+```
+
