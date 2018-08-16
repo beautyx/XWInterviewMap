@@ -8,6 +8,7 @@ target 'XWInterviewDemos' do
   # Pods for XWInterviewDemos
 
 pod 'YYCache'
+pod 'XWNetworkHelperLib'
 
   target 'XWInterviewDemosTests' do
     inherit! :search_paths

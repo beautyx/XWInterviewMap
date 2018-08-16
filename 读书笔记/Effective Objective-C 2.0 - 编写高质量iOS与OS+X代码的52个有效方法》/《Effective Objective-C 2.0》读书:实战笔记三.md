@@ -152,3 +152,38 @@ dispatch_queue_t _queue;
 * `performSelector` 系列方法所能吃力的选择子太过局限，选择子的返回值类型及发送给方法的参数个数都受到限制。
 * 如果想把任务放在另一个线程上执行，那么最好不要用 `performSelector`  系列方法，而是应该把任务封装到块里，然后调用 `GCD` 派发机制的相关方法来实现
 
+#### 🇧🇦 第43条：掌握 `GCD` 及操作队列的使用时机
+* 在解决多线程与任务管理问题时，派发队列并非唯一方案
+* 操作队列提供了一套高层的 Objective-C API , 能实现纯 GCD 所具备的绝大部分功能，而且还能完成一些更为复杂的操作，那些操作若改用 GCD 来实现，则需另外编写代码
+
+实现多线程编程除 GCD 以外还有一个很方便的技术便是 `NSOperationQueue` , GCD 是底层C语言的API, `NSOperationQueue` 是 Objective-C 的对象，是对于 GCD 的封装，在很多场景使用 `NSOperationQueue` 会使代码易读性更高。使用`NSOperationQueue`的一些优势：
+1. 轻易取消某个操作，不过已经启动的操作无法取消。将操作添加到 GCD 是无法取消的。
+2. 指定操作间的依赖关系。
+
+```objective-c
+NSOperationQueue *quque = [[NSOperationQueue alloc] init];
+    NSBlockOperation *downloadOperation = [NSBlockOperation blockOperationWithBlock:^{
+        sleep(3);
+        NSLog(@"下载某资源文件 %@",[NSThread currentThread]);
+    }];
+    NSBlockOperation *showInUIOperation = [NSBlockOperation blockOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSLog(@"在 UI 进行展示 %@",[NSThread currentThread]);
+        }];
+    }];
+    
+    [showInUIOperation addDependency:downloadOperation];
+    
+    [quque addOperation:downloadOperation];
+    [quque addOperation:showInUIOperation];
+```
+3. 通过 KVO 监听 NSOperation 对象的属性。例如：`isCancelled`,`isFinished`
+4. 指定操作的优先级，`queuePriority`
+5. 重用 `NSOperation` 对象。系统为我们提供了两种 `NSOperation` 对象的子类，`NSBlockOperation` 和 `NSInvocationOperation`, 针对不同业务也可以自己进行重用。
+ 
+#### 🇧🇴 第44条：通过 Dispatch Group 机制，根据系统资源状况来执行任务
+
+
+
+
+

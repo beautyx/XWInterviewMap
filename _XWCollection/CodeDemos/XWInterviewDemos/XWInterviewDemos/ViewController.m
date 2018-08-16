@@ -49,7 +49,9 @@ typedef void(^XWLogBlock)(NSArray *array);
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testBlock1];
+    [self testOperation];
+    
+//    [self testBlock1];
 
 //    [self testFor2];
     
@@ -90,6 +92,38 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo1];
 }
 
+- (void)testOperation {
+    NSOperationQueue *quque = [[NSOperationQueue alloc] init];
+    NSBlockOperation *downloadOperation1 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"downloadOperation1 start");
+        sleep(3);
+        NSLog(@"下载某资源文件1 %@",[NSThread currentThread]);
+    }];
+    NSBlockOperation *downloadOperation2 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"downloadOperation2 start");
+        sleep(3);
+        NSLog(@"下载某资源文件2 %@",[NSThread currentThread]);
+    }];
+    NSBlockOperation *showInUIOperation = [NSBlockOperation blockOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSLog(@"在 UI 进行展示 %@",[NSThread currentThread]);
+        }];
+    }];
+    
+    downloadOperation1.queuePriority = NSOperationQueuePriorityVeryLow;
+    downloadOperation2.queuePriority = NSOperationQueuePriorityHigh;
+    
+    [showInUIOperation addDependency:downloadOperation1];
+    [showInUIOperation addDependency:downloadOperation2];
+    
+    [quque addOperation:downloadOperation1];
+    [quque addOperation:downloadOperation2];
+    [quque addOperation:showInUIOperation];
+    
+//    downloadOperation.isCancelled
+    
+//    [showInUIOperation cancel];
+}
 
 - (void)testBlock1 {
     
