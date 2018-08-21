@@ -182,6 +182,9 @@ NSOperationQueue *quque = [[NSOperationQueue alloc] init];
 5. 重用 `NSOperation` 对象。系统为我们提供了两种 `NSOperation` 对象的子类，`NSBlockOperation` 和 `NSInvocationOperation`, 针对不同业务也可以自己进行重用。
  
 #### 🇧🇴 第44条：通过 Dispatch Group 机制，根据系统资源状况来执行任务
+* 一系列任务可归入一个 `dispatch group` 之中，开发者可以在这组任务执行完毕时获得通知
+* 通过 `dispatch group` ， 可以在并发式派发队列里同时执行多项任务，此时 GCD 会根据系统资源状况来调度这些并发执行的任务。开发者开发者若自己来实现此功能，则需要编写大量代码。
+
 
 
 
