@@ -22,4 +22,14 @@
 +(void)load {
 //    NSLog(@"%s",__func__);
 }
+
+
+
++ (void)log {
+    NSLog(@"类方法 log");
+}
+
+- (void)log {
+    NSLog(@"象方法 log");
+}
 @end

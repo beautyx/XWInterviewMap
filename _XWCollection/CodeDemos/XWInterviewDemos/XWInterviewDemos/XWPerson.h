@@ -12,4 +12,9 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign, readonly) double height;
+
+
++ (void)log;
+
+- (void)log;
 @end

@@ -43,7 +43,7 @@
 //        [weakSelf timerMethod];
 //    } repeats:YES];
     
-//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
 }
 
 - (void)testBlock {

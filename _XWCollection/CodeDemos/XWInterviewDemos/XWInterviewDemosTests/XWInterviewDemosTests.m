@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <objc/runtime.h>
+#import "XWPerson.h"
 
 typedef NS_OPTIONS(NSUInteger, XWDirection) {
     XWDirectionTop          = 0,
@@ -22,7 +23,7 @@ typedef NS_ENUM(NSUInteger, SexType) {
     SexTypeUnknow,
 };
 @interface XWInterviewDemosTests : XCTestCase 
-
+@property (nonnull, strong) NSMutableArray *arrayM;
 @end
 
 @implementation XWInterviewDemosTests
@@ -32,6 +33,12 @@ NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    self.arrayM = [NSMutableArray array];
+    for (NSUInteger i = 0; i < 1000; i++) {
+        XWPerson *person = [[XWPerson alloc] init];
+        [_arrayM addObject:person];
+    }
 }
 
 - (void)tearDown {
@@ -40,6 +47,19 @@ NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
 }
 
 
+- (void)testClassMethod { //  passed (29.695 seconds).   passed (30.781 seconds).  passed (30.595 seconds). passed (30.538 seconds).
+    for (NSUInteger i = 0; i < 99999; i++) {
+        [XWPerson log];
+    }
+}
+
+
+- (void)testObjectMethod {  //passed (30.392 seconds).    passed (30.906 seconds).  passed (31.359 seconds).  passed (31.864 seconds).  passed (36.324 seconds).
+    XWPerson *person = [self.arrayM lastObject];
+    for (NSUInteger i = 0; i < 99999; i++) {
+        [person log];
+    }
+}
 
 
 - (void)testAssociate {
