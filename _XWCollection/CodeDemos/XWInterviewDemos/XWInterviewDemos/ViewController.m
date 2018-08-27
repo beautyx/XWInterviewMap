@@ -45,11 +45,14 @@ typedef void(^XWLogBlock)(NSArray *array);
 @end
 
 @implementation ViewController
+static dispatch_once_t mOnceToken;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testOperation];
+    [self testGCDGroup];
+    
+//    [self testOperation];
     
 //    [self testBlock1];
 
@@ -90,6 +93,27 @@ typedef void(^XWLogBlock)(NSArray *array);
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testGCDGroup {
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t queue = dispatch_queue_create("com.qiuxuewei.q", DISPATCH_QUEUE_CONCURRENT);//并行
+    dispatch_group_async(group, queue, ^{
+        for (NSUInteger i = 0; i < 4; i++) {
+            sleep(0.5);
+            NSLog(@"线程: %@ +++  i:%zd",[NSThread currentThread], i);
+        }
+    });
+    dispatch_group_async(group, queue, ^{
+        for (NSUInteger j = 0; j < 5; j++) {
+            sleep(0.5);
+            NSLog(@"线程: %@ +++  j:%zd",[NSThread currentThread], j);
+        }
+    });
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    dispatch_group_notify(group, mainQueue, ^{
+        NSLog(@"线程: %@ +++  dispatch_group_notify",[NSThread currentThread]);
+    });
 }
 
 - (void)testOperation {
@@ -303,18 +327,24 @@ static void *kAlertViewKey = "kAlertViewKey";
     
 //    NSLog(@" xw_mutableCopyArray:%p",self.xw_mutableCopyArray);
     
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        NSLog(@"viewDidAppear once");
-//    });
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSLog(@"viewDidAppear once");
+    });
     
 }
 - (IBAction)topBtnClick:(id)sender {
     NSLog(@"click");
+    
+    mOnceToken = 0;
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self testAlertAssociate];
+//    [self testAlertAssociate];
+    
+    dispatch_once(&mOnceToken, ^{
+        NSLog(@"mOnceToken go go go !!!");
+    });
 }
 
 - (void)setupRunloopObserver

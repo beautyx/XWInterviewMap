@@ -181,12 +181,49 @@ NSOperationQueue *quque = [[NSOperationQueue alloc] init];
 4. 指定操作的优先级，`queuePriority`
 5. 重用 `NSOperation` 对象。系统为我们提供了两种 `NSOperation` 对象的子类，`NSBlockOperation` 和 `NSInvocationOperation`, 针对不同业务也可以自己进行重用。
  
-#### 🇧🇴 第44条：通过 Dispatch Group 机制，根据系统资源状况来执行任务
+#### 🇧🇴 第44条：通过 `Dispatch Group` 机制，根据系统资源状况来执行任务
 * 一系列任务可归入一个 `dispatch group` 之中，开发者可以在这组任务执行完毕时获得通知
 * 通过 `dispatch group` ， 可以在并发式派发队列里同时执行多项任务，此时 GCD 会根据系统资源状况来调度这些并发执行的任务。开发者开发者若自己来实现此功能，则需要编写大量代码。
 
+```objective-c
+- (void)testGCDGroup {
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t queue = dispatch_queue_create("com.qiuxuewei.q", DISPATCH_QUEUE_CONCURRENT);//并行
+    dispatch_group_async(group, queue, ^{
+        for (NSUInteger i = 0; i < 10; i++) {
+            sleep(0.5);
+            NSLog(@"线程: %@ +++  i:%zd",[NSThread currentThread], i);
+        }
+    });
+    dispatch_group_async(group, queue, ^{
+        for (NSUInteger j = 0; j < 15; j++) {
+            sleep(0.5);
+            NSLog(@"线程: %@ +++  j:%zd",[NSThread currentThread], j);
+        }
+    });
+    dispatch_group_notify(group, queue, ^{
+        NSLog(@"线程: %@ +++  dispatch_group_notify",[NSThread currentThread]);
+    });
+}
+```
+补充：使用 `dispatch_apply` 实现快速遍历
 
+```objective-c
+dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+dispatch_apply(10000, queue, ^(size_t index) {
+    NSLog(@"Thread : %@   ----  %zu",[NSThread currentThread],index);
+});
+```
 
+#### 🇧🇿 第45条：使用 `dispatch_once` 来执行只需运行一次的线程安全代码
+* 经常需要编写 “只需执行一次的线程安全代码”。通过 GCD 所提供的 `dispatch_once` 函数，很容易就能实现此功能。
+* 标记应该声明在 static 或 global 作用域中，这样的话，在把只需执行一次的块传给 dispatch_once 函数时，传进去的标记也是相同的。
 
-
+```objective-c
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSLog(@"once");
+    });
+```
+扩展：若希望实现一个可销魂的单例，可把 `static dispatch_once_t onceToken;` 作为一个静态变量，在需要销魂单例的地方将 `onceToken` 置 0，再手动将单例 置nil。此时再使用单例时便会再次创建。
 

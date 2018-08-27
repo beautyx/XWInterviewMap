@@ -124,27 +124,33 @@ NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
 }
 
 - (void)testGCDApply {
-    //passed (2.745 seconds).
+    //passed (2.745 seconds). /// 同步串行
 //    dispatch_queue_t queue = dispatch_queue_create("com.beijing", 0);
 //    dispatch_apply(10000, queue, ^(size_t index) {
 //        NSLog(@"Thread : %@   ----  %zu",[NSThread currentThread],index);
 //    });
     
-//    //passed (2.534 seconds).
+    /// 异步串行 (内部会顺序执行)  1.426 s
+//    dispatch_queue_t queueConcurrent = dispatch_queue_create("com.beijing", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_apply(10000, queueConcurrent, ^(size_t index) {
+//        NSLog(@"Thread : %@   ----  %zu",[NSThread currentThread],index);
+//    });
+    
+    //passed (2.534 seconds). (串行)
 //    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 //    dispatch_apply(10000, queue, ^(size_t index) {
 //        NSLog(@"Thread : %@   ----  %zu",[NSThread currentThread],index);
 //    });
-    
+//
     //passed (3.018 seconds). passed (2.765 seconds).
 //    for (int i = 0; i < 10000; i++) {
 //         NSLog(@"Thread : %@   ----  %d",[NSThread currentThread],i);
 //    }
     
     // passed (2.968 seconds). passed (3.178 seconds).
-    for (NSInteger i = 0; i < 10000; i++) {
-        NSLog(@"Thread : %@   ----  %ld",[NSThread currentThread],(long)i);
-    }
+//    for (NSInteger i = 0; i < 10000; i++) {
+//        NSLog(@"Thread : %@   ----  %ld",[NSThread currentThread],(long)i);
+//    }
     
     
 }
