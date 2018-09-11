@@ -42,15 +42,22 @@ typedef void(^XWLogBlock)(NSArray *array);
 @property (nonatomic, copy) NSMutableArray *xw_mutableCopyArray;
 
 @property (nonatomic, strong) XWPerson *person;
+
+@property (nonatomic, strong) NSMutableDictionary *testDictionary;
+
+@property (nonatomic, weak) NSObject *testWeakObj;
 @end
 
 @implementation ViewController
+
 static dispatch_once_t mOnceToken;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testGCDGroup];
+    [self testDictionaryDemo];
+    
+//    [self testGCDGroup];
     
 //    [self testOperation];
     
@@ -93,6 +100,15 @@ static dispatch_once_t mOnceToken;
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testDictionaryDemo {
+    self.testDictionary = [NSMutableDictionary dictionary];
+    NSObject *object = [[NSObject alloc] init];
+    self.testWeakObj = object;
+//    [self.testDictionary setObject:object forKey:@"key"];
+    
+    
 }
 
 - (void)testGCDGroup {

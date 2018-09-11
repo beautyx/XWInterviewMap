@@ -46,6 +46,90 @@ NSString * const XWTestViewNoticationName = @"XWTestViewNoticationName";
     [super tearDown];
 }
 
+- (void)testBlockEnum {
+    NSArray *array = @[@1,@2,@3];
+    NSLog(@"array.count: %zd",array.count);
+    CFArrayRef arrayRef = (__bridge CFArrayRef)array;
+    NSLog(@"arrayRef: %zd",CFArrayGetCount(arrayRef));
+    
+    return;
+    NSDictionary *dictionary = @{
+                                 @"key1":@"value1",
+                                 @"key2":@"value2",
+                                 @"key3":@"value3"
+                                 };
+    NSSet *set = [NSSet setWithObjects:@4,@5,@6, nil];
+    /// array
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"array - idx:%zd - obj:%@",idx,obj);
+    }];
+    
+    /// dictionary
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSLog(@"dictionary - key:%@  value:%@",key,obj);
+    }];
+    
+    /// set
+    [set enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSLog(@"set - %@",obj);
+    }];
+}
+
+- (void)testForIn {
+    NSArray *array = @[@1,@2,@3];
+    NSDictionary *dictionary = @{
+                                 @"key1":@"value1",
+                                 @"key2":@"value2",
+                                 @"key3":@"value3"
+                                 };
+    NSSet *set = [NSSet setWithObjects:@4,@5,@6, nil];
+    /// array
+    for (NSNumber *obj in array) {
+        NSLog(@"array - %@",obj);
+    }
+    
+    /// dictionary
+    for (NSString *key in dictionary) {
+        NSLog(@"dictionary - key:%@  value:%@",key,dictionary[key]);
+    }
+    
+    /// set
+    for (NSNumber *setObject in set) {
+        NSLog(@"set - %@",setObject);
+    }
+}
+
+- (void)testEnumerator {
+    NSArray *array = @[@1,@2,@3];
+    NSDictionary *dictionary = @{
+                                 @"key1":@"value1",
+                                 @"key2":@"value2",
+                                 @"key3":@"value3"
+                                 };
+    NSSet *set = [NSSet setWithObjects:@4,@5,@6, nil];
+    /// array
+    NSEnumerator *arrayEnumerator = [array objectEnumerator];
+    id object;
+    while ((object = arrayEnumerator.nextObject) != nil) {
+        NSLog(@"array-%@",object);
+    }
+    
+    /// dictionary
+    NSEnumerator *dictionaryEnumerator = [dictionary keyEnumerator];
+    id value,key;
+    while ((key = dictionaryEnumerator.nextObject) != nil) {
+        value = dictionary[key];
+        NSLog(@"dictionary - key:%@  value:%@",key,value);
+    }
+    
+    /// set
+    NSEnumerator *setEnumerator = [set objectEnumerator];
+    id setObject;
+    while ((setObject = setEnumerator.nextObject) != nil) {
+        NSLog(@"set - %@",setObject);
+    }
+}
+
 
 - (void)testClassMethod { //  passed (29.695 seconds).   passed (30.781 seconds).  passed (30.595 seconds). passed (30.538 seconds).
     for (NSUInteger i = 0; i < 99999; i++) {
