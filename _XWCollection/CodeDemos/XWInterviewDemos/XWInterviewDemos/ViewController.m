@@ -30,6 +30,7 @@ typedef void(^XWLogBlock)(NSArray *array);
 
 @interface ViewController () <UIAlertViewDelegate> {
     NSString *testStr;
+    NSCache *testCache;
 }
 @property (weak, nonatomic) IBOutlet UIButton *toSecondBtn;
 @property (weak, nonatomic) IBOutlet UIView *redView;
@@ -55,7 +56,9 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testDictionaryDemo];
+    [self testNSPurgeableData];
+    
+//    [self testDictionaryDemo];
     
 //    [self testGCDGroup];
     
@@ -100,6 +103,34 @@ static dispatch_once_t mOnceToken;
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testNSPurgeableData {
+
+    NSCache *cache = [[NSCache alloc] init];
+    testCache = cache;
+    cache.countLimit = 100;//最大缓存数
+    cache.totalCostLimit = 5 * 1024 * 1024;//最大缓存 5M
+    
+    NSString *key = @"key";
+    /// 存
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"正在下载一个很大的数据...");
+        NSData *data = [NSMutableData dataWithLength:1024 * 512];/// 下载完了
+        NSPurgeableData *purgeableData = [NSPurgeableData dataWithData:data]; // 此时引用计数自动加 1
+        [cache setObject:purgeableData forKey:key cost:purgeableData.length];
+        NSLog(@"使用data做事情...");
+        [purgeableData endContentAccess];//NSPurgeableData 引用计数 -1
+//    });
+    
+    /// 取
+    NSPurgeableData *purgeableDataInCache = [cache objectForKey:key];
+    if (purgeableDataInCache) {
+        [purgeableDataInCache beginContentAccess];
+        NSLog(@"使用data做事情...");
+        [purgeableDataInCache endContentAccess]; // 此时 Cache 中会自动释放 key 缓存的数据
+    }
+    
 }
 
 - (void)testDictionaryDemo {
