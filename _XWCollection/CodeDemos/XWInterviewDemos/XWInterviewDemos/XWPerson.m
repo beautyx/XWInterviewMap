@@ -16,12 +16,13 @@
 
 @implementation XWPerson
 + (void)initialize {
+    NSLog(@"%@",self);
 //    NSLog(@"%s",__func__);
 }
 
-+(void)load {
+//+(void)load {
 //    NSLog(@"%s",__func__);
-}
+//}
 
 
 

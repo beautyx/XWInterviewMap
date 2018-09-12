@@ -1,9 +1,22 @@
+---
+title: 《Effective Objective-C 2.0》读书/实战笔记 三  
+date: 2018-08-10 
+categories: [读书笔记]
+tags: [读书笔记,iOS,Objective-C]
+photos: http://p95ytk0ix.bkt.clouddn.com/2018-07-31-8726ab1532ca52746711381b07cc9971.jpg 
+---
+
 <p align='center'>
 <img src='http://p95ytk0ix.bkt.clouddn.com/2018-07-31-8726ab1532ca52746711381b07cc9971.jpg'>
 </p>
 
+<!-- more -->
 
 ##《Effective Objective-C 2.0》读书/实战笔记 三
+
+
+##### [《Effective Objective-C 2.0》读书/实战笔记 一](https://juejin.im/post/5b60709fe51d45179b0ad208)
+##### [《Effective Objective-C 2.0》读书/实战笔记 二](https://juejin.im/post/5b6629c5f265da0f7f44c38b)
 
 ### 第6章：块与大中枢派发
 #### 🇧🇯 第37条：理解“块”这一概念
@@ -226,4 +239,349 @@ dispatch_apply(10000, queue, ^(size_t index) {
     });
 ```
 扩展：若希望实现一个可销魂的单例，可把 `static dispatch_once_t onceToken;` 作为一个静态变量，在需要销魂单例的地方将 `onceToken` 置 0，再手动将单例 置nil。此时再使用单例时便会再次创建。
+
+#### 🇧🇼 第46条：不要使用 `dispatch_get_current_queue`
+* `dispatch_get_current_queue` 函数的行为常常与开发者所预期的不同。此函数已经废弃，只应做调试之用。
+* 由于派发队列是按层级来组织的，所以无法单用某个队列对象来描述 “当前队列” 这一概念
+* `dispatch_get_current_queue` 函数用于解决由不可重入的代码所引发的死锁，然而能用此函数解决的问题，通常也能改用“队列特定数据来解决”
+
+记住不要使用 `dispatch_get_current_queue` 这个函数打印当前队列就可以了，因为不准！原因有可能当前队列也同时处在另外一个队列的并非中。
+
+### 第7章：系统框架
+#### 🇧🇹 第47条：熟悉系统框架
+* 许多系统框架都可以直接使用，其中最重要的是 `Foundation` 与 `CoreFoundation` , 这两个框架提供了构建应用程序所需的许多核心功能
+* 很多常见任务都能用框架来做，例如音频与视频处理，网络通信、数据管理等
+* 请记住：用纯 C 写成的框架与用 Objective-C 写成的一样重要，若想成为优秀的 Objective-C 开发者，应该掌握 C 语言的核心概念
+
+列举常用的几种系统库：
+
+* CFNetwork : 提供 C 语言级别的网络通信能力
+* CoreAudo : 提供 C 语言级别的API来操作设备上的音频硬件
+* CoreData : 操作 SQLite 数据库
+* CoreText : 高效执行文字排版和渲染
+
+直接使用上述框架无法使用 ARC 自动管理内存。
+
+* CoreAnimation : Objective-C 开发的动画库
+* CoreGraphics : C 语言开发的2D渲染所必备的数据结构和函数。其中定义了我们耳熟能详的 CGPoint 、CGSize 、 CGRect 等数据结构
+
+
+#### 🇧🇫 第48条：多用块枚举，少用 for 循环
+* 遍历 collection 有四种方法。最基本的方式是 `for 循环`，其次是 `NSEnumerator` 遍历法及快速遍历法，最新、最先进的方式是 “块枚举法”
+* “块枚举法” 本身就能通过 GCD 来并发执行遍历操作，无须另行编写代码。而采用其他遍历方式则无法轻易实现这一点。
+* 若提前知道待遍历的 collection 含有何种对象，则应修改块签名，指出对象的具体类型
+
+若使用老式 For 循环遍历字典和Set, 需要创建额外数组，必然会产生额外开销
+
+![Snip20180912_1](http://p95ytk0ix.bkt.clouddn.com/2018-09-12-Snip20180912_1.png)
+
+OC 提供了如下几种遍历方式用以提高效率和增强易读性
+
+##### `NSEnumerator`
+其优势是可遍历 OC 中所有的集合类型，可读性更强
+
+```objective-c
+- (void)testEnumerator {
+    NSArray *array = @[@1,@2,@3];
+    NSDictionary *dictionary = @{
+                                 @"key1":@"value1",
+                                 @"key2":@"value2",
+                                 @"key3":@"value3"
+                                 };
+    NSSet *set = [NSSet setWithObjects:@4,@5,@6, nil];
+    /// array
+    NSEnumerator *arrayEnumerator = [array objectEnumerator];
+    id object;
+    while ((object = arrayEnumerator.nextObject) != nil) {
+        NSLog(@"array-%@",object);
+    }
+    
+    /// dictionary
+    NSEnumerator *dictionaryEnumerator = [dictionary keyEnumerator];
+    id value,key;
+    while ((key = dictionaryEnumerator.nextObject) != nil) {
+        value = dictionary[key];
+        NSLog(@"dictionary - key:%@  value:%@",key,value);
+    }
+    
+    /// set
+    NSEnumerator *setEnumerator = [set objectEnumerator];
+    id setObject;
+    while ((setObject = setEnumerator.nextObject) != nil) {
+        NSLog(@"set - %@",setObject);
+    }
+}
+```
+
+#### 快速遍历
+快速遍历代码更简洁，而且更高效，缺点是遍历数组时无法获取当前对象所对应的下标
+
+```objective-c
+- (void)testForIn {
+    NSArray *array = @[@1,@2,@3];
+    NSDictionary *dictionary = @{
+                                 @"key1":@"value1",
+                                 @"key2":@"value2",
+                                 @"key3":@"value3"
+                                 };
+    NSSet *set = [NSSet setWithObjects:@4,@5,@6, nil];
+    /// array
+    for (NSNumber *obj in array) {
+        NSLog(@"array - %@",obj);
+    }
+    
+    /// dictionary
+    for (NSString *key in dictionary) {
+        NSLog(@"dictionary - key:%@  value:%@",key,dictionary[key]);
+    }
+    
+    /// set
+    for (NSNumber *setObject in set) {
+        NSLog(@"set - %@",setObject);
+    }
+}
+```
+
+#### 基于块的遍历方式
+其优势是代码简洁， 可获取集合中的更多信息，包括数组的下标、字典的key和value，并且能够修改块的方法签名，以免进行类型转换，其中 stop 参数可手动终止遍历- `*stop = YES`
+
+```
+- (void)testBlockEnum {
+    NSArray *array = @[@1,@2,@3];
+    NSDictionary *dictionary = @{
+                                 @"key1":@"value1",
+                                 @"key2":@"value2",
+                                 @"key3":@"value3"
+                                 };
+    NSSet *set = [NSSet setWithObjects:@4,@5,@6, nil];
+    /// array
+    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"array - idx:%zd - obj:%@",idx,obj);
+    }];
+    
+    /// dictionary
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSLog(@"dictionary - key:%@  value:%@",key,obj);
+    }];
+    
+    /// set
+    [set enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSLog(@"set - %@",obj);
+    }];
+}
+
+```
+
+#### 🇧🇮 第49条：对自定义其内存管理语义的 `collection` 使用无缝桥接
+* 通过无缝桥接技术，可以在 `Foundation` 框架中的 `Objective-C` 对象与 `CoreFoundation` 框架中的 C 语言数据结构之间来回转换
+* 在 `CoreFoundation` 层面创建 `collection` 时，可以指定许多回调函数，这些函数表示此 `collection` 应如何处理其元素。然后，可运用无缝桥接技术，将其转换成具备特殊内存管理语义的 `Objective-C` `collection`
+
+何为无缝桥接， 形如：
+
+```objective-c
+    NSArray *array = @[@1,@2,@3];
+    NSLog(@"array.count: %zd",array.count);
+    CFArrayRef arrayRef = (__bridge CFArrayRef)array;
+    NSLog(@"arrayRef: %zd",CFArrayGetCount(arrayRef));
+```
+
+#### 🇰🇵 第50条：构建缓存时选用 `NSCache` 而非 `NSDictionary`
+* 实现缓存时应选用 `NSCache` 而非 `NSDictionary`对象，因为 `NSCache` 可以提供优雅的自动删减功能，而且是“线程安全的”，此外，它与字典不同，并不会拷贝键。
+* 可以给 `NSCache` 对象设置上限，用以限制缓存中对象的总个数及 “总成本”，而这些尺度则定义了缓存删减其中对象的时机。但是绝对不要把这些尺度当成可靠的 “硬限制”， 它们仅对 `NSCache` 起指导作用
+* 将 `NSPurgeableData` 与 `NSCache` 搭配使用, 可实现自动清除数据的功能，也就是说，当 `NSPurgeableData` 对象所占内存为系统所丢弃时，该对象自身也会从缓存中移除
+* 如果缓存使用得当，那么应用程序的相应速度就能提高。只有那种“重新计算起来很费事”数据，才值得放入缓存，比如那些需要从网络获取或从磁盘读取的数据。
+
+`NSCache` 在系统资源将要耗尽时，它会自动删减缓存，并且优先删减 “最久未使用的” 对象。还有一点是 `NSCache` 是线程安全的。
+
+```objective-c
+- (void)testNSPurgeableData {
+
+    NSCache *cache = [[NSCache alloc] init];
+    cache.countLimit = 100;//最大缓存数
+    cache.totalCostLimit = 5 * 1024 * 1024;//最大缓存 5M
+    
+    NSString *key = @"key";
+    /// 存
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"正在下载一个很大的数据...");
+        NSData *data = [NSMutableData dataWithLength:1024 * 512];/// 下载完了
+        NSPurgeableData *purgeableData = [NSPurgeableData dataWithData:data]; // 此时引用计数自动加 1
+        [cache setObject:purgeableData forKey:key cost:purgeableData.length];
+        NSLog(@"使用data搞事情...");
+        [purgeableData endContentAccess];//NSPurgeableData 引用计数 -1
+    });
+    
+    /// 取
+    NSPurgeableData *purgeableDataInCache = [cache objectForKey:key];
+    if (purgeableDataInCache) {
+        [purgeableDataInCache beginContentAccess];
+        NSLog(@"使用data搞事情...");
+        [purgeableDataInCache endContentAccess]; 
+    }
+    
+}
+```
+
+#### 🇬🇶 第51条：精简 `initialize` 和 `load` 的实现代码
+* 在加载阶段，如果类实现了 `load` 方法，那么系统就会调用它。分类里也可以定义此方法，类的 `load` 方法要比分类中的先调用。与其他方法不同，`load` 方法不参与覆写机制
+* 首次使用某个类之前，系统会向其发送 `initialize` 消息。由于此方法遵从普通的覆写规则，所以通常应该在里面判断当前要初始化的是哪个类。
+* `load` 与 `initialize` 方法都应该实现的精简一些。这有助于保持应用程序的相应能力，也能减少“依赖环”的几率
+* 无法再编译期设定的全局变量，可以放在 `initialize` 方法里初始化
+
+两者均只会调用一次
+
+两者的区别：
+1. 当类和分类载入系统时就会调用 `load` 方法，如果某个类和其分类均实现了 `load` 方法，则会先调用类里的再调用分类里的。（⚠️若本类不实现该方法，无论其父类是否实现均不会调用）
+2. `initialize` 方法则是初次使用该类时调用。若程序声明周期不使用该类，则不会调用。（⚠️若本类不实现该方法，若其父类实现了就会调用）
+
+![Snip20180912_2](http://p95ytk0ix.bkt.clouddn.com/2018-09-12-Snip20180912_2.png)
+
+要尽量在这两个方法的实现里精简代码，避免出现耗时和加锁的的操作。
+
+#### 🇨🇳 第52条：别忘了 `NSTimer` 会保留其目标对象
+* `NSTimer` 对象会保留其目标，直到计时器本身失效为止，调用 `invalidate` 方法可令计时器失效，另外，一次性的计时器在触发完任务之后也会失效
+* 反复执行任务的计时器很容易引入保留环，如果这种计时器的目标对象又保留了计时器本身，那肯定会导致保留环。这种环状保留关系，可能是直接发生的，也可能是通过对象图里的其他对象间接发生的。
+* 可以扩充 `NSTimer` 的功能, 用 “block” 来打破保留环。不过，除非 `NSTimer` 将来在公共接口里提供此功能，否则必须创建分类，将相关实现代码加入其中。
+
+观察如下代码，侧滑返回后 `SecondViewController` 会不会释放？
+
+```objective-c
+@interface SecondViewController () 
+@property (nonatomic, strong) NSTimer *timer;
+@end
+@implementation SecondViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMethod) userInfo:nil repeats:YES];
+}
+
+- (void)timerMethod {
+    NSLog(@"计时");
+}
+```
+##### 答案是不会！
+
+再观察，若没有属性引用 `NSTimer`, 侧滑返回后 `SecondViewController` 会不会释放？
+
+```objective-c
+@interface SecondViewController () 
+@end
+@implementation SecondViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMethod) userInfo:nil repeats:YES];
+}
+
+- (void)timerMethod {
+    NSLog(@"计时");
+}
+```
+##### 答案也是不会！！因为 `NSTimer` 会强引用其目标对象也就是 `self`
+
+那我声明一个 弱引用 的 `weakSelf` 作为目标对象，侧滑返回后 `SecondViewController` 会不会释放呢？
+
+```objective-c
+@interface SecondViewController () 
+@end
+@implementation SecondViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    __weak typeof(self) weakSelf = self;
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:weakSelf selector:@selector(timerMethod) userInfo:nil repeats:YES];
+}
+
+- (void)timerMethod {
+    NSLog(@"计时");
+}
+```
+##### 答案还是不会！！！ 原因也是 `NSTimer` 会强引用其目标对象，虽然此时是声明了一个弱引用类型的指针 `weakSelf`, 但是它和 `self` 指向的是同一个对象即当前控制器，所以此时无论传 `weakSelf` 还是 `self` 效果是一样的，`NSTimer` 均会对当前目标对象强引用！
+
+解决 `NSTimer` 循环引用的方法有三种：
+
+##### 1. 在 `NSTimer` 分类中扩展一个，自定义 `Block`， 使用时在 `Block` 内部若需要使用 `self` 需要对其弱引用。
+
+```objective-c
+// .h
+@interface NSTimer (XW)
++ (NSTimer *)xw_timerTimeInterval:(NSTimeInterval)timeInterval block:(void(^)(void))block repeats:(BOOL)repeats;
+@end
+
+// .m
+#import "NSTimer+XW.h"
+@implementation NSTimer (XW)
++ (NSTimer *)xw_timerTimeInterval:(NSTimeInterval)timeInterval block:(void(^)(void))block repeats:(BOOL)repeats {
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(timerMethod:) userInfo:block repeats:repeats];
+    return timer;
+}
++ (void)timerMethod:(NSTimer *)timer {
+    void(^inBlock)(void) = [timer userInfo];
+    if (inBlock) {
+        inBlock();
+    }
+}
+@end
+
+
+//使用
+- (void)testBlockTimer {
+    __weak typeof(self) weakSelf = self;
+    [NSTimer xw_timerTimeInterval:1.0 block:^{
+        [weakSelf timerMethod];
+    } repeats:YES];
+}
+```
+
+##### 2.实例化消息转发的基类 `NSProxy` ，此种方式可以优雅的用原生的方式使用 `NSTimer`
+
+```objective-c
+// .h
+@interface XWWeakProxy : NSProxy
+@property (nullable, nonatomic, weak, readonly) id target;
+- (instancetype)initWithTarget:(id)target;
++ (instancetype)proxyWithTarget:(id)target;
+@end
+
+// .m
+@implementation XWWeakProxy
+
+- (instancetype)initWithTarget:(id)target {
+    _target = target;
+    return self;
+}
+
++ (instancetype)proxyWithTarget:(id)target {
+    return [[XWWeakProxy alloc] initWithTarget:target];
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+    void *null = NULL;
+    [invocation setReturnValue:&null];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
+    return [NSObject instanceMethodSignatureForSelector:@selector(init)];
+}
+
+- (id)forwardingTargetForSelector:(SEL)selector {
+    return _target;
+}
+@end
+
+// 使用
+ [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
+```
+
+按照目前市场对 iOS 开发的同学，知道上述两种方式当然还是远远不够的，正如
+
+![Xnip2018-09-12_23-21-36](http://p95ytk0ix.bkt.clouddn.com/2018-09-12-Xnip2018-09-12_23-21-36.jpg)
+
+鉴于笔者才疏学浅，后续的补充就由读者自由扩展。
+
+至此，《Effective Objective-C 2.0》读书/实战笔记完结。记录此笔记也是便于之后快速查阅不至于查原书，52 个开发技巧笔者都通过实践进行的演示，可信度较强，也发现精读一本书比懵懂的速读收获的确大得多。后续还会有其他的读书笔记和学习心得分享在笔者的个人博客中 [极客学伟的技术分享社区](https://blog.csdn.net/qxuewei)  ， 除 CSDN 外笔者还搭建了一个较漂亮的 hexo 主题的博客 [qiuxuewei.com](http://qiuxuewei.com/)也会同步输出一些可能质量不是很高但是一定是很用心写的博文。
+ 
+
+
 

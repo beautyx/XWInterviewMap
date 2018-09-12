@@ -9,11 +9,11 @@
 #import "XWStudent.h"
 
 @implementation XWStudent
-+ (void)initialize {
-//    NSLog(@"%s",__func__);
-}
+//+ (void)initialize {
+//    NSLog(@"%@",self);
+//}
 
 +(void)load {
-//    NSLog(@"%s",__func__);
+    NSLog(@"%s",__func__);
 }
 @end

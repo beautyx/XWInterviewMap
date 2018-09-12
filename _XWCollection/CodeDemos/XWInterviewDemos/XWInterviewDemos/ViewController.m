@@ -82,7 +82,7 @@ static dispatch_once_t mOnceToken;
     
 //    [self testEqual];
 
-//    [self testLoad2];
+    [self testLoad2];
     
 //    [self setupRunloopObserver];
 //
@@ -432,12 +432,12 @@ static void BBRunloopObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopAc
 }
 
 - (void)testLoad2 {
-//    XWPerson *p1 = [[XWPerson alloc] init];
-//    XWPerson *p2 = [[XWPerson alloc] init];
-//    XWStudent *p3 = [[XWStudent alloc] init];
+    XWPerson *p1 = [[XWPerson alloc] init];
+    XWPerson *p2 = [[XWPerson alloc] init];
+    XWStudent *p3 = [[XWStudent alloc] init];
     XWStudent *p4 = [[XWStudent alloc] init];
     NSLog(@"p4:%p",p4);
-//    NSLog(@"p1:%p  -  p2:%p  -  p3:%p  -  p4:%p",p1,p2,p3,p4);
+    NSLog(@"p1:%p  -  p2:%p  -  p3:%p  -  p4:%p",p1,p2,p3,p4);
 }
 
 - (void)testLoad {

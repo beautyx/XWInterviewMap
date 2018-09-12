@@ -23,14 +23,13 @@
 
 @implementation SecondViewController
 
-+ (instancetype)loadViewController {
-    return [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMethod) userInfo:nil repeats:YES];
     
-    [self testBlock];
+    
+//    [self testBlock];
     
 //    [self setupUI];
     
@@ -38,12 +37,25 @@
     
 //    __weak typeof(self) weakSelf = self;
 //    [NSTimer scheduledTimerWithTimeInterval:1.0 target:weakSelf selector:@selector(timerMethod) userInfo:nil repeats:YES];
-////
+//
 //    [NSTimer xw_timerTimeInterval:1.0 block:^{
 //        [weakSelf timerMethod];
 //    } repeats:YES];
     
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
+}
+
+- (void)timerMethod {
+    NSLog(@"计时");
+}
+
+- (void)testBlockTimer {
+    __weak typeof(self) weakSelf = self;
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:weakSelf selector:@selector(timerMethod) userInfo:nil repeats:YES];
+    
+    [NSTimer xw_timerTimeInterval:1.0 block:^{
+        [weakSelf timerMethod];
+    } repeats:YES];
 }
 
 - (void)testBlock {
@@ -93,18 +105,15 @@
 }
 
 
-
-- (void)timerMethod {
-    NSLog(@"计时");
-//    secondX = secondX == 100 ? 200 : 100;
-//    [UIView animateWithDuration:0.1 animations:^{
-//        self.secondV.frame = CGRectMake(self->secondX, 100, 200, 200);
-//    }];
++ (instancetype)loadViewController {
+    return [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
 }
 
+
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     NSLog(@"%s",__func__);
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     @synchronized (self) {
         NSLog(@"极客学伟");
     }
