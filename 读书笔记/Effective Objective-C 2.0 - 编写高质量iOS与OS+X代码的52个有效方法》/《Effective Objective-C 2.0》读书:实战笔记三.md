@@ -459,6 +459,7 @@ OC 提供了如下几种遍历方式用以提高效率和增强易读性
 - (void)timerMethod {
     NSLog(@"计时");
 }
+@end
 ```
 ##### 答案是不会！
 
@@ -477,6 +478,7 @@ OC 提供了如下几种遍历方式用以提高效率和增强易读性
 - (void)timerMethod {
     NSLog(@"计时");
 }
+@end
 ```
 ##### 答案也是不会！！因为 `NSTimer` 会强引用其目标对象也就是 `self`
 
@@ -496,6 +498,7 @@ OC 提供了如下几种遍历方式用以提高效率和增强易读性
 - (void)timerMethod {
     NSLog(@"计时");
 }
+@end
 ```
 ##### 答案还是不会！！！ 原因也是 `NSTimer` 会强引用其目标对象，虽然此时是声明了一个弱引用类型的指针 `weakSelf`, 但是它和 `self` 指向的是同一个对象即当前控制器，所以此时无论传 `weakSelf` 还是 `self` 效果是一样的，`NSTimer` 均会对当前目标对象强引用！
 
@@ -574,11 +577,13 @@ OC 提供了如下几种遍历方式用以提高效率和增强易读性
  [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
 ```
 
-按照目前市场对 iOS 开发的同学，知道上述两种方式当然还是远远不够的，正如
+按照目前市场对 iOS开发同学的要求，知道上述两种方式当然还是远远不够的，正如
 
-![Xnip2018-09-12_23-21-36](http://p95ytk0ix.bkt.clouddn.com/2018-09-12-Xnip2018-09-12_23-21-36.jpg)
+![Xnip2018-09-12_23-21-36](https://user-gold-cdn.xitu.io/2018/9/12/165ce77d4aa899f1?w=1194&h=2264&f=jpeg&s=415688)
 
 鉴于笔者才疏学浅，后续的补充就由读者自由扩展。
+
+🎉🎉🎉
 
 至此，《Effective Objective-C 2.0》读书/实战笔记完结。记录此笔记也是便于之后快速查阅不至于查原书，52 个开发技巧笔者都通过实践进行的演示，可信度较强，也发现精读一本书比懵懂的速读收获的确大得多。后续还会有其他的读书笔记和学习心得分享在笔者的个人博客中 [极客学伟的技术分享社区](https://blog.csdn.net/qxuewei)  ， 除 CSDN 外笔者还搭建了一个较漂亮的 hexo 主题的博客 [qiuxuewei.com](http://qiuxuewei.com/)也会同步输出一些可能质量不是很高但是一定是很用心写的博文。
  
