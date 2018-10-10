@@ -56,13 +56,13 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testNSPurgeableData];
+//    [self testNSPurgeableData];
     
 //    [self testDictionaryDemo];
     
 //    [self testGCDGroup];
     
-//    [self testOperation];
+    [self testOperation];
     
 //    [self testBlock1];
 

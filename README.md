@@ -502,6 +502,21 @@ int b = 10;
 * 《算法 第四版》
 * 《软技能-代码之外的生存指南》
 * 《富爸爸穷爸爸》
+* 《深入理解计算机系统（第三版）》
+* 《计算机网络自顶向下方法》
+* 《代码大全（第二版）》
+* 《Pro Git》
+* 《大话数据结构》
+
+## 推荐视频
+* [iOS逆向与安全](http://mooc.study.163.com/course/2001233000?tid=2001319000#/info) - (刘培庆 Alone_Monkey)
+* [iOS内存管理详解(美团)](https://v.douyu.com/show/ra2JEMJgnEkWNxml)
+* [App 启动流程详解及其优化(美团)](https://v.douyu.com/show/JwLjGvLJ0N2MmO90)
+* [infoQ 历届大会演讲视频集锦](http://www.infoq.com/cn/presentations)
+* [runtime疯人院](http://v.youku.com/v_show/id_XODIzMzI3NjAw.html)
+* [RunLoop](http://v.youku.com/v_show/id_XODgxODkzODI0.html)
+* [Swift 语言 iOS 11 开发 斯坦福公开课](https://www.bilibili.com/video/av16339375/)
+
 
 
 ## 面试题来源：
@@ -510,4 +525,8 @@ int b = 10;
 * [iOS-Interview-Question-Answer  -  liberalisman](https://github.com/liberalisman/iOS-Interview-Question-Answer)
 * [出一套 iOS 高级面试题  -  J_Knight_](https://juejin.im/post/5b56155e6fb9a04f8b78619b)
 * [iOSDevNotesAndInterviews - 李夫龙](https://github.com/DevDragonLi/iOSDevNotesAndInterviews)
+* [招聘一个靠谱的 iOS](https://github.com/ChenYilong/iOSInterviewQuestions)
+* [iOS 中级面试题](http://mrpeak.cn/ios/2016/01/07/push)
+* [2018 iOS 社招面试经验：我是如何拿到阿里、滴滴、美团等六家 offer 的？](https://xiaozhuanlan.com/topic/4985160237)
+
 
