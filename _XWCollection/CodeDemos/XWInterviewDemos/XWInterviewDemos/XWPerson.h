@@ -13,6 +13,9 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign, readonly) double height;
 
+@property (nonatomic, copy) NSString *fullName;
+@property (nonatomic, copy) NSString *firstName;
+@property (nonatomic, copy) NSString *lastName;
 
 + (void)log;
 

@@ -56,13 +56,15 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self testKVO];
+    
 //    [self testNSPurgeableData];
     
 //    [self testDictionaryDemo];
     
 //    [self testGCDGroup];
     
-    [self testOperation];
+//    [self testOperation];
     
 //    [self testBlock1];
 
@@ -82,7 +84,7 @@ static dispatch_once_t mOnceToken;
     
 //    [self testEqual];
 
-    [self testLoad2];
+//    [self testLoad2];
     
 //    [self setupRunloopObserver];
 //
@@ -103,6 +105,43 @@ static dispatch_once_t mOnceToken;
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+
+- (void)testKVO {
+    
+    XWPerson *person = [XWPerson new];
+    person.name = @"1";
+    [person addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+//    [person willChangeValueForKey:@"name"];
+    person.name = @"2";
+    [person setValue:@"3" forKey:@"name"];
+//    [person didChangeValueForKey:@"name"];
+    
+    
+//    XWPerson *person = [XWPerson new];
+//    static void *personContent = &personContent;
+////    [person addObserver:self forKeyPath:@"lastName" options:NSKeyValueObservingOptionNew context:personContent];
+//    [person addObserver:self forKeyPath:@"fullName" options:NSKeyValueObservingOptionNew context:personContent];
+//    person.firstName = @"邱";
+//    person.lastName = @"学伟";
+//    NSLog(@"%@",person.fullName);
+    
+//    XWStudent *stu = [XWStudent new];
+//    stu.name = @"Origin Name";
+    
+//    NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld;
+//    [stu addObserver:self forKeyPath:@"name" options:options context:nil];
+//    [stu willChangeValueForKey:@"name"];
+//    stu.name = @"JK";
+//    [stu didChangeValueForKey:@"name"];
+    
+//    [stu setValue:@"JK" forKey:@"name"];
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    NSLog(@"KVO -- %@ 的 %@ 属性 发生的变化: %@",object,keyPath,change);
 }
 
 - (void)testNSPurgeableData {
