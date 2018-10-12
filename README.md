@@ -3,7 +3,7 @@
 <img src='https://raw.githubusercontent.com/qxuewei/XWResources/master/images/background/%E7%A7%91%E6%8A%80%E8%83%8C%E6%99%AF4.jpg'>
 </p>
 
-# 👉 XWInterviewMap (每天更新...) 👈
+# 👉 XWInterviewMap (2018.10.10起每天更新...) 👈
 
 > 笔者一直觉得 **面试题** 和 **阅读技术书籍** 是完善个人技术栈最好的两种方式
 > 此库是笔者在日常学习生活中持续收集整理的面试题，会结合网上大神们的分享和自己的理解，在每个问题后给出尽可能详尽的回答和参考资料，不在于应付面试，旨在通过解决每一个问题进而提高技术水平，同时查漏补缺！ 
@@ -214,7 +214,7 @@
 * 4.`KVO` 在使用过程中有哪些注意点？有没有使用过其他优秀的 `KVO` 三方替代框架？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/4.第四题.md)
 * 5.简述 `KVO` 的注册依赖键是什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/5.第五题.md)
 * 6.如何做到 `KVO` 手动通知？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/6.第六题.md)
-* 7.在什么情况下会触发 `KVO`?  - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/7.第七题.md)
+* 7.在什么情况下会触发 `KVO`?  -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/7.第七题.md)
 * 8.给实例变量赋值时，是否会触发 `KVO`?  -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/8.第八题.md)
 * 9.`Delegate`通常用什么关键字修饰？为什么？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/9.第九题.md)
 * 10.`通知` 和 `代理` 有什么区别？各自适应的场景？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/10.第十题.md)
@@ -427,7 +427,7 @@
 
 ## 其他问题
 
-* 1.`load` 和 `Initialize` 的区别? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/1.第一题.md)
+* 1.`load` 和 `Initialize` 的区别? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/1.第一题.md)
 * 2.`Designated Initializer`的规则？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/2.第二题.md)
 * 3.`App` 编译过程有了解吗？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/3.第三题.md)
 * 4.说一下对 `APNS` 的认识？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/4.第四题.md)
@@ -507,6 +507,7 @@ int b = 10;
 * 《代码大全（第二版）》
 * 《Pro Git》
 * 《大话数据结构》
+* 《重构-改善既有代码的设计》
 
 ## 推荐视频
 * [iOS逆向与安全](http://mooc.study.163.com/course/2001233000?tid=2001319000#/info) - (刘培庆 Alone_Monkey)
