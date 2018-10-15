@@ -3,7 +3,7 @@
 <img src='https://raw.githubusercontent.com/qxuewei/XWResources/master/images/background/%E7%A7%91%E6%8A%80%E8%83%8C%E6%99%AF4.jpg'>
 </p>
 
-# 👉 XWInterviewMap (2018.10.10起每天更新...) 👈
+# 👨‍💻 XWInterviewMap (持续更新...) 
 
 > 笔者一直觉得 **面试题** 和 **阅读技术书籍** 是完善个人技术栈最好的两种方式
 > 此库是笔者在日常学习生活中持续收集整理的面试题，会结合网上大神们的分享和自己的理解，在每个问题后给出尽可能详尽的回答和参考资料，不在于应付面试，旨在通过解决每一个问题进而提高技术水平，同时查漏补缺！ 
@@ -83,12 +83,12 @@
 
 
 ## Runloop
-* 1.`Runloop` 和线程的关系？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/1.第一题.md)
-* 2.讲一下 `Runloop` 的 `Mode`?(越详细越好)  - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/2.第二题.md)
-* 3.讲一下 `Observer` ？（Mode中的重点） - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/3.第三题.md)
-* 4.讲一下 `Runloop` 的内部实现逻辑？（运行过程） - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/4.第四题.md)
-* 5.你所知的哪些三方框架使用了 `Runloop`?（AFNetworking、Texture 等）
-* 6.`autoreleasePool` 在何时被释放？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/6.第六题.md)
+* 1.`Runloop` 和线程的关系？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/1.第一题.md)
+* 2.讲一下 `Runloop` 的 `Mode`?  -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/2.第二题.md)
+* 3.讲一下 `Observer` ？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/3.第三题.md)
+* 4.讲一下 `Runloop` 的内部实现逻辑？（运行过程） -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/4.第四题.md)
+* 5.你所知的哪些三方框架使用了 `Runloop`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/5.第五题.md)
+* 6.`autoreleasePool` 在何时被释放？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/6.第六题.md)
 * 7.解释一下 `事件响应` 的过程？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/7.第七题.md)
 * 8.解释一下 `手势识别` 的过程？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/8.第八题.md)
 * 9.解释一下 `GCD` 在 `Runloop` 中的使用？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/9.第九题.md)
