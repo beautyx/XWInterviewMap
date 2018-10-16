@@ -96,7 +96,7 @@
 * 11.`AFNetworking` 中如何运用 `Runloop`? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/11.第十一题.md)
 * 12.`PerformSelector` 的实现原理？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/12.第十二题.md)
 * 13.利用 `runloop` 解释一下页面的渲染的过程？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/13.第十三题.md)
-* 14.如何使用 `Runloop` 实现一个常驻线程？这种线程一般有什么作用？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/14.第十四题.md)
+* 14.如何使用 `Runloop` 实现一个常驻线程？这种线程一般有什么作用？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/14.第十四题.md)
 * 15.为什么 `NSTimer` 有时候不好使？（不同类型的Mode）- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/15.第十五题.md)
 * 16.`PerformSelector:afterDelay:`这个方法在子线程中是否起作用？为什么？怎么解决？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/16.第十六题.md)
 * 17.什么是异步绘制？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/17.第十七题.md)

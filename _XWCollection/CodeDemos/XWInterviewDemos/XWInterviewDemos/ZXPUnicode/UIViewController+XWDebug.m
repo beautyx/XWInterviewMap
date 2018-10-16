@@ -12,6 +12,9 @@
 @implementation UIViewController (XWDebug)
 #ifdef DEBUG
 + (void)load {
+    return;
+    
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         /// 交换 class 的 viewDidLoad 方法

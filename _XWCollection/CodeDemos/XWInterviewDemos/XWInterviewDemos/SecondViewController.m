@@ -10,15 +10,21 @@
 #import "NSTimer+XW.h"
 #import "XWWeakProxy.h"
 #import "SecondView.h"
+#import "XWThread.h"
 
 @interface SecondViewController () {
     CGFloat secondX;
     BOOL isStopAnim;
+    
+    
 }
 @property (weak, nonatomic) IBOutlet UILabel *tipLB;
 @property (nonatomic, strong) NSTimer *timer;
 
 @property (nonatomic, strong) SecondView *secondV;
+
+@property (nonatomic, strong) XWThread *myThread;
+@property (nonatomic, assign) BOOL shouldKeepRunning;
 @end
 
 @implementation SecondViewController
@@ -26,6 +32,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+    
+    UIButton *stopBtn = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    stopBtn.backgroundColor = [UIColor lightGrayColor];
+    stopBtn.frame = CGRectMake(50, 200, 44, 44);
+    [stopBtn addTarget:self action:@selector(stopClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:stopBtn];
+    
+    [self testThread];
+    
 //    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMethod) userInfo:nil repeats:YES];
     
     
@@ -42,8 +59,65 @@
 //        [weakSelf timerMethod];
 //    } repeats:YES];
     
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
+//    [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
+    
+    
+    
 }
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)stopClick {
+    [self performSelector:@selector(stopThread) onThread:self.myThread withObject:nil waitUntilDone:NO];
+}
+
+- (void)stopThread {
+    self.shouldKeepRunning = NO;
+    CFRunLoopStop(CFRunLoopGetCurrent());
+    NSLog(@"stopThread +++ %@",[NSThread currentThread]);
+}
+
+- (void)testThread {
+    
+    self.shouldKeepRunning = YES;
+    __weak typeof(self) weakSelf = self;
+    self.myThread = [[XWThread alloc] initWithBlock:^{
+        NSLog(@"thread begin *** %@",[NSThread currentThread]);
+        
+        /// 线程保活
+        NSRunLoop *currentLoop = [NSRunLoop currentRunLoop];
+        NSPort *livePort = [NSPort new];
+        [currentLoop addPort:livePort forMode:NSDefaultRunLoopMode];
+//        [currentLoop run];
+        while (weakSelf && weakSelf.shouldKeepRunning) {
+            [currentLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        }
+        
+        NSLog(@"thread end *** %@",[NSThread currentThread]);
+    }];
+    [self.myThread start];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    
+    [self performSelector:@selector(logMessage) onThread:self.myThread withObject:nil waitUntilDone:NO];
+    
+//    if (isStopAnim) {
+//        [self beginAnimation:self.secondV.layer];
+//        isStopAnim = NO;
+//    }else{
+//        [self stopAnimation:self.secondV.layer];
+//        isStopAnim = YES;
+//    }
+}
+
+- (void)logMessage {
+    NSLog(@"do something *** %@",[NSThread currentThread]);
+}
+
 
 - (void)timerMethod {
     NSLog(@"计时");
@@ -65,16 +139,6 @@
     };
     logBlock();
     
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    if (isStopAnim) {
-        [self beginAnimation:self.secondV.layer];
-        isStopAnim = NO;
-    }else{
-        [self stopAnimation:self.secondV.layer];
-        isStopAnim = YES;
-    }
 }
 
 /// 暂停动画
@@ -111,12 +175,14 @@
 
 
 - (void)dealloc {
+    
+    [self stopClick];
     NSLog(@"%s",__func__);
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    @synchronized (self) {
-        NSLog(@"极客学伟");
-    }
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    @synchronized (self) {
+//        NSLog(@"极客学伟");
+//    }
     
     
 }

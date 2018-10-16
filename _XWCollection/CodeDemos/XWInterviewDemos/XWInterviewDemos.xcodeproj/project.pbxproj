@@ -12,6 +12,7 @@
 		2E2D17A62110949800E17DA2 /* UIViewController+XWDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D17A52110949800E17DA2 /* UIViewController+XWDebug.m */; };
 		2E8C5CBF20FD48FC00C77A75 /* XWPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C5CBE20FD48FC00C77A75 /* XWPerson.m */; };
 		2E8C5CC220FD49DB00C77A75 /* XWStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C5CC120FD49DB00C77A75 /* XWStudent.m */; };
+		2E923FC6217580D7001AB8E5 /* XWThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E923FC5217580D6001AB8E5 /* XWThread.m */; };
 		2EBE5A88211140650055BDE3 /* NSDictionary+ZXPUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE5A80211140650055BDE3 /* NSDictionary+ZXPUnicode.m */; };
 		2EBE5A8A211140650055BDE3 /* NSObject+ZXPUnicode.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE5A82211140650055BDE3 /* NSObject+ZXPUnicode.m */; };
 		2EBE5A8B211140650055BDE3 /* UIViewController+XWDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EBE5A86211140650055BDE3 /* UIViewController+XWDebug.m */; };
@@ -64,6 +65,8 @@
 		2E8C5CBE20FD48FC00C77A75 /* XWPerson.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWPerson.m; sourceTree = "<group>"; };
 		2E8C5CC020FD49DB00C77A75 /* XWStudent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWStudent.h; sourceTree = "<group>"; };
 		2E8C5CC120FD49DB00C77A75 /* XWStudent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWStudent.m; sourceTree = "<group>"; };
+		2E923FC4217580D6001AB8E5 /* XWThread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XWThread.h; sourceTree = "<group>"; };
+		2E923FC5217580D6001AB8E5 /* XWThread.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XWThread.m; sourceTree = "<group>"; };
 		2EBE5A80211140650055BDE3 /* NSDictionary+ZXPUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ZXPUnicode.m"; sourceTree = "<group>"; };
 		2EBE5A82211140650055BDE3 /* NSObject+ZXPUnicode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZXPUnicode.m"; sourceTree = "<group>"; };
 		2EBE5A83211140650055BDE3 /* NSArray+ZXPUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+ZXPUnicode.h"; sourceTree = "<group>"; };
@@ -214,6 +217,8 @@
 				2E8C5CC120FD49DB00C77A75 /* XWStudent.m */,
 				DE70582320FD9A3100439245 /* SecondViewController.h */,
 				DE70582420FD9A3100439245 /* SecondViewController.m */,
+				2E923FC4217580D6001AB8E5 /* XWThread.h */,
+				2E923FC5217580D6001AB8E5 /* XWThread.m */,
 				DE1312CD20FDEE1F00E39ED9 /* SecondView.h */,
 				DE1312CE20FDEE1F00E39ED9 /* SecondView.m */,
 				DE70582520FD9A3100439245 /* SecondViewController.xib */,
@@ -455,6 +460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E923FC6217580D7001AB8E5 /* XWThread.m in Sources */,
 				2ECC9024210DB8120086D08F /* Book.m in Sources */,
 				2EBE5A8F2111549C0055BDE3 /* XWError.m in Sources */,
 				DE70582620FD9A3100439245 /* SecondViewController.m in Sources */,

@@ -56,7 +56,7 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testKVO];
+//    [self testKVO];
     
 //    [self testNSPurgeableData];
     
