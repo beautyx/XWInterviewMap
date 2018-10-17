@@ -40,9 +40,9 @@ static dispatch_once_t onceToken;
 - (void)applicationDidBecomeActive:(UIApplication *)application {
    NSLog(@"%s",__func__);
     
-    dispatch_once(&onceToken, ^{
-        NSLog(@"applicationDidBecomeActive once");
-    });
+//    dispatch_once(&onceToken, ^{
+//        NSLog(@"applicationDidBecomeActive once");
+//    });
 }
 
 

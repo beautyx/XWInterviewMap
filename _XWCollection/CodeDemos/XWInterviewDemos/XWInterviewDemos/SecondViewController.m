@@ -100,6 +100,19 @@
     [self.myThread start];
 }
 
+- (void)dealloc {
+    
+    [self stopClick];
+    NSLog(@"%s",__func__);
+    
+    //    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //    @synchronized (self) {
+    //        NSLog(@"极客学伟");
+    //    }
+    
+    
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     
@@ -173,19 +186,6 @@
     return [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
 }
 
-
-- (void)dealloc {
-    
-    [self stopClick];
-    NSLog(@"%s",__func__);
-    
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-//    @synchronized (self) {
-//        NSLog(@"极客学伟");
-//    }
-    
-    
-}
 
 - (void)setupUI {
     secondX = 100;

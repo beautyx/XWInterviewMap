@@ -56,6 +56,8 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self testPerformSelector];
+    
 //    [self testKVO];
     
 //    [self testNSPurgeableData];
@@ -106,6 +108,25 @@ static dispatch_once_t mOnceToken;
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
 }
+
+- (void)testPerformSelector {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self performSelector:@selector(logMethod) withObject:nil afterDelay:2];
+        /// 开启子线程runloop
+        [[NSRunLoop currentRunLoop] run];
+        
+        
+    });
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // do Something
+    });
+}
+- (void)logMethod {
+    NSLog(@"logMethod");
+}
+
+
 
 
 - (void)testKVO {
