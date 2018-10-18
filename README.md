@@ -166,7 +166,7 @@
 
 ## 多线程
 * 0.1.自旋锁和互斥锁的区别? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E5%A4%9A%E7%BA%BF%E7%A8%8B/0.1.md)
-* 1.`NSThread`相关知识？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/1.第一题.md)
+* 1.`NSThread`相关知识？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/1.第一题.md)
 * 2.`GCD` 相关知识？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/2.第二题.md)
 * 3.`NSOperation` 和 `NSOperationQueue`相关知识？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/5.多线程/3.第三题.md)
 * 4.如何实现线性编程？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/4.第四题.md)
