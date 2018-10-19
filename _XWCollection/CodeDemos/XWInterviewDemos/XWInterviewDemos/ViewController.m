@@ -56,7 +56,9 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testPerformSelector];
+    [self testGCDGroup2];
+    
+//    [self testPerformSelector];
     
 //    [self testKVO];
     
@@ -108,6 +110,27 @@ static dispatch_once_t mOnceToken;
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
 }
+
+- (void)testSemaphore {
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+    /// 等待信号量 >1 进行下面操作,否则休眠
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@"最多一个线程进行此操作....");
+    /// 信号量 +1
+    dispatch_semaphore_signal(semaphore);
+}
+
+- (void)testBarrier {
+    dispatch_queue_t queue = dispatch_queue_create("com.qiuxuewei.barrier", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(queue, ^{
+        NSLog(@"read method");
+    });
+    dispatch_barrier_async(queue, ^{
+        NSLog(@"write method");
+    });
+}
+
+
 
 - (void)testPerformSelector {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -216,6 +239,33 @@ static dispatch_once_t mOnceToken;
             sleep(0.5);
             NSLog(@"线程: %@ +++  j:%zd",[NSThread currentThread], j);
         }
+    });
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    dispatch_group_notify(group, mainQueue, ^{
+        NSLog(@"线程: %@ +++  dispatch_group_notify",[NSThread currentThread]);
+    });
+}
+
+- (void)testGCDGroup2 {
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t queue = dispatch_queue_create("com.qiuxuewei.q", DISPATCH_QUEUE_CONCURRENT);//并行
+
+    dispatch_group_enter(group);
+    dispatch_async(queue, ^{
+        for (NSUInteger i = 0; i < 4; i++) {
+            sleep(0.5);
+            NSLog(@"线程: %@ +++  i:%zd",[NSThread currentThread], i);
+        }
+        dispatch_group_leave(group);
+    });
+    
+    dispatch_group_enter(group);
+    dispatch_async(queue, ^{
+        for (NSUInteger j = 0; j < 5; j++) {
+            sleep(0.5);
+            NSLog(@"线程: %@ +++  j:%zd",[NSThread currentThread], j);
+        }
+        dispatch_group_leave(group);
     });
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
     dispatch_group_notify(group, mainQueue, ^{
