@@ -31,6 +31,8 @@ typedef void(^XWLogBlock)(NSArray *array);
 @interface ViewController () <UIAlertViewDelegate> {
     NSString *testStr;
     NSCache *testCache;
+    
+    dispatch_source_t timer;
 }
 @property (weak, nonatomic) IBOutlet UIButton *toSecondBtn;
 @property (weak, nonatomic) IBOutlet UIView *redView;
@@ -56,7 +58,9 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testGCDGroup2];
+    [self testGCDTimer];
+    
+//    [self testGCDGroup2];
     
 //    [self testPerformSelector];
     
@@ -109,6 +113,17 @@ static dispatch_once_t mOnceToken;
 //    [self performDemo3];
 //    [self performDemo2selector:@selector(performDemoNumber1:Number2:Number3:) withObjects:@[@1.0,@2.0,@3.0]];
 //    [self performDemo1];
+}
+
+- (void)testGCDTimer {
+    dispatch_queue_t queue = dispatch_queue_create("com.gcd.timer", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC, 0.0 * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(timer, ^{
+        NSLog(@"+++ %@ +++ ",[NSThread currentThread]);
+    });
+    dispatch_resume(timer);
 }
 
 - (void)testSemaphore {
