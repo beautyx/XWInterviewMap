@@ -26,8 +26,7 @@
 
 
 ## iOS 内存管理
-* 0.1 在OC中，NSNumber对象 是用什么方式来存储的 - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/0.1.md)
-* 0.2 在OC中，NSNumber对象 是用什么方式来存储的 - 
+
 * 1.讲一下 `iOS` 内存管理的理解？(三种方案的结合) - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/1.第一题.md)
 * 2.使用自动引用计（`ARC`）数应该遵循的原则? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/2.第二题.md)
 * 3.`ARC` 自动内存管理的原则？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/3.第三题.md)
@@ -52,6 +51,7 @@
 * 22.能不能简述一下 `Dealloc` 的实现机制？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/22.第二十二题.md)
 * 23.在 `MRC` 下如何重写属性的 `Setter` 和 `Getter`? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/23.第二十三题.md)
 * 24.在 `Obj-C` 中，如何检测内存泄漏？你知道哪些方式？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/24.第二十四题.md)
+* 25.在OC中，NSNumber对象 是用什么方式来存储的 - - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/25.第二十五题.md)
 
 
 ## Runtime
