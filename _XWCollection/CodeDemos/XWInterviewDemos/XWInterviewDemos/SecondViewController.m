@@ -12,6 +12,33 @@
 #import "SecondView.h"
 #import "XWThread.h"
 
+
+@interface XWProxy : NSProxy
+@property (nonatomic, weak) id target;
++ (instancetype)proxyWithTarget:(id)target;
+@end
+
+@implementation XWProxy
++ (instancetype)proxyWithTarget:(id)target
+{
+    // NSProxy对象不需要调用init，因为它本来就没有init方法
+    XWProxy *proxy = [XWProxy alloc];
+    proxy.target = target;
+    return proxy;
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
+{
+    return [self.target methodSignatureForSelector:sel];
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    [invocation invokeWithTarget:self.target];
+}
+@end
+
+
 @interface SecondViewController () {
     CGFloat secondX;
     BOOL isStopAnim;
@@ -35,13 +62,13 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
     
-    UIButton *stopBtn = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    stopBtn.backgroundColor = [UIColor lightGrayColor];
-    stopBtn.frame = CGRectMake(50, 200, 44, 44);
-    [stopBtn addTarget:self action:@selector(stopClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:stopBtn];
+//    UIButton *stopBtn = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+//    stopBtn.backgroundColor = [UIColor lightGrayColor];
+//    stopBtn.frame = CGRectMake(50, 200, 44, 44);
+//    [stopBtn addTarget:self action:@selector(stopClick) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:stopBtn];
     
-    [self testThread];
+//    [self testThread];
     
 //    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerMethod) userInfo:nil repeats:YES];
     
@@ -61,8 +88,17 @@
     
 //    [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWWeakProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
     
+//    __weak typeof(self) weakSelf = self;
+//    [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
+//        [weakSelf timerMethod];
+//    }];
     
+//    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:[XWProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
+//    [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     
+//    self.timer = [NSTimer timerWithTimeInterval:1.0 target:[XWProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:[XWProxy proxyWithTarget:self] selector:@selector(timerMethod) userInfo:nil repeats:YES];
 }
 
 - (void)back {
@@ -102,7 +138,7 @@
 
 - (void)dealloc {
     
-    [self stopClick];
+//    [self stopClick];
     NSLog(@"%s",__func__);
     
     //    [[NSNotificationCenter defaultCenter] removeObserver:self];

@@ -58,7 +58,7 @@ static dispatch_once_t mOnceToken;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self testGCDTimer];
+//    [self testGCDTimer];
     
 //    [self testGCDGroup2];
     
