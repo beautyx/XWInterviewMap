@@ -1,15 +1,20 @@
-<p align='center'>
-<img src='http://p95ytk0ix.bkt.clouddn.com/2018-07-31-8726ab1532ca52746711381b07cc9971.jpg'>
-</p>
+---
+title: 《Effective Objective-C 2.0》读书/实战笔记 一 
+date: 2018-07-31 17:47 
+categories: [读书笔记]
+tags: [读书笔记,iOS,Objective-C]
+---
 
+
+<!-- more -->
 
 ##《Effective Objective-C 2.0》读书/实战笔记 一
 
 ### 第1章：熟悉Objective-C
 #### 🇨🇳 第1条：了解 Objective-C 语言的起源
+
 * Objective-C 为C语言添加了面向对象的特性，是其超级。Objective-C 说那个动态绑定的消息结构，也就是说，在运行时才检查对象类型。接收一条消息之后，究竟应执行何种代码，由运行期环境而非编译器来决定。
 * 理解C语言的核心概念有助于写好Objective-C程序。尤其要掌握内存模型和指针。
-
 
 ``` objective-c
 NSString *theString = @"Hello World";

@@ -3,12 +3,7 @@ title: 《Effective Objective-C 2.0》读书/实战笔记 三
 date: 2018-08-10 
 categories: [读书笔记]
 tags: [读书笔记,iOS,Objective-C]
-photos: http://p95ytk0ix.bkt.clouddn.com/2018-07-31-8726ab1532ca52746711381b07cc9971.jpg 
 ---
-
-<p align='center'>
-<img src='http://p95ytk0ix.bkt.clouddn.com/2018-07-31-8726ab1532ca52746711381b07cc9971.jpg'>
-</p>
 
 <!-- more -->
 
