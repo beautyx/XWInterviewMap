@@ -17,4 +17,3 @@ RunLoop 在iOS里是有 CFRunLoop 实现，简单来说，RunLoop 是用来监�
 RunLoop 目的是，当有事件要去处理时保持线程忙，当没有事件要处理时让线程进入休眠。所以，了解 RunLoop 原理不光能够运用到监控卡顿上，还可以提高用户的交互体验。通过将那些繁重而不紧急的会占用大量CPU的任务（比如图片加载），放到空闲的 RunLoop 模式里执行，这样就可以避开 `UITrackingRunLoopMode` 这个模式下执行了。`UITrackingRunLoopMode` 模式是用户在进行滚动时 RunLoop 的模式，避免在这个 RunLoop 模式下执行繁重的 CPU 任务就能够避免影响用户交互操作上的体验。
 
 
-
