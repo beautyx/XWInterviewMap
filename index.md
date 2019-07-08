@@ -56,7 +56,7 @@
 
 
 ## Runtime
-* 1.实例对象的数据结构？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/1.第一题.md)
+* 1.实例对象的数据结构？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/1.第一题.md)
 * 2.类对象的数据结构？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/2.第二题.md)
 * 3.元类对象的数据结构? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/3.第三题.md)
 * 4.`Category` 的实现原理？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/4.第四题.md)
@@ -105,7 +105,7 @@
 
 
 ## UIKit
-* 1.`UIView` 和 `CALayer` 是什么关系？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/1.第一题.md)
+* 1.`UIView` 和 `CALayer` 是什么关系？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/1.第一题.md)
 * 2.`Bounds` 和 `Frame` 的区别? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/2.第二题.md)
 * 3.`TableViewCell` 如何根据 `UILabel` 内容长度自动调整高度?
 * 4.`LoadView`方法了解吗？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/4.第四题.md)
@@ -116,6 +116,8 @@
 * 9.说一下 `UIView` 的生命周期？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/9.第九题.md)
 * 10.`UIViewController` 的生命周期？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/10.第十题.md)
 * 11.如何以通用的方法找到当前显示的`ViewController`? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/11.第十一题.md)
+* 12.详细描述一下 UIView 与 CALayer 的关系，drawRect 一定会影响性能吗？UI Dynamics 与 UIKit Animation 的最本质区别是什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/12.第十二题.md)
+
 
 ## Foundation
 * 0.1 怎样使用 `performSeletctor` 传入三个以上参数，其中一个为结构体? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/Foundation/0.1.md)
