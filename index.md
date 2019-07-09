@@ -198,9 +198,9 @@
 
 
 ## 项目架构
-* 1.什么是 `MVC`?
-* 2.什么是 `MVVM`?
-* 3.什么是 `MVP`?
+* 1.什么是 `MVC`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/1.第一题.md)
+* 2.什么是 `MVVM`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/2.第二题.md)
+* 3.什么是 `MVP`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/3.第三题.md)
 * 4.什么是 `CDD`?
 * 5.项目的组件化？
      - 1.说一下你了解的项目组件化方案？

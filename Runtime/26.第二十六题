@@ -1,3 +1,4 @@
+
 ## 26.为什么说Objective-C是一门动态的语言？
 
  Objective-C 可以通过Runtime这个运行时机制,在运行时动态的添加变量,方法和类等,所以说Objective-C是一门动态的语言. 
