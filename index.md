@@ -51,8 +51,10 @@
 * 22.能不能简述一下 `Dealloc` 的实现机制？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/22.第二十二题.md)
 * 23.在 `MRC` 下如何重写属性的 `Setter` 和 `Getter`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/23.第二十三题.md)
 * 24.在 `ObjC` 中，如何检测内存泄漏？你知道哪些方式？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/24.第二十四题.md)
-* 25.在OC中，NSNumber对象 是用什么方式来存储的 - - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/25.第二十五题.md)
-* 26.CADisplayLink、NSTimer 使用注意？ - - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/26.第二十六题.md)
+* 25.在OC中，NSNumber对象 是用什么方式来存储的 -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/25.第二十五题.md)
+* 26.CADisplayLink、NSTimer 使用注意？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/26.第二十六题.md)
+* 27.为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/27.第二十七题.md)
+
 
 
 ## Runtime
