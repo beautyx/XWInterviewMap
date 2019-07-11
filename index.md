@@ -197,8 +197,6 @@
 * 23.多线程技术在使用过程中有哪些注意事项？
 
 
-
-
 ## 项目架构
 * 1.什么是 `MVC`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/1.第一题.md)
 * 2.什么是 `MVVM`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/2.第二题.md)
@@ -211,6 +209,7 @@
      - 4.各组件之间的解耦合。
 * 6.还了解哪些项目架构？你之前所在公司的架构是什么样的，简单说一下？
 * 7.从宏观上来讲 `App` 可以分为哪些层？
+* 8.iOS程序启动过程？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/8.第八题.md)
 
 ## 消息传递的方式
 
