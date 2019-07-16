@@ -55,6 +55,7 @@
 * 26.CADisplayLink、NSTimer 使用注意？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/26.第二十六题.md)
 * 27.为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/27.第二十七题.md)
 * 28.属性的实质是什么？包括哪几个部分？属性默认的关键字都有哪些？@dynamic关键字和@synthesize关键字是用来做什么的？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/28.第二十八题.md)
+* 29.NSString为什么要用copy关键字，如果用strong会有什么问题？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/29.第二十九题.md)
 
 
 
