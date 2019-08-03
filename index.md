@@ -11,7 +11,7 @@
 
 #### 笔者个人博客 [极客学伟的技术分享社区](https://blog.csdn.net/qxuewei) 将会出现部分问题的全面解析和学习记录。
 
--------
+->>->>->>-
 
 ### [iOS 相关 知识点整理](https://github.com/qxuewei/XWInterviewMap/blob/master/iOS%20%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86.md)
 
@@ -24,43 +24,42 @@
 * [《Effective Objective-C 2.0》读书/实战笔记 三 - 完结篇](https://github.com/qxuewei/XWInterviewMap/blob/master/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/Effective%20Objective-C%202.0%20-%20%E7%BC%96%E5%86%99%E9%AB%98%E8%B4%A8%E9%87%8FiOS%E4%B8%8EOS%2BX%E4%BB%A3%E7%A0%81%E7%9A%8452%E4%B8%AA%E6%9C%89%E6%95%88%E6%96%B9%E6%B3%95%E3%80%8B/%E3%80%8AEffective%20Objective-C%202.0%E3%80%8B%E8%AF%BB%E4%B9%A6:%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0%E4%B8%89.md)
 
 
-
 ## iOS 内存管理
 
-* 1.讲一下 `iOS` 内存管理的理解？(三种方案的结合) -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/1.第一题.md)
-* 2.使用自动引用计（`ARC`）数应该遵循的原则? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/2.第二题.md)
-* 3.`ARC` 自动内存管理的原则？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/3.第三题.md)
-* 4.访问 `__weak` 修饰的变量，是否已经被注册在了 `@autoreleasePool` 中？为什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/4.第四题.md)
-* 5.`ARC` 的 `retainCount` 怎么存储的？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/5.第五题.md)
-* 6.简要说一下 `@autoreleasePool` 的数据结构？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/6.第六题.md)
-* 7.`__weak` 和 `__unsafe_unretained` 的区别？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/7.第七题.md)
-* 8.为什么已经有了 `ARC` ,但还是需要 `@AutoreleasePool` 的存在？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/8.第八题.md)
-* 9.`__weak` 属性修饰的变量，如何实现在变量没有强引用后自动置为 `nil`？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/9.第九题.md)
-* 10.说一下对 `retain`,`copy`,`assign`,`weak`,`__unsafe_unretained` 关键字的理解。 -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/10.第十题.md)
-* 11.`ARC` 在编译时做了哪些工作？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/11.第十一题.md)
-* 12.`ARC` 在运行时做了哪些工作？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/12.第十二题.md)
-* 13.函数返回一个对象时，会对对象 `autorelease` 么？为什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/13.第十三题.md)
-* 14.说一下什么是 `悬垂指针`？什么是 `野指针`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/14.第十四题.md)
-* 15.内存管理默认的关键字是什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/15.第十五题.md)
-* 16.内存中的5大区分别是什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/16.第十六题.md)
-* 17.是否了解 `深拷贝` 和 `浅拷贝` 的概念，集合类深拷贝如何实现？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/17.第十七题.md)
-* 18.`BAD_ACCESS` 在什么情况下出现? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/18.第十八题.md)
-* 19.讲一下 `@dynamic` 关键字？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/19.第十九题.md)
-* 20.`@autoreleasrPool` 的释放时机？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/20.第二十题.md)
-* 21.`retain`、`release` 的实现机制？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/21.第二十一题.md)
-* 22.能不能简述一下 `Dealloc` 的实现机制？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/22.第二十二题.md)
-* 23.在 `MRC` 下如何重写属性的 `Setter` 和 `Getter`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/23.第二十三题.md)
-* 24.在 `ObjC` 中，如何检测内存泄漏？你知道哪些方式？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/24.第二十四题.md)
-* 25.在OC中，NSNumber对象 是用什么方式来存储的 -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/25.第二十五题.md)
-* 26.CADisplayLink、NSTimer 使用注意？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/26.第二十六题.md)
-* 27.为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/27.第二十七题.md)
-* 28.属性的实质是什么？包括哪几个部分？属性默认的关键字都有哪些？@dynamic关键字和@synthesize关键字是用来做什么的？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/28.第二十八题.md)
-* 29.NSString为什么要用copy关键字，如果用strong会有什么问题？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/29.第二十九题.md)
+* 1.讲一下 `iOS` 内存管理的理解？(三种方案的结合) ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/1.第一题.md)
+* 2.使用自动引用计（`ARC`）数应该遵循的原则? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/2.第二题.md)
+* 3.`ARC` 自动内存管理的原则？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/3.第三题.md)
+* 4.访问 `__weak` 修饰的变量，是否已经被注册在了 `@autoreleasePool` 中？为什么？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/4.第四题.md)
+* 5.`ARC` 的 `retainCount` 怎么存储的？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/5.第五题.md)
+* 6.简要说一下 `@autoreleasePool` 的数据结构？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/6.第六题.md)
+* 7.`__weak` 和 `__unsafe_unretained` 的区别？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/7.第七题.md)
+* 8.为什么已经有了 `ARC` ,但还是需要 `@AutoreleasePool` 的存在？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/8.第八题.md)
+* 9.`__weak` 属性修饰的变量，如何实现在变量没有强引用后自动置为 `nil`？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/9.第九题.md)
+* 10.说一下对 `retain`,`copy`,`assign`,`weak`,`__unsafe_unretained` 关键字的理解。 ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/10.第十题.md)
+* 11.`ARC` 在编译时做了哪些工作？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/11.第十一题.md)
+* 12.`ARC` 在运行时做了哪些工作？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/12.第十二题.md)
+* 13.函数返回一个对象时，会对对象 `autorelease` 么？为什么？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/13.第十三题.md)
+* 14.说一下什么是 `悬垂指针`？什么是 `野指针`? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/14.第十四题.md)
+* 15.内存管理默认的关键字是什么？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/15.第十五题.md)
+* 16.内存中的5大区分别是什么？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/16.第十六题.md)
+* 17.是否了解 `深拷贝` 和 `浅拷贝` 的概念，集合类深拷贝如何实现？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/17.第十七题.md)
+* 18.`BAD_ACCESS` 在什么情况下出现? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/18.第十八题.md)
+* 19.讲一下 `@dynamic` 关键字？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/19.第十九题.md)
+* 20.`@autoreleasrPool` 的释放时机？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/20.第二十题.md)
+* 21.`retain`、`release` 的实现机制？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/21.第二十一题.md)
+* 22.能不能简述一下 `Dealloc` 的实现机制？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/22.第二十二题.md)
+* 23.在 `MRC` 下如何重写属性的 `Setter` 和 `Getter`? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/23.第二十三题.md)
+* 24.在 `ObjC` 中，如何检测内存泄漏？你知道哪些方式？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/24.第二十四题.md)
+* 25.在OC中，NSNumber对象 是用什么方式来存储的 ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/25.第二十五题.md)
+* 26.CADisplayLink、NSTimer 使用注意？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/26.第二十六题.md)
+* 27.为什么代理要用weak？代理的delegate和dataSource有什么区别？block和代理的区别? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/27.第二十七题.md)
+* 28.属性的实质是什么？包括哪几个部分？属性默认的关键字都有哪些？@dynamic关键字和@synthesize关键字是用来做什么的？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/28.第二十八题.md)
+* 29.NSString为什么要用copy关键字，如果用strong会有什么问题？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/内存管理/29.第二十九题.md)
 
 
 
 ## Runtime
-* 1.实例对象的数据结构？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/1.第一题.md)
+* 1.实例对象的数据结构？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/1.第一题.md)
 * 2.类对象的数据结构？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/2.第二题.md)
 * 3.元类对象的数据结构? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/3.第三题.md)
 * 4.`Category` 的实现原理？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/4.第四题.md)
@@ -85,32 +84,32 @@
 * 23.`Objective-C` 如何实现多重继承？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/23.第二十三题.md)
 * 24.`Category` 可不可以添加实例对象？为什么？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/24.第二十四题.md)
 * 25.`Obj-c`对象、类的本质是通过什么数据结构实现的？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/24.第二十四题.md)
-* 26.为什么说Objective-C是一门动态的语言？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/26.第二十六题.md)
+* 26.为什么说Objective-C是一门动态的语言？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runtime/26.第二十六题.md)
 
 
 ## Runloop
-* 1.`Runloop` 和线程的关系？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/1.第一题.md)
-* 2.讲一下 `Runloop` 的 `Mode`?  -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/2.第二题.md)
-* 3.讲一下 `Observer` ？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/3.第三题.md)
-* 4.讲一下 `Runloop` 的内部实现逻辑？（运行过程） -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/4.第四题.md)
-* 5.你所知的哪些三方框架使用了 `Runloop`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/5.第五题.md)
-* 6.`autoreleasePool` 在何时被释放？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/6.第六题.md)
-* 7.解释一下 `事件响应` 的过程？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/7.第七题.md)
-* 8.解释一下 `手势识别` 的过程？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/8.第八题.md)
-* 9.解释一下 `GCD` 在 `Runloop` 中的使用？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/9.第九题.md)
-* 10.解释一下 `NSTimer`，以及 `NSTimer` 的循环引用。 -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/10.第十题.md)
-* 11.`AFNetworking` 中如何运用 `Runloop`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/11.第十一题.md)
-* 12.`PerformSelector` 的实现原理？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/12.第十二题.md)
-* 13.利用 `Runloop` 解释一下页面的渲染的过程？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/13.第十三题.md)
-* 14.如何使用 `Runloop` 实现一个常驻线程？这种线程一般有什么作用？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/14.第十四题.md)
-* 15.为什么 `NSTimer` 有时候不好使？（不同类型的Mode）-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/15.第十五题.md)
-* 16.`PerformSelector:afterDelay:`这个方法在子线程中是否起作用？为什么？怎么解决？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/16.第十六题.md)
-* 17.什么是异步绘制？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/17.第十七题.md)
+* 1.`Runloop` 和线程的关系？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/1.第一题.md)
+* 2.讲一下 `Runloop` 的 `Mode`?  ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/2.第二题.md)
+* 3.讲一下 `Observer` ？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/3.第三题.md)
+* 4.讲一下 `Runloop` 的内部实现逻辑？（运行过程） ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/4.第四题.md)
+* 5.你所知的哪些三方框架使用了 `Runloop`? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/5.第五题.md)
+* 6.`autoreleasePool` 在何时被释放？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/6.第六题.md)
+* 7.解释一下 `事件响应` 的过程？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/7.第七题.md)
+* 8.解释一下 `手势识别` 的过程？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/8.第八题.md)
+* 9.解释一下 `GCD` 在 `Runloop` 中的使用？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/9.第九题.md)
+* 10.解释一下 `NSTimer`，以及 `NSTimer` 的循环引用。 ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/10.第十题.md)
+* 11.`AFNetworking` 中如何运用 `Runloop`? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/11.第十一题.md)
+* 12.`PerformSelector` 的实现原理？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/12.第十二题.md)
+* 13.利用 `Runloop` 解释一下页面的渲染的过程？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/13.第十三题.md)
+* 14.如何使用 `Runloop` 实现一个常驻线程？这种线程一般有什么作用？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/14.第十四题.md)
+* 15.为什么 `NSTimer` 有时候不好使？（不同类型的Mode）->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/15.第十五题.md)
+* 16.`PerformSelector:afterDelay:`这个方法在子线程中是否起作用？为什么？怎么解决？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/16.第十六题.md)
+* 17.什么是异步绘制？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/Runloop/17.第十七题.md)
 * 18.如何检测 `App` 运行过程中是否卡顿？
 
 
 ## UIKit
-* 1.`UIView` 和 `CALayer` 是什么关系？-- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/1.第一题.md)
+* 1.`UIView` 和 `CALayer` 是什么关系？->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/1.第一题.md)
 * 2.`Bounds` 和 `Frame` 的区别? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/2.第二题.md)
 * 3.`TableViewCell` 如何根据 `UILabel` 内容长度自动调整高度?
 * 4.`LoadView`方法了解吗？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/4.第四题.md)
@@ -121,7 +120,7 @@
 * 9.说一下 `UIView` 的生命周期？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/9.第九题.md)
 * 10.`UIViewController` 的生命周期？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/10.第十题.md)
 * 11.如何以通用的方法找到当前显示的`ViewController`? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/11.第十一题.md)
-* 12.详细描述一下 UIView 与 CALayer 的关系，drawRect 一定会影响性能吗？UI Dynamics 与 UIKit Animation 的最本质区别是什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/12.第十二题.md)
+* 12.详细描述一下 UIView 与 CALayer 的关系，drawRect 一定会影响性能吗？UI Dynamics 与 UIKit Animation 的最本质区别是什么？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/UIKit/12.第十二题.md)
 
 
 ## Foundation
@@ -174,7 +173,7 @@
 
 ## 多线程
 * 0.1.自旋锁和互斥锁的区别? - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/_XWCollection/%E5%A4%9A%E7%BA%BF%E7%A8%8B/0.1.md)
-* 1.`NSThread`相关知识？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/1.第一题.md)
+* 1.`NSThread`相关知识？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/1.第一题.md)
 * 2.`GCD` 相关知识？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/2.第二题.md)
 * 3.`NSOperation` 和 `NSOperationQueue`相关知识？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/5.多线程/3.第三题.md)
 * 4.如何实现线性编程？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/多线程/4.第四题.md)
@@ -200,9 +199,9 @@
 
 
 ## 项目架构
-* 1.什么是 `MVC`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/1.第一题.md)
-* 2.什么是 `MVVM`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/2.第二题.md)
-* 3.什么是 `MVP`? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/3.第三题.md)
+* 1.什么是 `MVC`? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/1.第一题.md)
+* 2.什么是 `MVVM`? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/2.第二题.md)
+* 3.什么是 `MVP`? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/3.第三题.md)
 * 4.什么是 `CDD`?
 * 5.项目的组件化？
      - 1.说一下你了解的项目组件化方案？
@@ -211,18 +210,18 @@
      - 4.各组件之间的解耦合。
 * 6.还了解哪些项目架构？你之前所在公司的架构是什么样的，简单说一下？
 * 7.从宏观上来讲 `App` 可以分为哪些层？
-* 8.iOS程序启动过程？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/8.第八题.md)
+* 8.iOS程序启动过程？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/项目架构/8.第八题.md)
 
 ## 消息传递的方式
 
 * 1.说一下 `NSNotification` 的实现机制？发消息是同步还是异步？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/1.第一题.md)
 * 2.说一下 `NSNotification` 的特点。 - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/2.第二题.md)
-* 3.简述 `KVO` 的实现机制。 -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/3.第三题.md)
-* 4.`KVO` 在使用过程中有哪些注意点？有没有使用过其他优秀的 `KVO` 三方替代框架？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/4.第四题.md)
-* 5.简述 `KVO` 的注册依赖键是什么？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/5.第五题.md)
-* 6.如何做到 `KVO` 手动通知？ -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/6.第六题.md)
-* 7.在什么情况下会触发 `KVO`?  -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/7.第七题.md)
-* 8.给实例变量赋值时，是否会触发 `KVO`?  -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/8.第八题.md)
+* 3.简述 `KVO` 的实现机制。 ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/3.第三题.md)
+* 4.`KVO` 在使用过程中有哪些注意点？有没有使用过其他优秀的 `KVO` 三方替代框架？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/4.第四题.md)
+* 5.简述 `KVO` 的注册依赖键是什么？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/5.第五题.md)
+* 6.如何做到 `KVO` 手动通知？ ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/6.第六题.md)
+* 7.在什么情况下会触发 `KVO`?  ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/7.第七题.md)
+* 8.给实例变量赋值时，是否会触发 `KVO`?  ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/8.第八题.md)
 * 9.`Delegate`通常用什么关键字修饰？为什么？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/9.第九题.md)
 * 10.`通知` 和 `代理` 有什么区别？各自适应的场景？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/10.第十题.md)
 * 11.`__block` 的解释以及在 `ARC` 和 `MRC` 下有什么不同？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/消息传递的方式/11.第十一题.md)
@@ -434,7 +433,7 @@
 
 ## 其他问题
 
-* 1.`load` 和 `Initialize` 的区别? -- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/1.第一题.md)
+* 1.`load` 和 `Initialize` 的区别? ->> [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/1.第一题.md)
 * 2.`Designated Initializer`的规则？ - [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/2.第二题.md)
 * 3.`App` 编译过程有了解吗？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/3.第三题.md)
 * 4.说一下对 `APNS` 的认识？- [链接](https://github.com/qxuewei/XWInterviewMap/blob/master/其他问题/4.第四题.md)
